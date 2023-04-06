@@ -9,7 +9,7 @@
   text-decoration: none;
 }
 .background {
-  background-image: url(/image/fundo.png);
+  background-image: url(/portiflio/image/fundo.png);
   background-size: cover;
   background-position: center;
   height: 100vh;
