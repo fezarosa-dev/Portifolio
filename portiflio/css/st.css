@@ -1,0 +1,152 @@
+/* Estilos padrão */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Josefin Sans", san;
+  }
+  
+  .port{
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .background {
+    background-image: url(/image/fundo.png);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  nav {
+    width:100%;
+    height:45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 45px;
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+  
+  nav h2 {
+    color: #fff;
+    font-size: 35px;
+    cursor: pointer;
+    letter-spacing: 2px;
+  }
+  
+  .me-contate{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  span {
+    color: #e4bd6e;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    padding: 10px 25px;
+    list-style-type: none;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  nav ul li a:hover {
+    color: #e4bd6e;
+    transform: scale(1.2);
+  }
+  
+  .btnn{
+    background-color: #e4bd6e;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 30px;
+    transition: transform 0.4s;
+  }
+  
+  .btnn:hover {
+    color: #e4bd6e;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .btn {
+    background-color: #e4bd6e;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 30px;
+    transition: transform 0.4s;
+  }
+  
+  .btn:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  
+  .Main {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50);
+  }
+  
+  h4 {
+    color: #fff;
+    letter-spacing: 2px;
+    font-size: 20px;
+  }
+  
+  h1 {
+    color: #fff;
+    margin: 20px 0px 20px;
+    font-size: 75px;
+  }
+  
+  h3 {
+    color: #fff;
+    font-size: 25;
+    margin-bottom: 50px;
+  }
+  
+  .Container-btn form {
+    width: 380px;
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .Container-btn form input:first-child {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 130px 14px 15px;
+    border-radius: 30px;
+    outline: none;
+  }
+  
+  .Container-btn form input:nth-child(2) {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 130px 14px 15px;
+    border-radius: 30px;
+    outline: none;
+  }
+  
+  .Container-btn form input:last-child {
+    display: flex;
+    position: relative;
+    left: 35%;
+    outline: none;
+  }
