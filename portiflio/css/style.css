@@ -13,20 +13,23 @@
   background-size: cover;
   background-position: center;
   height: 100vh;
-  max-width: 100%;
+  width: 100%;
 }
-
 nav {
   width:100%;
   height:45px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 45px;
+  padding-left: 8%;
+  padding-right: 8%;
 }
 nav h2 {
-  font-size: 2rem;
-  padding: 1rem;
+  color: #fff;
+  font-size: 35px;
+  cursor: pointer;
+  letter-spacing: 2px;
 }
 .me-contate{
   display: flex;
@@ -38,7 +41,8 @@ span {
 }
 nav ul li {
   display: inline-block;
-  padding: 1rem;
+  padding: 10px 25px;
+  list-style-type: none;
 }
 nav ul li a {
   color: #fff;
@@ -144,8 +148,7 @@ h3 {
   padding: 100px 0px;
 }
 background-color-sobre img {
-  width: 100%;
-  max-width: 430px;
+  width: 430px;
   height: auto;
 }
 .text-sobre {
@@ -431,26 +434,4 @@ h6 {
   position: sticky;
   top: 0;
   backdrop-filter: blur(5px);
-}
-@media (max-width: 576px) {
-  nav h2 {
-    font-size: 1.5rem;
-    padding: 0.5rem;
-  }
-  
-  nav ul li {
-    padding: 0.5rem;
-  }
-  
-  .text-sobre h2 {
-    font-size: 3rem;
-  }
-  
-  .text-sobre h5 {
-    font-size: 1.5rem;
-  }
-  
-  .text-sobre p {
-    font-size: 1rem;
-  }
 }
