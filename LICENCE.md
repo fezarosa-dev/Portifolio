@@ -1,9 +1,3 @@
-
-# Meu portifolio
-Esses codigos são referentes ao meu portifolio(https://fezarosa.netlify.app/) No momento ele está:[![Netlify Status](https://api.netlify.com/api/v1/badges/e912ec9a-508d-4dbd-8559-f90585f7b7fc/deploy-status)](https://app.netlify.com/sites/fezarosa-portifolio/deploys)
-
-## Licença
-
 **Licença Proibitiva Personalizad**
 
 Versão 1.0, Data de Vigência: 13 de junho de 2023
@@ -26,11 +20,3 @@ E-mail de Contato: fezarosa@gmail.com
 Este documento é uma tradução da licença original em inglês. Em caso de conflito ou divergência entre a versão em inglês e a versão traduzida, a versão em inglês prevalecerá.
 
 Nota: Esta licença é altamente restritiva e proíbe explicitamente qualquer uso do Software. Recomenda-se que você consulte um advogado para garantir que esta licença atenda às suas necessidades e intenções antes de utilizá-la.
-## Autores
-
-- [@Felipe-Zanoni-da-Rosa](https://github.com/Felipe-Zanoni-da-Rosa)
-
-
-# Meu portifolio
-Esses codigos são referentes ao meu portifolio(https://fezarosa.netlify.app/) No momento ele está:
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e912ec9a-508d-4dbd-8559-f90585f7b7fc/deploy-status)](https://app.netlify.com/sites/fezarosa-portifolio/deploys)
