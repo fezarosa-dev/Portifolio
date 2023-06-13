@@ -1,4 +1,4 @@
-**Licença Proibitiva Personalizad**
+**Licença Proibitiva Personalizada**
 
 Versão 1.0, Data de Vigência: 13 de junho de 2023
 
