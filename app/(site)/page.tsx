@@ -22,7 +22,7 @@ export default async function HomePage() {
       />
       <AboutTeaser text={content.sobre_texto ?? ''} eyebrow={dict.home.aboutEyebrow} />
       <ProjectsTeaser
-        projects={projects}
+        projects={projects.filter((p) => p.show_on_home)}
         eyebrow={dict.home.projectsEyebrow}
         heading={dict.home.projectsHeading}
         seeAll={dict.home.seeAll}

@@ -22,11 +22,13 @@ export async function saveProject(formData: FormData) {
     click_url: String(formData.get('click_url') ?? '') || null,
     position: Number(formData.get('position') ?? 0),
     visible: formData.get('visible') === 'true',
+    show_on_home: formData.get('show_on_home') === 'true',
   })
   await setProjectLanguages(project.id, formData.getAll('language_ids').map(String))
   await setProjectAuthors(project.id, formData.getAll('author_ids').map(String))
   revalidatePath('/admin/projetos')
   revalidatePath('/projetos')
+  revalidatePath('/')
 }
 
 export async function removeProject(id: string) {
@@ -39,4 +41,5 @@ export async function toggleVisibility(id: string, visible: boolean) {
   await setProjectVisibility(id, visible)
   revalidatePath('/admin/projetos')
   revalidatePath('/projetos')
+  revalidatePath('/')
 }

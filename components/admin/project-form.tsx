@@ -25,6 +25,7 @@ export function ProjectForm({
   const router = useRouter()
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
   const [visible, setVisible] = useState(project?.visible ?? true)
+  const [showOnHome, setShowOnHome] = useState(project?.show_on_home ?? false)
   const selectedLanguageIds = new Set(project?.languages.map((l) => l.id) ?? [])
   const selectedAuthorIds = new Set(project?.authors.map((a) => a.id) ?? [])
 
@@ -151,6 +152,12 @@ export function ProjectForm({
         <Switch id="visible" checked={visible} onCheckedChange={setVisible} />
         <input type="hidden" name="visible" value={visible ? 'true' : 'false'} />
         <Label htmlFor="visible">Visível no site</Label>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Switch id="show_on_home" checked={showOnHome} onCheckedChange={setShowOnHome} />
+        <input type="hidden" name="show_on_home" value={showOnHome ? 'true' : 'false'} />
+        <Label htmlFor="show_on_home">Aparecer na tela inicial</Label>
       </div>
 
       <Button type="submit">Salvar</Button>

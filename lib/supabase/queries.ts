@@ -23,6 +23,7 @@ export type Project = {
   click_mode: 'detail' | 'link'
   click_url: string | null
   visible: boolean
+  show_on_home: boolean
   position: number
   created_at: string
   languages: Language[]
