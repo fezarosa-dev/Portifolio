@@ -114,7 +114,7 @@ export function ProjectsExplorer({
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-8 min-h-[220px]">
         {visible.length === 0 ? (
           <p className="text-sm text-muted-foreground">{dict.notFound}</p>
         ) : (
