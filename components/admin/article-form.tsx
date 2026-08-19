@@ -45,7 +45,6 @@ export function ArticleForm({
         language={language}
         defaultValuePt={article?.title}
         defaultValueEn={article?.title_en}
-        requiredPt
       />
 
       <BilingualField

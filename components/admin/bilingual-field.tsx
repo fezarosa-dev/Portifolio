@@ -12,7 +12,6 @@ export function BilingualField({
   defaultValueEn,
   multiline,
   rows,
-  requiredPt,
   fieldClassName,
 }: {
   name: string
@@ -22,7 +21,6 @@ export function BilingualField({
   defaultValueEn?: string | null
   multiline?: boolean
   rows?: number
-  requiredPt?: boolean
   fieldClassName?: string
 }) {
   const Field = multiline ? Textarea : Input
@@ -37,7 +35,7 @@ export function BilingualField({
           name={name}
           defaultValue={defaultValuePt}
           rows={rows}
-          required={requiredPt}
+          placeholder="deixe vazio pra usar o texto em EN"
           className={fieldClassName}
         />
       </div>

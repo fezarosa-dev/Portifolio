@@ -54,7 +54,6 @@ export function ProjectForm({
         language={language}
         defaultValuePt={project?.title}
         defaultValueEn={project?.title_en}
-        requiredPt
       />
 
       <BilingualField

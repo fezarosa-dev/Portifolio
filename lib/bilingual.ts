@@ -1,13 +1,19 @@
 import type { Locale } from '@/lib/i18n/dictionaries'
 
 /**
- * pt é sempre o texto base. en é null quando ainda não foi traduzido (cai pro pt),
- * ou string (inclusive '') quando foi definido explicitamente — nesse caso vale como está,
- * mesmo vazia (ex: admin marcou "sem tradução" de propósito).
+ * Fallback nos dois sentidos: se o idioma da vez estiver vazio, usa o outro
+ * (dá pra escrever só em en e deixar pt em branco, ou vice-versa).
+ *
+ * en é null quando ainda não foi decidido -> cai pro pt normalmente.
+ * en é string (inclusive '') quando foi definido explicitamente no admin —
+ * nesse caso vale como está, mesmo vazia (checkbox "sem tradução").
  */
 export function resolveText(pt: string, en: string | null | undefined, locale: Locale): string {
-  if (locale !== 'en') return pt
-  return en ?? pt
+  if (locale === 'en') {
+    if (en !== null && en !== undefined) return en
+    return pt
+  }
+  return pt || (en ?? '')
 }
 
 /**

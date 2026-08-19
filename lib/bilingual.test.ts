@@ -2,10 +2,20 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { resolveText, parseBilingualField } from './bilingual.ts'
 
-test('locale pt sempre retorna o texto em pt, independente do en', () => {
+test('locale pt com texto em pt preenchido retorna o pt, independente do en', () => {
   assert.equal(resolveText('Olá', 'Hello', 'pt'), 'Olá')
   assert.equal(resolveText('Olá', null, 'pt'), 'Olá')
   assert.equal(resolveText('Olá', '', 'pt'), 'Olá')
+})
+
+test('locale pt com pt vazio cai pro en (fallback no sentido contrário)', () => {
+  assert.equal(resolveText('', 'Hello', 'pt'), 'Hello')
+})
+
+test('locale pt com pt e en vazios/ausentes retorna vazio', () => {
+  assert.equal(resolveText('', null, 'pt'), '')
+  assert.equal(resolveText('', '', 'pt'), '')
+  assert.equal(resolveText('', undefined, 'pt'), '')
 })
 
 test('locale en com tradução preenchida retorna a tradução', () => {
