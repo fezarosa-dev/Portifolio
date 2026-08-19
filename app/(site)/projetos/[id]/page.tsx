@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
+import { deviconIconUrl } from '@/lib/devicon'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 
@@ -48,6 +49,28 @@ export default async function ProjetoDetailPage({
               site ↗
             </a>
           )}
+        </div>
+      )}
+      {project.languages.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.languages.map((lang) => (
+            <Link
+              key={lang.id}
+              href={`/projetos?tech=${lang.id}`}
+              title={`Ver projetos com ${lang.name}`}
+              className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel hover:border-signal hover:text-signal"
+            >
+              {lang.devicon_slug && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                  alt=""
+                  className="h-3.5 w-3.5"
+                />
+              )}
+              {lang.name}
+            </Link>
+          ))}
         </div>
       )}
       <div className="mt-10">

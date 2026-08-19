@@ -1,5 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 
+export type Language = {
+  id: string
+  name: string
+  devicon_slug: string | null
+  devicon_variant: string | null
+  position: number
+}
+
 export type Project = {
   id: string
   title: string
@@ -11,14 +19,19 @@ export type Project = {
   click_url: string | null
   visible: boolean
   position: number
+  created_at: string
+  languages: Language[]
 }
 
-export type Language = {
-  id: string
-  name: string
-  devicon_slug: string | null
-  devicon_variant: string | null
-  position: number
+export const PROJECT_SELECT = '*, project_languages(languages(*))'
+
+export type ProjectRow = Omit<Project, 'languages'> & {
+  project_languages: { languages: Language }[]
+}
+
+export function mapProjectRow(row: ProjectRow): Project {
+  const { project_languages, ...rest } = row
+  return { ...rest, languages: project_languages.map((pl) => pl.languages) }
 }
 
 export async function getLanguages(): Promise<Language[]> {
@@ -37,12 +50,12 @@ export async function getVisibleProjects(): Promise<Project[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
-    .select('*')
+    .select(PROJECT_SELECT)
     .eq('visible', true)
     .order('position', { ascending: true })
 
   if (error) throw error
-  return data as Project[]
+  return (data as unknown as ProjectRow[]).map(mapProjectRow)
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -53,13 +66,13 @@ export async function getProjectById(id: string): Promise<Project | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
-    .select('*')
+    .select(PROJECT_SELECT)
     .eq('id', id)
     .eq('visible', true)
     .maybeSingle()
 
   if (error) throw error
-  return data as Project | null
+  return data ? mapProjectRow(data as unknown as ProjectRow) : null
 }
 
 export async function getSiteContent(): Promise<Record<string, string>> {

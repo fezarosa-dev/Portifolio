@@ -6,17 +6,21 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import type { Project } from '@/lib/supabase/queries'
+import { deviconIconUrl } from '@/lib/devicon'
+import type { Project, Language } from '@/lib/supabase/queries'
 
 export function ProjectForm({
   project,
+  availableLanguages,
   action,
 }: {
   project: Project | null
+  availableLanguages: Language[]
   action: (formData: FormData) => Promise<void>
 }) {
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
   const [visible, setVisible] = useState(project?.visible ?? true)
+  const selectedLanguageIds = new Set(project?.languages.map((l) => l.id) ?? [])
 
   return (
     <form action={action} className="flex flex-col gap-4">
@@ -35,6 +39,37 @@ export function ProjectForm({
       <div>
         <Label htmlFor="content_md">Conteúdo (Markdown)</Label>
         <Textarea id="content_md" name="content_md" defaultValue={project?.content_md} rows={12} />
+      </div>
+
+      <div>
+        <Label>Tecnologias</Label>
+        {availableLanguages.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Nenhuma cadastrada ainda — adicione em Tecnologias.
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-3 rounded-md border p-3">
+            {availableLanguages.map((lang) => (
+              <label key={lang.id} className="flex items-center gap-1.5 text-sm">
+                <input
+                  type="checkbox"
+                  name="language_ids"
+                  value={lang.id}
+                  defaultChecked={selectedLanguageIds.has(lang.id)}
+                />
+                {lang.devicon_slug && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    alt=""
+                    className="h-4 w-4"
+                  />
+                )}
+                {lang.name}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>

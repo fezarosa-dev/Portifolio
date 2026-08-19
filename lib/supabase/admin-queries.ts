@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Project, Language } from '@/lib/supabase/queries'
+import type { Project, Language, ProjectRow } from '@/lib/supabase/queries'
+import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
 import { findDeviconIcon } from '@/lib/devicon'
 
 export async function addLanguage(name: string): Promise<Language> {
@@ -75,15 +76,15 @@ export async function getAllProjects(): Promise<Project[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
-    .select('*')
+    .select(PROJECT_SELECT)
     .order('position', { ascending: true })
   if (error) throw error
-  return data as Project[]
+  return (data as unknown as ProjectRow[]).map(mapProjectRow)
 }
 
 export async function upsertProject(
-  input: Partial<Project> & { id?: string }
-): Promise<Project> {
+  input: Partial<Omit<Project, 'languages'>> & { id?: string }
+): Promise<Omit<Project, 'languages'>> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
@@ -91,7 +92,18 @@ export async function upsertProject(
     .select()
     .single()
   if (error) throw error
-  return data as Project
+  return data as Omit<Project, 'languages'>
+}
+
+export async function setProjectLanguages(projectId: string, languageIds: string[]): Promise<void> {
+  const supabase = await createClient()
+  const del = await supabase.from('project_languages').delete().eq('project_id', projectId)
+  if (del.error) throw del.error
+  if (languageIds.length === 0) return
+
+  const rows = languageIds.map((language_id) => ({ project_id: projectId, language_id }))
+  const { error } = await supabase.from('project_languages').insert(rows)
+  if (error) throw error
 }
 
 export async function deleteProject(id: string): Promise<void> {

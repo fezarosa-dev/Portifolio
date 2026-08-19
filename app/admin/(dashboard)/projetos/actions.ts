@@ -6,11 +6,12 @@ import {
   upsertProject,
   deleteProject,
   setProjectVisibility,
+  setProjectLanguages,
 } from '@/lib/supabase/admin-queries'
 
 export async function saveProject(formData: FormData) {
   const id = formData.get('id')
-  await upsertProject({
+  const project = await upsertProject({
     id: id ? String(id) : undefined,
     title: String(formData.get('title')),
     summary: String(formData.get('summary') ?? ''),
@@ -22,6 +23,7 @@ export async function saveProject(formData: FormData) {
     position: Number(formData.get('position') ?? 0),
     visible: formData.get('visible') === 'true',
   })
+  await setProjectLanguages(project.id, formData.getAll('language_ids').map(String))
   revalidatePath('/admin/projetos')
   revalidatePath('/projetos')
   redirect('/admin/projetos')
