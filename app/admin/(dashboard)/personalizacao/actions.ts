@@ -12,6 +12,8 @@ const KEYS = [
   'contato_email',
   'contato_telefone',
   'drive_folder_url',
+  'status_text',
+  'status_color',
 ] as const
 
 export async function saveSiteContent(formData: FormData) {

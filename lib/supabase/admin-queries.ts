@@ -24,6 +24,23 @@ export async function deleteLanguage(id: string): Promise<void> {
   if (error) throw error
 }
 
+export async function updateLanguage(id: string, name: string): Promise<Language> {
+  const icon = findDeviconIcon(name)
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('languages')
+    .update({
+      name: name.trim(),
+      devicon_slug: icon?.slug ?? null,
+      devicon_variant: icon?.variant ?? null,
+    })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data as Language
+}
+
 export async function getAllProjects(): Promise<Project[]> {
   const supabase = await createClient()
   const { data, error } = await supabase

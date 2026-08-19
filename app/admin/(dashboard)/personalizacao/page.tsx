@@ -40,6 +40,29 @@ export default async function PersonalizacaoPage() {
         <Label htmlFor="drive_folder_url">Drive URL (pasta de imagens do site)</Label>
         <Input id="drive_folder_url" name="drive_folder_url" defaultValue={content.drive_folder_url} />
       </div>
+      <div>
+        <Label htmlFor="status_text">Texto da faixa de status (topo do site)</Label>
+        <Input
+          id="status_text"
+          name="status_text"
+          defaultValue={content.status_text}
+          placeholder="disponível para novos projetos — Itajubá, BR"
+        />
+      </div>
+      <div>
+        <Label htmlFor="status_color">Cor da bolinha de status</Label>
+        <select
+          id="status_color"
+          name="status_color"
+          defaultValue={content.status_color || 'green'}
+          className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+        >
+          <option value="green">Verde — disponível</option>
+          <option value="amber">Âmbar — ocupado</option>
+          <option value="red">Vermelho — indisponível</option>
+          <option value="gray">Cinza — neutro</option>
+        </select>
+      </div>
 
       <Button type="submit">Salvar</Button>
     </form>
