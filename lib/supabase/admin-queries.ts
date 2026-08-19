@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Project, Language, Author, ProjectRow } from '@/lib/supabase/queries'
+import type { Project, Language, Author, ProjectRow, ResumeLink } from '@/lib/supabase/queries'
 import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
 import { findDeviconIcon } from '@/lib/devicon'
 
@@ -159,6 +159,52 @@ export async function upsertResume(content_md: string): Promise<void> {
     .update({ content_md, updated_at: new Date().toISOString() })
     .eq('id', '00000000-0000-0000-0000-000000000001')
   if (error) throw error
+}
+
+export async function addResumeLink(label: string, url: string): Promise<ResumeLink> {
+  const supabase = await createClient()
+
+  const { count } = await supabase
+    .from('resume_links')
+    .select('*', { count: 'exact', head: true })
+
+  const { data, error } = await supabase
+    .from('resume_links')
+    .insert({ label: label.trim(), url: url.trim(), position: count ?? 0 })
+    .select()
+    .single()
+  if (error) throw error
+  return data as ResumeLink
+}
+
+export async function updateResumeLink(id: string, label: string, url: string): Promise<ResumeLink> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('resume_links')
+    .update({ label: label.trim(), url: url.trim() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data as ResumeLink
+}
+
+export async function deleteResumeLink(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('resume_links').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function setResumeLinksOrder(orderedIds: string[]): Promise<void> {
+  const supabase = await createClient()
+  const results = await Promise.all(
+    orderedIds.map((id, position) =>
+      supabase.from('resume_links').update({ position }).eq('id', id)
+    )
+  )
+  for (const result of results) {
+    if (result.error) throw result.error
+  }
 }
 
 export async function listMessages() {

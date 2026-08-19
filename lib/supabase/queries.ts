@@ -13,6 +13,13 @@ export type Author = {
   name: string
 }
 
+export type ResumeLink = {
+  id: string
+  label: string
+  url: string
+  position: number
+}
+
 export type Project = {
   id: string
   title: string
@@ -111,6 +118,18 @@ export async function getResume(): Promise<string> {
   const { data, error } = await supabase.from('resume').select('content_md').limit(1).maybeSingle()
   if (error) throw error
   return data?.content_md ?? ''
+}
+
+export async function getResumeLinks(): Promise<ResumeLink[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('resume_links')
+    .select('*')
+    .order('position', { ascending: true })
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+  return data as ResumeLink[]
 }
 
 export async function insertMessage(input: {

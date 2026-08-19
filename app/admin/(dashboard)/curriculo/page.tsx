@@ -1,11 +1,19 @@
-import { getResume } from '@/lib/supabase/queries'
+import { getResume, getResumeLinks } from '@/lib/supabase/queries'
+import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
-import { saveResume } from './actions'
+import { ResumeLinksReorderList } from '@/components/admin/resume-links-reorder-list'
+import {
+  saveResume,
+  saveResumeLink,
+  editResumeLink,
+  removeResumeLink,
+  saveResumeLinksOrder,
+} from './actions'
 
 export default async function CurriculoAdminPage() {
-  const resume = await getResume()
+  const [resume, links] = await Promise.all([getResume(), getResumeLinks()])
 
   return (
     <div>
@@ -24,6 +32,30 @@ export default async function CurriculoAdminPage() {
           Salvar
         </Button>
       </ToastForm>
+
+      <h2 className="mt-10 text-lg font-semibold">Links</h2>
+      <p className="mt-2 font-mono text-xs text-steel">
+        aparecem no currículo do site — arraste pelos pontinhos pra reordenar
+      </p>
+
+      <ToastForm
+        action={saveResumeLink}
+        successMessage="Link adicionado"
+        className="mt-4 flex max-w-xl gap-2"
+      >
+        <Input name="label" placeholder="Texto (ex: Baixar PDF)" required />
+        <Input name="url" placeholder="Link" required />
+        <Button type="submit">Adicionar</Button>
+      </ToastForm>
+
+      <div className="mt-4">
+        <ResumeLinksReorderList
+          links={links}
+          editAction={editResumeLink}
+          removeAction={removeResumeLink}
+          saveOrderAction={saveResumeLinksOrder}
+        />
+      </div>
     </div>
   )
 }
