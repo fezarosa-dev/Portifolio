@@ -114,11 +114,9 @@ export function ProjectsExplorer({
         </div>
       )}
 
-      <div className="mt-8 min-h-[320px]">
+      <div className="mt-8">
         {visible.length === 0 ? (
-          <div className="flex min-h-[320px] items-center justify-center rounded-lg border border-hairline bg-card p-6 text-sm text-muted-foreground">
-            {dict.notFound}
-          </div>
+          <p className="text-sm text-muted-foreground">{dict.notFound}</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
             {visible.map((project) => (
