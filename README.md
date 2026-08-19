@@ -34,3 +34,71 @@ Nota: Esta licença é altamente restritiva e proíbe explicitamente qualquer us
 # Meu portifolio
 Esses codigos são referentes ao meu portifolio(https://fezarosa.netlify.app/) No momento ele está:
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e912ec9a-508d-4dbd-8559-f90585f7b7fc/deploy-status)](https://app.netlify.com/sites/fezarosa-portifolio/deploys)
+
+## Setup e Deploy
+
+### Configuração de Variáveis de Ambiente
+
+O projeto utiliza 3 variáveis de ambiente obrigatórias. Crie um arquivo `.env.local` na raiz do projeto (ou configure na Vercel):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+GOOGLE_DRIVE_API_KEY=
+```
+
+### Supabase
+
+1. **Criar um projeto Supabase**
+   - Acesse https://supabase.com e faça login ou crie uma conta
+   - Crie um novo projeto
+   - Copie a `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` das configurações do projeto
+
+2. **Aplicar as migrações**
+   - Acesse o SQL Editor do seu projeto Supabase
+   - Execute o arquivo `supabase/migrations/0001_init.sql` para criar as tabelas e políticas RLS
+
+3. **Criar usuário admin**
+   - Vá para a aba **Authentication → Users** no painel Supabase
+   - Crie um novo usuário com um email válido e defina uma senha
+
+### Google Drive API
+
+1. **Criar credenciais**
+   - Acesse https://console.cloud.google.com/
+   - Crie um novo projeto (ou use um existente)
+   - Ative a **Google Drive API**
+   - Vá para **Credentials** → **Create Credentials** → **API Key**
+   - Copie a chave gerada
+
+2. **Restringir a chave (segurança)**
+   - Na página de credenciais, clique na chave criada
+   - Em **API restrictions**, selecione apenas **Google Drive API**
+   - Salve as alterações
+
+3. **Configurar a variável**
+   - Use a chave gerada como `GOOGLE_DRIVE_API_KEY` no arquivo `.env.local` ou nas variáveis de ambiente da Vercel
+
+### Permissões do Google Drive
+
+- A pasta do Drive que contém os arquivos deve estar configurada como **"Qualquer pessoa com o link pode visualizar"**
+- Certifique-se de que todos os arquivos na pasta têm permissões herdadas ou estão configurados com acesso público ao link
+
+### Deploy na Vercel
+
+1. **Conectar repositório**
+   - Acesse https://vercel.com/dashboard
+   - Clique em **Add New** → **Project**
+   - Selecione este repositório
+
+2. **Configurar variáveis de ambiente**
+   - Vá para **Project Settings** → **Environment Variables**
+   - Adicione as 3 variáveis obrigatórias:
+     - `NEXT_PUBLIC_SUPABASE_URL`
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+     - `GOOGLE_DRIVE_API_KEY`
+   - Certifique-se de marcar `NEXT_PUBLIC_*` como disponível no navegador
+
+3. **Deploy**
+   - O deploy automático acontecerá quando você fizer push para o branch principal
+   - Acompanhe os logs de build na aba **Deployments**
