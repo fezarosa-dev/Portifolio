@@ -35,6 +35,14 @@ export function HeroSection({
       >
         {title}
       </motion.h1>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.9 }}
+        className="mt-4 max-w-xl text-xl text-steel"
+      >
+        <Typewriter text={subtitle} startDelay={900} />
+      </motion.p>
       {languages.length > 0 && (
         <motion.ul
           initial={{ opacity: 0, y: 16 }}
@@ -63,14 +71,6 @@ export function HeroSection({
           ))}
         </motion.ul>
       )}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.9 }}
-        className="mt-4 max-w-xl text-xl text-steel"
-      >
-        <Typewriter text={subtitle} startDelay={900} />
-      </motion.p>
     </section>
   )
 }
