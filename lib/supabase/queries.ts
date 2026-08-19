@@ -20,6 +20,23 @@ export type ResumeLink = {
   position: number
 }
 
+export type ContactLink = {
+  id: string
+  label: string
+  url: string
+  position: number
+}
+
+export type Article = {
+  id: string
+  title: string
+  summary: string
+  content_md: string
+  visible: boolean
+  position: number
+  created_at: string
+}
+
 export type Project = {
   id: string
   title: string
@@ -130,6 +147,45 @@ export async function getResumeLinks(): Promise<ResumeLink[]> {
 
   if (error) throw error
   return data as ResumeLink[]
+}
+
+export async function getContactLinks(): Promise<ContactLink[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('contact_links')
+    .select('*')
+    .order('position', { ascending: true })
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+  return data as ContactLink[]
+}
+
+export async function getVisibleArticles(): Promise<Article[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('visible', true)
+    .order('position', { ascending: true })
+
+  if (error) throw error
+  return data as Article[]
+}
+
+export async function getArticleById(id: string): Promise<Article | null> {
+  if (!UUID_RE.test(id)) return null
+
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('id', id)
+    .eq('visible', true)
+    .maybeSingle()
+
+  if (error) throw error
+  return data as Article | null
 }
 
 export async function insertMessage(input: {

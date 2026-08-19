@@ -44,6 +44,13 @@ export type Dictionary = {
     error: string
   }
   curriculo: { eyebrow: string }
+  artigos: {
+    eyebrow: string
+    title: string
+    detailEyebrow: string
+    back: string
+    notFound: string
+  }
 }
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -54,6 +61,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { href: '/sobre', label: 'Sobre mim' },
         { href: '/servicos', label: 'Serviços' },
         { href: '/projetos', label: 'Projetos' },
+        { href: '/artigos', label: 'Artigos' },
         { href: '/contato', label: 'Contato' },
         { href: '/curriculo', label: 'Currículo' },
       ],
@@ -94,6 +102,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       error: '✗ erro ao enviar, tente de novo.',
     },
     curriculo: { eyebrow: 'currículo' },
+    artigos: {
+      eyebrow: 'artigos',
+      title: 'Artigos',
+      detailEyebrow: 'artigo',
+      back: '← artigos',
+      notFound: 'Nenhum artigo encontrado.',
+    },
   },
   en: {
     nav: {
@@ -102,6 +117,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { href: '/sobre', label: 'About' },
         { href: '/servicos', label: 'Services' },
         { href: '/projetos', label: 'Projects' },
+        { href: '/artigos', label: 'Articles' },
         { href: '/contato', label: 'Contact' },
         { href: '/curriculo', label: 'Resume' },
       ],
@@ -142,5 +158,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       error: '✗ failed to send, please try again.',
     },
     curriculo: { eyebrow: 'resume' },
+    artigos: {
+      eyebrow: 'articles',
+      title: 'Articles',
+      detailEyebrow: 'article',
+      back: '← articles',
+      notFound: 'No articles found.',
+    },
   },
 }

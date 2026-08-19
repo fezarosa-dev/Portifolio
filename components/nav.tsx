@@ -15,6 +15,10 @@ export async function Nav() {
   const [content, { locale, dict }] = await Promise.all([getSiteContent(), getDictionary()])
   const statusText = content.status_text || 'disponível para novos projetos'
   const statusColor = STATUS_COLORS[content.status_color] ?? STATUS_COLORS.green
+  const navLinks =
+    content.artigos_ativo === 'false'
+      ? dict.nav.links.filter((link) => link.href !== '/artigos')
+      : dict.nav.links
 
   return (
     <div className="sticky top-0 z-40 border-b border-hairline bg-background/80 backdrop-blur">
@@ -34,7 +38,7 @@ export async function Nav() {
           zanoni<span className="text-signal">.dev.br</span>
         </Link>
         <ul className="hidden gap-5 text-sm md:flex md:gap-7">
-          {dict.nav.links.map((link) => (
+          {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -47,7 +51,7 @@ export async function Nav() {
         </ul>
         <div className="flex items-center gap-4 md:hidden">
           <LanguageSwitch locale={locale} />
-          <MobileNav links={dict.nav.links} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
+          <MobileNav links={navLinks} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
         </div>
       </nav>
     </div>

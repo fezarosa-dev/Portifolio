@@ -1,5 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Project, Language, Author, ProjectRow, ResumeLink } from '@/lib/supabase/queries'
+import type {
+  Project,
+  Language,
+  Author,
+  ProjectRow,
+  ResumeLink,
+  ContactLink,
+  Article,
+} from '@/lib/supabase/queries'
 import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
 import { findDeviconIcon } from '@/lib/devicon'
 
@@ -205,6 +213,83 @@ export async function setResumeLinksOrder(orderedIds: string[]): Promise<void> {
   for (const result of results) {
     if (result.error) throw result.error
   }
+}
+
+export async function addContactLink(label: string, url: string): Promise<ContactLink> {
+  const supabase = await createClient()
+
+  const { count } = await supabase
+    .from('contact_links')
+    .select('*', { count: 'exact', head: true })
+
+  const { data, error } = await supabase
+    .from('contact_links')
+    .insert({ label: label.trim(), url: url.trim(), position: count ?? 0 })
+    .select()
+    .single()
+  if (error) throw error
+  return data as ContactLink
+}
+
+export async function updateContactLink(id: string, label: string, url: string): Promise<ContactLink> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('contact_links')
+    .update({ label: label.trim(), url: url.trim() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data as ContactLink
+}
+
+export async function deleteContactLink(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('contact_links').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function setContactLinksOrder(orderedIds: string[]): Promise<void> {
+  const supabase = await createClient()
+  const results = await Promise.all(
+    orderedIds.map((id, position) =>
+      supabase.from('contact_links').update({ position }).eq('id', id)
+    )
+  )
+  for (const result of results) {
+    if (result.error) throw result.error
+  }
+}
+
+export async function getAllArticles(): Promise<Article[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .order('position', { ascending: true })
+  if (error) throw error
+  return data as Article[]
+}
+
+export async function upsertArticle(
+  input: Partial<Article> & { id?: string }
+): Promise<Article> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.from('articles').upsert(input).select().single()
+  if (error) throw error
+  return data as Article
+}
+
+export async function deleteArticle(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('articles').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function setArticleVisibility(id: string, visible: boolean): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('articles').update({ visible }).eq('id', id)
+  if (error) throw error
 }
 
 export async function listMessages() {
