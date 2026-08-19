@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { upsertSiteContent } from '@/lib/supabase/admin-queries'
 
 const KEYS = [
+  'site_icon',
   'hero_title',
   'hero_subtitle',
   'sobre_texto',

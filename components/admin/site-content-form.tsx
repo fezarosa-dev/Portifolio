@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { DriveImagePicker } from '@/components/drive-image-picker'
+import { IconUpload } from '@/components/admin/icon-upload'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -25,6 +26,7 @@ export function SiteContentForm({
   action: (formData: FormData) => Promise<void>
 }) {
   const [sobreFoto, setSobreFoto] = useState(content.sobre_foto ?? '')
+  const [siteIcon, setSiteIcon] = useState(content.site_icon ?? '')
 
   async function handleSubmit(formData: FormData) {
     try {
@@ -37,6 +39,18 @@ export function SiteContentForm({
 
   return (
     <form action={handleSubmit} className="flex max-w-2xl flex-col gap-6">
+      <Section title="ícone do site">
+        <div>
+          <Label>Ícone (favicon)</Label>
+          <p className="mb-2 font-mono text-xs text-steel">
+            o desenho que aparece na aba do navegador ao lado do nome do site — escolha uma
+            imagem (png, jpg...) e ajuste o zoom pra selecionar a parte que vai aparecer
+          </p>
+          <input type="hidden" name="site_icon" value={siteIcon} />
+          <IconUpload value={siteIcon} onChange={setSiteIcon} />
+        </div>
+      </Section>
+
       <Section title="hero">
         <div>
           <Label htmlFor="hero_title">Título</Label>
