@@ -28,9 +28,9 @@ export function ProjectCard({ project }: { project: Project }) {
       </h3>
       <p className="mt-2 text-sm text-steel">{project.summary}</p>
       {(project.repo_url || project.site_url) && (
-        <div className="mt-4 flex gap-4 font-mono text-xs text-steel">
-          {project.repo_url && <span>{hostname(project.repo_url)}</span>}
-          {project.site_url && <span>{hostname(project.site_url)}</span>}
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-steel">
+          {project.repo_url && <span className="truncate">{hostname(project.repo_url)}</span>}
+          {project.site_url && <span className="truncate">{hostname(project.site_url)}</span>}
         </div>
       )}
     </Link>

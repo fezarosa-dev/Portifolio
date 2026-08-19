@@ -16,8 +16,8 @@ export default async function AdminProjetosPage() {
       {projects.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nenhum projeto ainda.</p>
       ) : (
-        <div className="overflow-hidden rounded-lg border border-hairline">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-lg border border-hairline">
+          <table className="w-full min-w-[520px] text-left text-sm">
             <thead className="bg-card font-mono text-xs text-steel">
               <tr>
                 <th className="px-4 py-3 font-normal">Título</th>

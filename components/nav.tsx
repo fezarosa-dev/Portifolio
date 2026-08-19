@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getSiteContent } from '@/lib/supabase/queries'
+import { MobileNav } from '@/components/mobile-nav'
 
 const LINKS = [
   { href: '/', label: 'Início' },
@@ -24,19 +25,19 @@ export async function Nav() {
 
   return (
     <div className="sticky top-0 z-40 border-b border-hairline bg-background/80 backdrop-blur">
-      <div className="hidden items-center gap-2 border-b border-hairline px-6 py-1.5 font-mono text-[11px] text-steel sm:flex">
+      <div className="hidden items-center gap-2 border-b border-hairline px-6 py-1.5 font-mono text-[11px] text-steel md:flex">
         <span
-          className="inline-block h-1.5 w-1.5 rounded-full"
+          className="inline-block h-1.5 w-1.5 shrink-0 rounded-full"
           style={{ backgroundColor: statusColor }}
           aria-hidden
         />
-        {statusText}
+        <span className="truncate">{statusText}</span>
       </div>
-      <nav className="flex items-center justify-between px-6 py-4">
+      <nav className="relative flex items-center justify-between px-6 py-4">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
           zanoni<span className="text-signal">.dev.br</span>
         </Link>
-        <ul className="flex gap-5 text-sm sm:gap-7">
+        <ul className="hidden gap-5 text-sm md:flex md:gap-7">
           {LINKS.map((link) => (
             <li key={link.href}>
               <Link
@@ -48,6 +49,7 @@ export async function Nav() {
             </li>
           ))}
         </ul>
+        <MobileNav links={LINKS} />
       </nav>
     </div>
   )
