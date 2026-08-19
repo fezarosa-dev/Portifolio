@@ -26,7 +26,11 @@ export async function getVisibleProjects(): Promise<Project[]> {
   return data as Project[]
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 export async function getProjectById(id: string): Promise<Project | null> {
+  if (!UUID_RE.test(id)) return null
+
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
