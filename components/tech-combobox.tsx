@@ -1,0 +1,74 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { deviconIconUrl } from '@/lib/devicon'
+import type { Language } from '@/lib/supabase/queries'
+
+export function TechCombobox({
+  languages,
+  onSelect,
+}: {
+  languages: Language[]
+  onSelect: (language: Language) => void
+}) {
+  const [query, setQuery] = useState('')
+  const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const matches = languages.filter((lang) =>
+    lang.name.toLowerCase().includes(query.trim().toLowerCase())
+  )
+
+  return (
+    <div ref={containerRef} className="relative">
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          setOpen(true)
+        }}
+        onFocus={() => setOpen(true)}
+        placeholder="buscar tecnologia…"
+        className="w-full rounded-md border border-hairline bg-background px-3 py-2 text-sm sm:w-56"
+      />
+      {open && matches.length > 0 && (
+        <ul className="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border border-hairline bg-card shadow-lg sm:w-56">
+          {matches.map((lang) => (
+            <li key={lang.id}>
+              <button
+                type="button"
+                onClick={() => {
+                  onSelect(lang)
+                  setQuery('')
+                  setOpen(false)
+                }}
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-accent hover:text-signal"
+              >
+                {lang.devicon_slug && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    alt=""
+                    className="h-4 w-4"
+                  />
+                )}
+                {lang.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
