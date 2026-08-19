@@ -14,9 +14,11 @@ function hostname(url: string) {
 export function ProjectCard({
   project,
   withLabel = 'com',
+  onTechClick,
 }: {
   project: Project
   withLabel?: string
+  onTechClick?: (languageId: string) => void
 }) {
   const isExternal = project.click_mode === 'link'
   const href = isExternal ? project.click_url ?? '#' : `/projetos/${project.id}`
@@ -50,24 +52,44 @@ export function ProjectCard({
       </Link>
       {project.languages.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline pt-4">
-          {project.languages.map((lang) => (
-            <Link
-              key={lang.id}
-              href={`/projetos?tech=${lang.id}`}
-              title={`Ver projetos com ${lang.name}`}
-              className="flex items-center gap-1 rounded-full border border-hairline px-2 py-1 font-mono text-[11px] text-steel hover:border-signal hover:text-signal"
-            >
-              {lang.devicon_slug && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
-                  alt=""
-                  className="h-3.5 w-3.5"
-                />
-              )}
-              {lang.name}
-            </Link>
-          ))}
+          {project.languages.map((lang) => {
+            const pillClassName =
+              'flex items-center gap-1 rounded-full border border-hairline px-2 py-1 font-mono text-[11px] text-steel hover:border-signal hover:text-signal'
+            const pillContent = (
+              <>
+                {lang.devicon_slug && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    alt=""
+                    className="h-3.5 w-3.5"
+                  />
+                )}
+                {lang.name}
+              </>
+            )
+
+            return onTechClick ? (
+              <button
+                key={lang.id}
+                type="button"
+                onClick={() => onTechClick(lang.id)}
+                title={`Filtrar por ${lang.name}`}
+                className={pillClassName}
+              >
+                {pillContent}
+              </button>
+            ) : (
+              <Link
+                key={lang.id}
+                href={`/projetos?tech=${lang.id}`}
+                title={`Ver projetos com ${lang.name}`}
+                className={pillClassName}
+              >
+                {pillContent}
+              </Link>
+            )
+          })}
         </div>
       )}
     </div>

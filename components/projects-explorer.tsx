@@ -127,7 +127,7 @@ export function ProjectsExplorer({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
               >
-                <ProjectCard project={project} withLabel={dict.with} />
+                <ProjectCard project={project} withLabel={dict.with} onTechClick={addTechFilter} />
               </motion.div>
             ))}
           </div>
