@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { deviconIconUrl } from '@/lib/devicon'
+import { Typewriter } from '@/components/typewriter'
 import type { Language } from '@/lib/supabase/queries'
 
 export function HeroSection({
@@ -35,18 +36,18 @@ export function HeroSection({
         {title}
       </motion.h1>
       <motion.p
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.6 }}
         className="mt-4 max-w-xl text-xl text-steel"
       >
-        {subtitle}
+        <Typewriter text={subtitle} startDelay={600} speed={35} />
       </motion.p>
       {languages.length > 0 && (
         <motion.ul
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 flex flex-wrap justify-center gap-2"
         >
           {languages.map((lang) => (
