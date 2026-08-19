@@ -38,3 +38,8 @@ export async function fetchDriveImage(fileId: string): Promise<Response> {
   const url = `${DRIVE_API_BASE}/files/${fileId}?alt=media&key=${apiKey}`
   return fetch(url)
 }
+
+export function resolveDriveImageUrl(name: string, images: DriveImage[]): string | null {
+  const image = images.find((img) => img.name === name)
+  return image ? `/api/drive-image/${image.id}` : null
+}

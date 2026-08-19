@@ -3,32 +3,46 @@ import { signOut } from '../actions'
 import { Button } from '@/components/ui/button'
 
 const TABS = [
-  { href: '/admin/projetos', label: 'Projetos' },
-  { href: '/admin/linguagens', label: 'Linguagens' },
-  { href: '/admin/mensagens', label: 'Mensagens' },
-  { href: '/admin/personalizacao', label: 'Personalização' },
-  { href: '/admin/curriculo', label: 'Currículo' },
-  { href: '/admin/imagens', label: 'Imagens' },
+  { href: '/admin/projetos', label: 'Projetos', icon: '▣' },
+  { href: '/admin/tecnologias', label: 'Tecnologias', icon: '⌘' },
+  { href: '/admin/mensagens', label: 'Mensagens', icon: '✉' },
+  { href: '/admin/personalizacao', label: 'Personalização', icon: '✎' },
+  { href: '/admin/curriculo', label: 'Currículo', icon: '▤' },
+  { href: '/admin/imagens', label: 'Imagens', icon: '▨' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen">
-      <header className="flex items-center justify-between border-b p-4">
-        <nav className="flex gap-4">
+    <div className="flex min-h-screen flex-col sm:flex-row">
+      <aside className="flex shrink-0 flex-col border-hairline bg-card sm:w-56 sm:border-r">
+        <div className="border-b border-hairline px-5 py-5">
+          <p className="font-mono text-sm font-medium tracking-tight">
+            zanoni<span className="text-signal">.admin</span>
+          </p>
+        </div>
+        <nav className="flex flex-1 flex-row flex-wrap gap-1 p-3 sm:flex-col">
           {TABS.map((tab) => (
-            <Link key={tab.href} href={tab.href} className="text-sm font-medium">
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-accent hover:text-signal"
+            >
+              <span className="font-mono text-signal" aria-hidden>
+                {tab.icon}
+              </span>
               {tab.label}
             </Link>
           ))}
         </nav>
-        <form action={signOut}>
-          <Button type="submit" variant="outline" size="sm">
-            Sair
-          </Button>
-        </form>
-      </header>
-      <main className="p-6">{children}</main>
+        <div className="border-t border-hairline p-3">
+          <form action={signOut}>
+            <Button type="submit" variant="outline" size="sm" className="w-full">
+              Sair
+            </Button>
+          </form>
+        </div>
+      </aside>
+      <main className="flex-1 bg-background p-6 sm:p-10">{children}</main>
     </div>
   )
 }

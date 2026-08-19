@@ -18,22 +18,23 @@ export default function ImagensPage() {
   return (
     <div>
       <h1 className="mb-2 text-2xl font-semibold">Imagens</h1>
-      <p className="mb-6 text-sm text-muted-foreground">
-        Imagens da pasta do Google Drive configurada em Personalização. Use o nome exato de cada uma nos seus textos em Markdown.
+      <p className="mb-6 font-mono text-xs text-steel">
+        pasta do Drive configurada em Personalização — use o nome exato nos campos de foto e nos
+        textos em Markdown
       </p>
       {error && <p className="text-sm text-destructive">{error}</p>}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {images.map((image) => (
-          <div key={image.id} className="rounded border p-2">
+          <div key={image.id} className="rounded-lg border border-hairline p-2">
             <Image
               src={`/api/drive-image/${image.id}`}
               alt={image.name}
               width={160}
               height={160}
-              className="h-32 w-full object-cover"
+              className="h-32 w-full rounded object-cover"
               unoptimized
             />
-            <p className="mt-2 truncate text-xs">{image.name}</p>
+            <p className="mt-2 truncate font-mono text-xs text-steel">{image.name}</p>
           </div>
         ))}
       </div>

@@ -9,11 +9,19 @@ export default async function CurriculoAdminPage() {
   return (
     <form action={saveResume} className="flex max-w-2xl flex-col gap-4">
       <h1 className="text-2xl font-semibold">Currículo</h1>
-      <p className="text-sm text-muted-foreground">
-        Use nomes de arquivos da pasta do Drive para imagens, ex: <code>![foto](minha-foto.jpg)</code>. Veja a aba Imagens para os nomes disponíveis.
+      <p className="font-mono text-xs text-steel">
+        use nomes de arquivos da pasta do Drive pra imagens, ex:{' '}
+        <code className="text-signal">![foto](minha-foto.jpg)</code> — veja a aba Imagens
       </p>
-      <Textarea name="content_md" defaultValue={resume} rows={20} />
-      <Button type="submit">Salvar</Button>
+      <Textarea
+        name="content_md"
+        defaultValue={resume}
+        rows={20}
+        className="font-mono text-sm"
+      />
+      <Button type="submit" className="w-fit">
+        Salvar
+      </Button>
     </form>
   )
 }

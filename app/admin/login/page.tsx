@@ -10,20 +10,25 @@ export default function LoginPage() {
   const [state, formAction] = useActionState(signIn, { error: '' })
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 p-6">
-      <h1 className="text-2xl font-semibold">Login</h1>
-      <form action={formAction} className="flex flex-col gap-4">
-        <div>
-          <Label htmlFor="email">E-mail</Label>
-          <Input id="email" name="email" type="email" required />
-        </div>
-        <div>
-          <Label htmlFor="password">Senha</Label>
-          <Input id="password" name="password" type="password" required />
-        </div>
-        {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
-        <Button type="submit">Entrar</Button>
-      </form>
+    <main className="flex min-h-screen items-center justify-center px-6">
+      <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-8">
+        <p className="font-mono text-xs text-signal">// admin</p>
+        <h1 className="mt-2 text-2xl font-medium tracking-tight">Login</h1>
+        <form action={formAction} className="mt-6 flex flex-col gap-4">
+          <div>
+            <Label htmlFor="email">E-mail</Label>
+            <Input id="email" name="email" type="email" required />
+          </div>
+          <div>
+            <Label htmlFor="password">Senha</Label>
+            <Input id="password" name="password" type="password" required />
+          </div>
+          {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
+          <Button type="submit" className="mt-2">
+            Entrar
+          </Button>
+        </form>
+      </div>
     </main>
   )
 }

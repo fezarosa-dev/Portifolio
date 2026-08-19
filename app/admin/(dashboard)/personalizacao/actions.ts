@@ -14,6 +14,8 @@ const KEYS = [
   'drive_folder_url',
   'status_text',
   'status_color',
+  'link_github',
+  'link_linkedin',
 ] as const
 
 export async function saveSiteContent(formData: FormData) {
