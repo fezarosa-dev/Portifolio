@@ -1,13 +1,15 @@
 # CocoIndex Code (ccc)
 /.cocoindex_code/
 
+# bloqueia todo .md (specs, planos, notas...) — só o README vai pro repo
+*.md
+!README.md
+
 # ferramentas/artefatos de agentes de IA
-GEMINI.md
 .agents/
 .mcp.json
 skills-lock.json
 .playwright-cli/
-docs/superpowers/
 
 # dependencies
 /node_modules
