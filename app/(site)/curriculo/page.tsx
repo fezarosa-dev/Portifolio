@@ -1,6 +1,7 @@
 import { getResume, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { MarkdownContent } from '@/components/markdown-content'
+import { Eyebrow } from '@/components/eyebrow'
 
 export default async function CurriculoPage() {
   const [resume, content] = await Promise.all([getResume(), getSiteContent()])
@@ -8,8 +9,11 @@ export default async function CurriculoPage() {
   const driveImages = folderId ? await listDriveImages(folderId) : []
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
-      <MarkdownContent content={resume} driveImages={driveImages} />
+    <main className="mx-auto max-w-2xl px-6 py-20">
+      <Eyebrow>currículo</Eyebrow>
+      <div className="mt-6">
+        <MarkdownContent content={resume} driveImages={driveImages} />
+      </div>
     </main>
   )
 }

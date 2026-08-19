@@ -26,7 +26,11 @@ export function ContactForm() {
   }
 
   if (status === 'sent') {
-    return <p>Mensagem enviada, obrigado pelo contato!</p>
+    return (
+      <p className="font-mono text-sm text-status">
+        ✓ mensagem enviada — obrigado pelo contato, retorno em breve.
+      </p>
+    )
   }
 
   return (
@@ -34,10 +38,12 @@ export function ContactForm() {
       <Input name="name" placeholder="Seu nome" required />
       <Input name="email" type="email" placeholder="Seu e-mail" required />
       <Textarea name="message" placeholder="Sua mensagem" required rows={5} />
-      <Button type="submit" disabled={status === 'sending'}>
+      <Button type="submit" disabled={status === 'sending'} className="w-fit">
         {status === 'sending' ? 'Enviando...' : 'Enviar'}
       </Button>
-      {status === 'error' && <p className="text-sm text-destructive">Erro ao enviar, tente de novo.</p>}
+      {status === 'error' && (
+        <p className="font-mono text-sm text-destructive">✗ erro ao enviar, tente de novo.</p>
+      )}
     </form>
   )
 }
