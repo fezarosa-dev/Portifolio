@@ -7,6 +7,7 @@ import {
   deleteProject,
   setProjectVisibility,
   setProjectLanguages,
+  setProjectAuthors,
 } from '@/lib/supabase/admin-queries'
 
 export async function saveProject(formData: FormData) {
@@ -24,6 +25,7 @@ export async function saveProject(formData: FormData) {
     visible: formData.get('visible') === 'true',
   })
   await setProjectLanguages(project.id, formData.getAll('language_ids').map(String))
+  await setProjectAuthors(project.id, formData.getAll('author_ids').map(String))
   revalidatePath('/admin/projetos')
   revalidatePath('/projetos')
   redirect('/admin/projetos')

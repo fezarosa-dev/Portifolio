@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { deviconIconUrl } from '@/lib/devicon'
+import { joinNames } from '@/lib/utils'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 
@@ -27,6 +28,11 @@ export default async function ProjetoDetailPage({
       </Link>
       <Eyebrow>projeto</Eyebrow>
       <h1 className="mt-3 text-4xl font-medium tracking-tight">{project.title}</h1>
+      {project.authors.length > 0 && (
+        <p className="mt-2 font-mono text-sm text-steel">
+          com {joinNames(project.authors.map((a) => a.name))}
+        </p>
+      )}
       {(project.repo_url || project.site_url) && (
         <div className="mt-4 flex flex-wrap gap-3 font-mono text-xs">
           {project.repo_url && (

@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Project, Language, ProjectRow } from '@/lib/supabase/queries'
+import type { Project, Language, Author, ProjectRow } from '@/lib/supabase/queries'
 import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
 import { findDeviconIcon } from '@/lib/devicon'
 
@@ -83,8 +83,8 @@ export async function getAllProjects(): Promise<Project[]> {
 }
 
 export async function upsertProject(
-  input: Partial<Omit<Project, 'languages'>> & { id?: string }
-): Promise<Omit<Project, 'languages'>> {
+  input: Partial<Omit<Project, 'languages' | 'authors'>> & { id?: string }
+): Promise<Omit<Project, 'languages' | 'authors'>> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
@@ -92,7 +92,7 @@ export async function upsertProject(
     .select()
     .single()
   if (error) throw error
-  return data as Omit<Project, 'languages'>
+  return data as Omit<Project, 'languages' | 'authors'>
 }
 
 export async function setProjectLanguages(projectId: string, languageIds: string[]): Promise<void> {
@@ -103,6 +103,46 @@ export async function setProjectLanguages(projectId: string, languageIds: string
 
   const rows = languageIds.map((language_id) => ({ project_id: projectId, language_id }))
   const { error } = await supabase.from('project_languages').insert(rows)
+  if (error) throw error
+}
+
+export async function setProjectAuthors(projectId: string, authorIds: string[]): Promise<void> {
+  const supabase = await createClient()
+  const del = await supabase.from('project_authors').delete().eq('project_id', projectId)
+  if (del.error) throw del.error
+  if (authorIds.length === 0) return
+
+  const rows = authorIds.map((author_id) => ({ project_id: projectId, author_id }))
+  const { error } = await supabase.from('project_authors').insert(rows)
+  if (error) throw error
+}
+
+export async function addAuthor(name: string): Promise<Author> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('authors')
+    .insert({ name: name.trim() })
+    .select()
+    .single()
+  if (error) throw error
+  return data as Author
+}
+
+export async function updateAuthor(id: string, name: string): Promise<Author> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('authors')
+    .update({ name: name.trim() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data as Author
+}
+
+export async function deleteAuthor(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('authors').delete().eq('id', id)
   if (error) throw error
 }
 

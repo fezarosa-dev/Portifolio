@@ -7,20 +7,23 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { deviconIconUrl } from '@/lib/devicon'
-import type { Project, Language } from '@/lib/supabase/queries'
+import type { Project, Language, Author } from '@/lib/supabase/queries'
 
 export function ProjectForm({
   project,
   availableLanguages,
+  availableAuthors,
   action,
 }: {
   project: Project | null
   availableLanguages: Language[]
+  availableAuthors: Author[]
   action: (formData: FormData) => Promise<void>
 }) {
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
   const [visible, setVisible] = useState(project?.visible ?? true)
   const selectedLanguageIds = new Set(project?.languages.map((l) => l.id) ?? [])
+  const selectedAuthorIds = new Set(project?.authors.map((a) => a.id) ?? [])
 
   return (
     <form action={action} className="flex flex-col gap-4">
@@ -66,6 +69,29 @@ export function ProjectForm({
                   />
                 )}
                 {lang.name}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <Label>Autores</Label>
+        {availableAuthors.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Nenhum cadastrado ainda — adicione em Autores.
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-3 rounded-md border p-3">
+            {availableAuthors.map((author) => (
+              <label key={author.id} className="flex items-center gap-1.5 text-sm">
+                <input
+                  type="checkbox"
+                  name="author_ids"
+                  value={author.id}
+                  defaultChecked={selectedAuthorIds.has(author.id)}
+                />
+                {author.name}
               </label>
             ))}
           </div>

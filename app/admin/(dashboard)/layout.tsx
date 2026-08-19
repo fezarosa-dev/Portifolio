@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 const TABS = [
   { href: '/admin/projetos', label: 'Projetos', icon: '▣' },
   { href: '/admin/tecnologias', label: 'Tecnologias', icon: '⌘' },
+  { href: '/admin/autores', label: 'Autores', icon: '☺' },
   { href: '/admin/mensagens', label: 'Mensagens', icon: '✉' },
   { href: '/admin/personalizacao', label: 'Personalização', icon: '✎' },
   { href: '/admin/curriculo', label: 'Currículo', icon: '▤' },

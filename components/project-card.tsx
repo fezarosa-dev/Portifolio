@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { deviconIconUrl } from '@/lib/devicon'
+import { joinNames } from '@/lib/utils'
 import type { Project } from '@/lib/supabase/queries'
 
 function hostname(url: string) {
@@ -29,6 +30,11 @@ export function ProjectCard({ project }: { project: Project }) {
           </span>
         </h3>
         <p className="mt-2 text-sm text-steel">{project.summary}</p>
+        {project.authors.length > 0 && (
+          <p className="mt-2 font-mono text-xs text-steel">
+            com {joinNames(project.authors.map((a) => a.name))}
+          </p>
+        )}
         {(project.repo_url || project.site_url) && (
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-steel">
             {project.repo_url && <span className="break-words">{hostname(project.repo_url)}</span>}
