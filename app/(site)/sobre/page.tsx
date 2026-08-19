@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId, resolveDriveImageUrl } from '@/lib/drive'
 import { getDictionary, getLocale } from '@/lib/i18n'
@@ -24,10 +25,12 @@ export default async function SobrePage() {
         <Eyebrow>{dict.sobre.eyebrow}</Eyebrow>
         <h1 className="mt-3 text-4xl font-medium tracking-tight">{dict.sobre.title}</h1>
         {photoUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={photoUrl}
             alt="Felipe Zanoni da Rosa"
+            width={256}
+            height={256}
+            priority
             className="mt-8 h-64 w-64 rounded-full border border-hairline object-cover"
           />
         )}
