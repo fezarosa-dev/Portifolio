@@ -13,10 +13,13 @@ export default async function ArtigoDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const article = await getArticleById(id)
-  if (!article) notFound()
+  const [article, content, { dict }] = await Promise.all([
+    getArticleById(id),
+    getSiteContent(),
+    getDictionary(),
+  ])
+  if (!article || content.artigos_ativo === 'false') notFound()
 
-  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
 

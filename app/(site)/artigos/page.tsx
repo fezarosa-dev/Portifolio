@@ -1,11 +1,17 @@
-import { getVisibleArticles } from '@/lib/supabase/queries'
+import { notFound } from 'next/navigation'
+import { getVisibleArticles, getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { ArticleCard } from '@/components/article-card'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
 export default async function ArtigosPage() {
-  const [articles, { dict }] = await Promise.all([getVisibleArticles(), getDictionary()])
+  const [articles, content, { dict }] = await Promise.all([
+    getVisibleArticles(),
+    getSiteContent(),
+    getDictionary(),
+  ])
+  if (content.artigos_ativo === 'false') notFound()
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-20">
