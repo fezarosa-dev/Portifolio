@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Eyebrow } from '@/components/eyebrow'
 import { ProjectCard } from '@/components/project-card'
 import type { Project } from '@/lib/supabase/queries'
+import type { Locale } from '@/lib/i18n'
 
 export function ProjectsTeaser({
   projects,
@@ -12,12 +13,14 @@ export function ProjectsTeaser({
   heading,
   seeAll,
   withLabel,
+  locale,
 }: {
   projects: Project[]
   eyebrow: string
   heading: string
   seeAll: string
   withLabel: string
+  locale: Locale
 }) {
   return (
     <section className="border-t border-hairline px-6 py-24">
@@ -33,7 +36,7 @@ export function ProjectsTeaser({
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProjectCard project={project} withLabel={withLabel} />
+              <ProjectCard project={project} withLabel={withLabel} locale={locale} />
             </motion.div>
           ))}
         </div>

@@ -5,7 +5,8 @@ import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { deviconIconUrl } from '@/lib/devicon'
 import { joinNames } from '@/lib/utils'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -16,12 +17,15 @@ export async function generateMetadata({
   params: Promise<{ id: string }>
 }): Promise<Metadata> {
   const { id } = await params
-  const project = await getProjectById(id)
+  const [project, locale] = await Promise.all([getProjectById(id), getLocale()])
   if (!project || project.click_mode === 'link') return {}
 
+  const title = resolveText(project.title, project.title_en, locale)
+  const summary = resolveText(project.summary, project.summary_en, locale)
+
   return {
-    title: project.title,
-    description: project.summary || `Projeto ${project.title}, por Felipe Zanoni da Rosa.`,
+    title,
+    description: summary || `Projeto ${title}, por Felipe Zanoni da Rosa.`,
     alternates: { canonical: `/projetos/${project.id}` },
   }
 }
@@ -36,9 +40,11 @@ export default async function ProjetoDetailPage({
   if (!project) notFound()
   if (project.click_mode === 'link') notFound()
 
-  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
+  const [content, { dict, locale }] = await Promise.all([getSiteContent(), getDictionary()])
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
+  const title = resolveText(project.title, project.title_en, locale)
+  const contentMd = resolveText(project.content_md, project.content_md_en, locale)
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
@@ -47,7 +53,7 @@ export default async function ProjetoDetailPage({
           {dict.projetos.back}
         </Link>
         <Eyebrow>{dict.projetos.detailEyebrow}</Eyebrow>
-        <h1 className="mt-3 text-4xl font-medium tracking-tight">{project.title}</h1>
+        <h1 className="mt-3 text-4xl font-medium tracking-tight">{title}</h1>
         {project.authors.length > 0 && (
           <p className="mt-2 font-mono text-sm text-steel">
             {dict.projetos.with} {joinNames(project.authors.map((a) => a.name))}
@@ -101,7 +107,7 @@ export default async function ProjetoDetailPage({
         )}
       </FadeIn>
       <div className="mt-10">
-        <MarkdownContent content={project.content_md} driveImages={driveImages} />
+        <MarkdownContent content={contentMd} driveImages={driveImages} />
       </div>
     </main>
   )

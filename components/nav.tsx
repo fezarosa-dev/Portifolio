@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { MobileNav } from '@/components/mobile-nav'
 import { LanguageSwitch } from '@/components/language-switch'
 
@@ -13,7 +14,11 @@ const STATUS_COLORS: Record<string, string> = {
 
 export async function Nav() {
   const [content, { locale, dict }] = await Promise.all([getSiteContent(), getDictionary()])
-  const statusText = content.status_text || 'disponível para novos projetos'
+  const statusText = resolveText(
+    content.status_text || 'disponível para novos projetos',
+    content.status_text_en,
+    locale
+  )
   const statusColor = STATUS_COLORS[content.status_color] ?? STATUS_COLORS.green
   const navLinks =
     content.artigos_ativo === 'false'

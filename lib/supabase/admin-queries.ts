@@ -160,16 +160,26 @@ export async function upsertSiteContent(key: string, value: string): Promise<voi
   if (error) throw error
 }
 
-export async function upsertResume(content_md: string): Promise<void> {
+export async function deleteSiteContentKey(key: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('site_content').delete().eq('key', key)
+  if (error) throw error
+}
+
+export async function upsertResume(content_md: string, content_md_en: string | null): Promise<void> {
   const supabase = await createClient()
   const { error } = await supabase
     .from('resume')
-    .update({ content_md, updated_at: new Date().toISOString() })
+    .update({ content_md, content_md_en, updated_at: new Date().toISOString() })
     .eq('id', '00000000-0000-0000-0000-000000000001')
   if (error) throw error
 }
 
-export async function addResumeLink(label: string, url: string): Promise<ResumeLink> {
+export async function addResumeLink(
+  label: string,
+  label_en: string | null,
+  url: string
+): Promise<ResumeLink> {
   const supabase = await createClient()
 
   const { count } = await supabase
@@ -178,18 +188,23 @@ export async function addResumeLink(label: string, url: string): Promise<ResumeL
 
   const { data, error } = await supabase
     .from('resume_links')
-    .insert({ label: label.trim(), url: url.trim(), position: count ?? 0 })
+    .insert({ label: label.trim(), label_en, url: url.trim(), position: count ?? 0 })
     .select()
     .single()
   if (error) throw error
   return data as ResumeLink
 }
 
-export async function updateResumeLink(id: string, label: string, url: string): Promise<ResumeLink> {
+export async function updateResumeLink(
+  id: string,
+  label: string,
+  label_en: string | null,
+  url: string
+): Promise<ResumeLink> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('resume_links')
-    .update({ label: label.trim(), url: url.trim() })
+    .update({ label: label.trim(), label_en, url: url.trim() })
     .eq('id', id)
     .select()
     .single()
@@ -215,7 +230,11 @@ export async function setResumeLinksOrder(orderedIds: string[]): Promise<void> {
   }
 }
 
-export async function addContactLink(label: string, url: string): Promise<ContactLink> {
+export async function addContactLink(
+  label: string,
+  label_en: string | null,
+  url: string
+): Promise<ContactLink> {
   const supabase = await createClient()
 
   const { count } = await supabase
@@ -224,18 +243,23 @@ export async function addContactLink(label: string, url: string): Promise<Contac
 
   const { data, error } = await supabase
     .from('contact_links')
-    .insert({ label: label.trim(), url: url.trim(), position: count ?? 0 })
+    .insert({ label: label.trim(), label_en, url: url.trim(), position: count ?? 0 })
     .select()
     .single()
   if (error) throw error
   return data as ContactLink
 }
 
-export async function updateContactLink(id: string, label: string, url: string): Promise<ContactLink> {
+export async function updateContactLink(
+  id: string,
+  label: string,
+  label_en: string | null,
+  url: string
+): Promise<ContactLink> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('contact_links')
-    .update({ label: label.trim(), url: url.trim() })
+    .update({ label: label.trim(), label_en, url: url.trim() })
     .eq('id', id)
     .select()
     .single()

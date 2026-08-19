@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ArtigosPage() {
-  const [articles, content, { dict }] = await Promise.all([
+  const [articles, content, { dict, locale }] = await Promise.all([
     getVisibleArticles(),
     getSiteContent(),
     getDictionary(),
@@ -32,7 +32,7 @@ export default async function ArtigosPage() {
           <div className="grid gap-6 sm:grid-cols-2">
             {articles.map((article, i) => (
               <FadeIn key={article.id} delay={i * 0.06}>
-                <ArticleCard article={article} />
+                <ArticleCard article={article} locale={locale} />
               </FadeIn>
             ))}
           </div>

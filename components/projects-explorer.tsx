@@ -5,15 +5,18 @@ import { motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ProjectCard } from '@/components/project-card'
 import { TechCombobox } from '@/components/tech-combobox'
+import { resolveText } from '@/lib/bilingual'
 import type { Project, Language } from '@/lib/supabase/queries'
-import type { Dictionary } from '@/lib/i18n'
+import type { Dictionary, Locale } from '@/lib/i18n'
 
 export function ProjectsExplorer({
   projects,
   dict,
+  locale,
 }: {
   projects: Project[]
   dict: Dictionary['projetos']
+  locale: Locale
 }) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -63,9 +66,11 @@ export function ProjectsExplorer({
 
     if (query.trim()) {
       const q = query.trim().toLowerCase()
-      result = result.filter(
-        (p) => p.title.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q)
-      )
+      result = result.filter((p) => {
+        const title = resolveText(p.title, p.title_en, locale)
+        const summary = resolveText(p.summary, p.summary_en, locale)
+        return title.toLowerCase().includes(q) || summary.toLowerCase().includes(q)
+      })
     }
 
     if (techFilters.length > 0) {
@@ -73,7 +78,7 @@ export function ProjectsExplorer({
     }
 
     return result
-  }, [projects, query, techFilters])
+  }, [projects, query, techFilters, locale])
 
   const activeTechs = techFilters
     .map((id) => allLanguages.find((l) => l.id === id))
@@ -127,7 +132,12 @@ export function ProjectsExplorer({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
               >
-                <ProjectCard project={project} withLabel={dict.with} onTechClick={addTechFilter} />
+                <ProjectCard
+                  project={project}
+                  withLabel={dict.with}
+                  onTechClick={addTechFilter}
+                  locale={locale}
+                />
               </motion.div>
             ))}
           </div>

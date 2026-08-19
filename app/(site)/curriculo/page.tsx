@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getResume, getResumeLinks, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default async function CurriculoPage() {
-  const [resume, links, content, { dict }] = await Promise.all([
+  const [resume, links, content, { dict, locale }] = await Promise.all([
     getResume(),
     getResumeLinks(),
     getSiteContent(),
@@ -20,6 +21,7 @@ export default async function CurriculoPage() {
   ])
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
+  const resumeMd = resolveText(resume.content_md, resume.content_md_en, locale)
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
@@ -37,7 +39,7 @@ export default async function CurriculoPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel transition-colors hover:border-signal hover:text-signal"
                 >
-                  {link.label}
+                  {resolveText(link.label, link.label_en, locale)}
                 </a>
               </li>
             ))}
@@ -45,7 +47,7 @@ export default async function CurriculoPage() {
         </FadeIn>
       )}
       <div className="mt-6">
-        <MarkdownContent content={resume} driveImages={driveImages} />
+        <MarkdownContent content={resumeMd} driveImages={driveImages} />
       </div>
     </main>
   )

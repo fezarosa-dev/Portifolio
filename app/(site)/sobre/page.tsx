@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId, resolveDriveImageUrl } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default async function SobrePage() {
-  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
+  const [content, { dict, locale }] = await Promise.all([getSiteContent(), getDictionary()])
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
   const photoUrl = content.sobre_foto ? resolveDriveImageUrl(content.sobre_foto, driveImages) : null
@@ -32,7 +33,9 @@ export default async function SobrePage() {
         )}
       </FadeIn>
       <FadeIn delay={0.1}>
-        <p className="mt-8 text-lg leading-relaxed text-foreground/90">{content.sobre_texto}</p>
+        <p className="mt-8 text-lg leading-relaxed text-foreground/90">
+          {resolveText(content.sobre_texto ?? '', content.sobre_texto_en, locale)}
+        </p>
       </FadeIn>
     </main>
   )

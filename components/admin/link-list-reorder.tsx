@@ -6,8 +6,9 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
+import { LanguageToggle } from '@/components/admin/language-toggle'
 
-type LabeledLink = { id: string; label: string; url: string }
+type LabeledLink = { id: string; label: string; label_en: string | null; url: string }
 
 function GripIcon() {
   return (
@@ -24,16 +25,19 @@ function GripIcon() {
 
 function LinkRow<T extends LabeledLink>({
   link,
+  language,
   onDragEnd,
   editAction,
   removeAction,
 }: {
   link: T
+  language: 'pt' | 'en'
   onDragEnd: () => void
   editAction: (id: string, formData: FormData) => Promise<void>
   removeAction: (id: string) => Promise<void>
 }) {
   const dragControls = useDragControls()
+  const enExplicitlyBlank = link.label_en === ''
 
   return (
     <Reorder.Item
@@ -55,13 +59,30 @@ function LinkRow<T extends LabeledLink>({
       <ToastForm
         action={editAction.bind(null, link.id)}
         successMessage="Link atualizado"
-        className="flex flex-1 gap-2"
+        className="flex flex-1 flex-col gap-1"
       >
-        <Input name="label" defaultValue={link.label} placeholder="Texto" className="h-8" />
-        <Input name="url" defaultValue={link.url} placeholder="Link" className="h-8" />
-        <Button type="submit" variant="outline" size="sm">
-          Salvar
-        </Button>
+        <div className="flex gap-2">
+          <Input
+            name="label"
+            defaultValue={link.label}
+            placeholder="Texto"
+            className={`h-8 ${language === 'en' ? 'hidden' : ''}`}
+          />
+          <Input
+            name="label_en"
+            defaultValue={link.label_en ?? ''}
+            placeholder="Texto em EN (vazio usa o PT)"
+            className={`h-8 ${language === 'pt' ? 'hidden' : ''}`}
+          />
+          <Input name="url" defaultValue={link.url} placeholder="Link" className="h-8" />
+          <Button type="submit" variant="outline" size="sm">
+            Salvar
+          </Button>
+        </div>
+        <label className={`flex items-center gap-1.5 font-mono text-xs text-steel ${language === 'pt' ? 'hidden' : ''}`}>
+          <input type="checkbox" name="label_en_blank" value="true" defaultChecked={enExplicitlyBlank} />
+          sem tradução — não usar o PT no lugar
+        </label>
       </ToastForm>
       <ToastForm action={removeAction.bind(null, link.id)} successMessage="Link removido">
         <button type="submit" className="px-1 text-muted-foreground hover:text-destructive">
@@ -84,6 +105,7 @@ export function LinkListReorder<T extends LabeledLink>({
   saveOrderAction: (orderedIds: string[]) => Promise<void>
 }) {
   const [order, setOrder] = useState(links)
+  const [language, setLanguage] = useState<'pt' | 'en'>('pt')
 
   useEffect(() => {
     setOrder(links)
@@ -98,21 +120,25 @@ export function LinkListReorder<T extends LabeledLink>({
   }
 
   return (
-    <Reorder.Group
-      axis="y"
-      values={order}
-      onReorder={setOrder}
-      className="flex max-w-xl flex-col gap-2"
-    >
-      {order.map((link) => (
-        <LinkRow
-          key={link.id}
-          link={link}
-          onDragEnd={handleDragEnd}
-          editAction={editAction}
-          removeAction={removeAction}
-        />
-      ))}
-    </Reorder.Group>
+    <div className="flex flex-col gap-3">
+      <LanguageToggle language={language} onChange={setLanguage} />
+      <Reorder.Group
+        axis="y"
+        values={order}
+        onReorder={setOrder}
+        className="flex max-w-xl flex-col gap-2"
+      >
+        {order.map((link) => (
+          <LinkRow
+            key={link.id}
+            link={link}
+            language={language}
+            onDragEnd={handleDragEnd}
+            editAction={editAction}
+            removeAction={removeAction}
+          />
+        ))}
+      </Reorder.Group>
+    </div>
   )
 }

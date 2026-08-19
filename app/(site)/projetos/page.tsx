@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ProjetosPage() {
-  const [projects, { dict }] = await Promise.all([getVisibleProjects(), getDictionary()])
+  const [projects, { dict, locale }] = await Promise.all([getVisibleProjects(), getDictionary()])
   return (
     <main className="mx-auto max-w-4xl px-6 py-20">
       <FadeIn>
@@ -21,7 +21,7 @@ export default async function ProjetosPage() {
       </FadeIn>
       <div className="mt-10">
         <Suspense>
-          <ProjectsExplorer projects={projects} dict={dict.projetos} />
+          <ProjectsExplorer projects={projects} dict={dict.projetos} locale={locale} />
         </Suspense>
       </div>
     </main>

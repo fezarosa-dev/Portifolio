@@ -1,7 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { upsertSiteContent } from '@/lib/supabase/admin-queries'
+import { upsertSiteContent, deleteSiteContentKey } from '@/lib/supabase/admin-queries'
+import { parseBilingualField } from '@/lib/bilingual'
 
 const KEYS = [
   'site_icon',
@@ -19,10 +20,17 @@ const KEYS = [
   'link_linkedin',
 ] as const
 
+const BILINGUAL_KEYS = ['hero_title', 'hero_subtitle', 'sobre_texto', 'servicos_texto', 'status_text'] as const
+
 export async function saveSiteContent(formData: FormData) {
-  await Promise.all(
-    KEYS.map((key) => upsertSiteContent(key, String(formData.get(key) ?? '')))
-  )
+  await Promise.all([
+    ...KEYS.map((key) => upsertSiteContent(key, String(formData.get(key) ?? ''))),
+    ...BILINGUAL_KEYS.map(async (key) => {
+      const enValue = parseBilingualField(formData, key)
+      if (enValue === null) await deleteSiteContentKey(`${key}_en`)
+      else await upsertSiteContent(`${key}_en`, enValue)
+    }),
+  ])
   revalidatePath('/admin/personalizacao')
   revalidatePath('/', 'layout')
 }

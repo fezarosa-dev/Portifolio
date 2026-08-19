@@ -16,6 +16,7 @@ export type Author = {
 export type ResumeLink = {
   id: string
   label: string
+  label_en: string | null
   url: string
   position: number
 }
@@ -23,6 +24,7 @@ export type ResumeLink = {
 export type ContactLink = {
   id: string
   label: string
+  label_en: string | null
   url: string
   position: number
 }
@@ -30,8 +32,11 @@ export type ContactLink = {
 export type Article = {
   id: string
   title: string
+  title_en: string | null
   summary: string
+  summary_en: string | null
   content_md: string
+  content_md_en: string | null
   visible: boolean
   position: number
   created_at: string
@@ -40,8 +45,11 @@ export type Article = {
 export type Project = {
   id: string
   title: string
+  title_en: string | null
   summary: string
+  summary_en: string | null
   content_md: string
+  content_md_en: string | null
   repo_url: string | null
   site_url: string | null
   click_mode: 'detail' | 'link'
@@ -130,11 +138,15 @@ export async function getSiteContent(): Promise<Record<string, string>> {
   return Object.fromEntries(data.map((row) => [row.key, row.value]))
 }
 
-export async function getResume(): Promise<string> {
+export async function getResume(): Promise<{ content_md: string; content_md_en: string | null }> {
   const supabase = await createClient()
-  const { data, error } = await supabase.from('resume').select('content_md').limit(1).maybeSingle()
+  const { data, error } = await supabase
+    .from('resume')
+    .select('content_md, content_md_en')
+    .limit(1)
+    .maybeSingle()
   if (error) throw error
-  return data?.content_md ?? ''
+  return { content_md: data?.content_md ?? '', content_md_en: data?.content_md_en ?? null }
 }
 
 export async function getResumeLinks(): Promise<ResumeLink[]> {

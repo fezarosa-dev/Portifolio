@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getContactLinks } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { ContactForm } from './contact-form'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ContatoPage() {
-  const [links, { dict }] = await Promise.all([getContactLinks(), getDictionary()])
+  const [links, { dict, locale }] = await Promise.all([getContactLinks(), getDictionary()])
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
       <FadeIn>
@@ -27,7 +28,7 @@ export default async function ContatoPage() {
                   rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="group flex items-center gap-2 text-lg font-medium text-foreground transition-colors hover:text-signal"
                 >
-                  {link.label}
+                  {resolveText(link.label, link.label_en, locale)}
                   <span className="text-signal opacity-0 transition-opacity group-hover:opacity-100">
                     ↗
                   </span>

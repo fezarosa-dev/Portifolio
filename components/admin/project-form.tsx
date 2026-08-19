@@ -8,6 +8,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
+import { LanguageToggle } from '@/components/admin/language-toggle'
+import { BilingualField } from '@/components/admin/bilingual-field'
 import { deviconIconUrl } from '@/lib/devicon'
 import type { Project, Language, Author } from '@/lib/supabase/queries'
 
@@ -23,6 +25,7 @@ export function ProjectForm({
   action: (formData: FormData) => Promise<void>
 }) {
   const router = useRouter()
+  const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
   const [visible, setVisible] = useState(project?.visible ?? true)
   const [showOnHome, setShowOnHome] = useState(project?.show_on_home ?? false)
@@ -43,20 +46,36 @@ export function ProjectForm({
     <form action={handleSubmit} className="flex flex-col gap-4">
       {project && <input type="hidden" name="id" value={project.id} />}
 
-      <div>
-        <Label htmlFor="title">Título</Label>
-        <Input id="title" name="title" defaultValue={project?.title} required />
-      </div>
+      <LanguageToggle language={language} onChange={setLanguage} />
 
-      <div>
-        <Label htmlFor="summary">Resumo</Label>
-        <Textarea id="summary" name="summary" defaultValue={project?.summary} rows={2} />
-      </div>
+      <BilingualField
+        name="title"
+        label="Título"
+        language={language}
+        defaultValuePt={project?.title}
+        defaultValueEn={project?.title_en}
+        requiredPt
+      />
 
-      <div>
-        <Label htmlFor="content_md">Conteúdo (Markdown)</Label>
-        <Textarea id="content_md" name="content_md" defaultValue={project?.content_md} rows={12} />
-      </div>
+      <BilingualField
+        name="summary"
+        label="Resumo"
+        language={language}
+        defaultValuePt={project?.summary}
+        defaultValueEn={project?.summary_en}
+        multiline
+        rows={2}
+      />
+
+      <BilingualField
+        name="content_md"
+        label="Conteúdo (Markdown)"
+        language={language}
+        defaultValuePt={project?.content_md}
+        defaultValueEn={project?.content_md_en}
+        multiline
+        rows={12}
+      />
 
       <div>
         <Label>Tecnologias</Label>

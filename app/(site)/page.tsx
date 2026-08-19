@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getSiteContent, getVisibleProjects, getLanguages } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { HeroSection } from '@/components/home/hero-section'
 import { AboutTeaser } from '@/components/home/about-teaser'
 import { ProjectsTeaser } from '@/components/home/projects-teaser'
@@ -19,7 +20,7 @@ const personJsonLd = {
 }
 
 export default async function HomePage() {
-  const [content, projects, languages, { dict }] = await Promise.all([
+  const [content, projects, languages, { dict, locale }] = await Promise.all([
     getSiteContent(),
     getVisibleProjects(),
     getLanguages(),
@@ -34,18 +35,22 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <HeroSection
-        title={content.hero_title ?? ''}
-        subtitle={content.hero_subtitle ?? ''}
+        title={resolveText(content.hero_title ?? '', content.hero_title_en, locale)}
+        subtitle={resolveText(content.hero_subtitle ?? '', content.hero_subtitle_en, locale)}
         languages={languages}
         whoamiLabel={dict.home.whoami}
       />
-      <AboutTeaser text={content.sobre_texto ?? ''} eyebrow={dict.home.aboutEyebrow} />
+      <AboutTeaser
+        text={resolveText(content.sobre_texto ?? '', content.sobre_texto_en, locale)}
+        eyebrow={dict.home.aboutEyebrow}
+      />
       <ProjectsTeaser
         projects={projects.filter((p) => p.show_on_home)}
         eyebrow={dict.home.projectsEyebrow}
         heading={dict.home.projectsHeading}
         seeAll={dict.home.seeAll}
         withLabel={dict.projetos.with}
+        locale={locale}
       />
     </>
   )

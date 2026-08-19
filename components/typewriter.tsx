@@ -22,6 +22,11 @@ export function Typewriter({
   }, [])
 
   useEffect(() => {
+    setDisplay('')
+    setStepIndex(0)
+  }, [text])
+
+  useEffect(() => {
     if (reduceMotion) {
       setDisplay(text)
       setStepIndex(steps.length)

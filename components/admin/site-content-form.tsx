@@ -8,6 +8,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { DriveImagePicker } from '@/components/drive-image-picker'
 import { IconUpload } from '@/components/admin/icon-upload'
+import { LanguageToggle } from '@/components/admin/language-toggle'
+import { BilingualField } from '@/components/admin/bilingual-field'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -27,6 +29,8 @@ export function SiteContentForm({
 }) {
   const [sobreFoto, setSobreFoto] = useState(content.sobre_foto ?? '')
   const [siteIcon, setSiteIcon] = useState(content.site_icon ?? '')
+  const [language, setLanguage] = useState<'pt' | 'en'>('pt')
+  const enValue = (key: string): string | null => (key in content ? content[key] : null)
 
   async function handleSubmit(formData: FormData) {
     try {
@@ -39,6 +43,8 @@ export function SiteContentForm({
 
   return (
     <form action={handleSubmit} className="flex max-w-2xl flex-col gap-6">
+      <LanguageToggle language={language} onChange={setLanguage} />
+
       <Section title="ícone do site">
         <div>
           <Label>Ícone (favicon)</Label>
@@ -52,21 +58,32 @@ export function SiteContentForm({
       </Section>
 
       <Section title="hero">
-        <div>
-          <Label htmlFor="hero_title">Título</Label>
-          <Input id="hero_title" name="hero_title" defaultValue={content.hero_title} />
-        </div>
-        <div>
-          <Label htmlFor="hero_subtitle">Subtítulo</Label>
-          <Input id="hero_subtitle" name="hero_subtitle" defaultValue={content.hero_subtitle} />
-        </div>
+        <BilingualField
+          name="hero_title"
+          label="Título"
+          language={language}
+          defaultValuePt={content.hero_title}
+          defaultValueEn={enValue('hero_title_en')}
+        />
+        <BilingualField
+          name="hero_subtitle"
+          label="Subtítulo"
+          language={language}
+          defaultValuePt={content.hero_subtitle}
+          defaultValueEn={enValue('hero_subtitle_en')}
+        />
       </Section>
 
       <Section title="sobre-mim">
-        <div>
-          <Label htmlFor="sobre_texto">Texto</Label>
-          <Textarea id="sobre_texto" name="sobre_texto" defaultValue={content.sobre_texto} rows={6} />
-        </div>
+        <BilingualField
+          name="sobre_texto"
+          label="Texto"
+          language={language}
+          defaultValuePt={content.sobre_texto}
+          defaultValueEn={enValue('sobre_texto_en')}
+          multiline
+          rows={6}
+        />
         <div>
           <Label>Foto</Label>
           <input type="hidden" name="sobre_foto" value={sobreFoto} />
@@ -75,15 +92,15 @@ export function SiteContentForm({
       </Section>
 
       <Section title="serviços">
-        <div>
-          <Label htmlFor="servicos_texto">Texto</Label>
-          <Textarea
-            id="servicos_texto"
-            name="servicos_texto"
-            defaultValue={content.servicos_texto}
-            rows={6}
-          />
-        </div>
+        <BilingualField
+          name="servicos_texto"
+          label="Texto"
+          language={language}
+          defaultValuePt={content.servicos_texto}
+          defaultValueEn={enValue('servicos_texto_en')}
+          multiline
+          rows={6}
+        />
       </Section>
 
       <Section title="contato">
@@ -113,15 +130,13 @@ export function SiteContentForm({
       </Section>
 
       <Section title="status (faixa no topo do site)">
-        <div>
-          <Label htmlFor="status_text">Texto</Label>
-          <Input
-            id="status_text"
-            name="status_text"
-            defaultValue={content.status_text}
-            placeholder="disponível para novos projetos — Itajubá, BR"
-          />
-        </div>
+        <BilingualField
+          name="status_text"
+          label="Texto"
+          language={language}
+          defaultValuePt={content.status_text}
+          defaultValueEn={enValue('status_text_en')}
+        />
         <div>
           <Label htmlFor="status_color">Cor da bolinha</Label>
           <select

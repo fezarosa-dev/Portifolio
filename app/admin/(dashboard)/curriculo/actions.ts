@@ -8,9 +8,13 @@ import {
   deleteResumeLink,
   setResumeLinksOrder,
 } from '@/lib/supabase/admin-queries'
+import { parseBilingualField } from '@/lib/bilingual'
 
 export async function saveResume(formData: FormData) {
-  await upsertResume(String(formData.get('content_md') ?? ''))
+  await upsertResume(
+    String(formData.get('content_md') ?? ''),
+    parseBilingualField(formData, 'content_md')
+  )
   revalidatePath('/admin/curriculo')
   revalidatePath('/curriculo')
 }
@@ -20,7 +24,7 @@ export async function saveResumeLink(formData: FormData) {
   const url = String(formData.get('url') ?? '').trim()
   if (!label || !url) return
 
-  await addResumeLink(label, url)
+  await addResumeLink(label, parseBilingualField(formData, 'label'), url)
   revalidatePath('/admin/curriculo')
   revalidatePath('/curriculo')
 }
@@ -30,7 +34,7 @@ export async function editResumeLink(id: string, formData: FormData) {
   const url = String(formData.get('url') ?? '').trim()
   if (!label || !url) return
 
-  await updateResumeLink(id, label, url)
+  await updateResumeLink(id, label, parseBilingualField(formData, 'label'), url)
   revalidatePath('/admin/curriculo')
   revalidatePath('/curriculo')
 }

@@ -3,7 +3,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getArticleById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
+import { resolveText } from '@/lib/bilingual'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -14,14 +15,21 @@ export async function generateMetadata({
   params: Promise<{ id: string }>
 }): Promise<Metadata> {
   const { id } = await params
-  const [article, content] = await Promise.all([getArticleById(id), getSiteContent()])
+  const [article, content, locale] = await Promise.all([
+    getArticleById(id),
+    getSiteContent(),
+    getLocale(),
+  ])
   if (!article || content.artigos_ativo === 'false') return {}
 
+  const title = resolveText(article.title, article.title_en, locale)
+  const summary = resolveText(article.summary, article.summary_en, locale)
+
   return {
-    title: article.title,
-    description: article.summary || `Artigo de Felipe Zanoni da Rosa: ${article.title}.`,
+    title,
+    description: summary || `Artigo de Felipe Zanoni da Rosa: ${title}.`,
     alternates: { canonical: `/artigos/${article.id}` },
-    openGraph: { type: 'article', title: article.title, siteName: 'Felipe Zanoni da Rosa' },
+    openGraph: { type: 'article', title, siteName: 'Felipe Zanoni da Rosa' },
   }
 }
 
@@ -31,7 +39,7 @@ export default async function ArtigoDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const [article, content, { dict }] = await Promise.all([
+  const [article, content, { dict, locale }] = await Promise.all([
     getArticleById(id),
     getSiteContent(),
     getDictionary(),
@@ -40,12 +48,14 @@ export default async function ArtigoDetailPage({
 
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
+  const title = resolveText(article.title, article.title_en, locale)
+  const contentMd = resolveText(article.content_md, article.content_md_en, locale)
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: article.title,
-    description: article.summary || undefined,
+    headline: title,
+    description: resolveText(article.summary, article.summary_en, locale) || undefined,
     author: { '@type': 'Person', name: 'Felipe Zanoni da Rosa' },
   }
 
@@ -61,10 +71,10 @@ export default async function ArtigoDetailPage({
           {dict.artigos.back}
         </Link>
         <Eyebrow>{dict.artigos.detailEyebrow}</Eyebrow>
-        <h1 className="mt-3 text-4xl font-medium tracking-tight">{article.title}</h1>
+        <h1 className="mt-3 text-4xl font-medium tracking-tight">{title}</h1>
       </FadeIn>
       <div className="mt-10">
-        <MarkdownContent content={article.content_md} driveImages={driveImages} />
+        <MarkdownContent content={contentMd} driveImages={driveImages} />
       </div>
     </main>
   )

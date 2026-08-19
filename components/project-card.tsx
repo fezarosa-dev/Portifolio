@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { deviconIconUrl } from '@/lib/devicon'
 import { joinNames } from '@/lib/utils'
+import { resolveText } from '@/lib/bilingual'
 import type { Project } from '@/lib/supabase/queries'
+import type { Locale } from '@/lib/i18n'
 
 function hostname(url: string) {
   try {
@@ -15,13 +17,17 @@ export function ProjectCard({
   project,
   withLabel = 'com',
   onTechClick,
+  locale = 'pt',
 }: {
   project: Project
   withLabel?: string
   onTechClick?: (languageId: string) => void
+  locale?: Locale
 }) {
   const isExternal = project.click_mode === 'link'
   const href = isExternal ? project.click_url ?? '#' : `/projetos/${project.id}`
+  const title = resolveText(project.title, project.title_en, locale)
+  const summary = resolveText(project.summary, project.summary_en, locale)
 
   return (
     <div className="group rounded-lg border border-hairline bg-card p-6 transition-colors hover:border-signal">
@@ -32,12 +38,12 @@ export function ProjectCard({
         className="block"
       >
         <h3 className="font-display text-lg font-medium tracking-tight">
-          {project.title}
+          {title}
           <span className="ml-1 text-signal opacity-0 transition-opacity group-hover:opacity-100">
             ↗
           </span>
         </h3>
-        <p className="mt-2 text-sm text-steel">{project.summary}</p>
+        <p className="mt-2 text-sm text-steel">{summary}</p>
         {project.authors.length > 0 && (
           <p className="mt-2 font-mono text-xs text-steel">
             {withLabel} {joinNames(project.authors.map((a) => a.name))}

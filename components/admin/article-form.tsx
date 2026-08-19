@@ -8,6 +8,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
+import { LanguageToggle } from '@/components/admin/language-toggle'
+import { BilingualField } from '@/components/admin/bilingual-field'
 import type { Article } from '@/lib/supabase/queries'
 
 export function ArticleForm({
@@ -18,6 +20,7 @@ export function ArticleForm({
   action: (formData: FormData) => Promise<void>
 }) {
   const router = useRouter()
+  const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const [visible, setVisible] = useState(article?.visible ?? true)
 
   async function handleSubmit(formData: FormData) {
@@ -34,20 +37,36 @@ export function ArticleForm({
     <form action={handleSubmit} className="flex flex-col gap-4">
       {article && <input type="hidden" name="id" value={article.id} />}
 
-      <div>
-        <Label htmlFor="title">Título</Label>
-        <Input id="title" name="title" defaultValue={article?.title} required />
-      </div>
+      <LanguageToggle language={language} onChange={setLanguage} />
 
-      <div>
-        <Label htmlFor="summary">Resumo</Label>
-        <Textarea id="summary" name="summary" defaultValue={article?.summary} rows={2} />
-      </div>
+      <BilingualField
+        name="title"
+        label="Título"
+        language={language}
+        defaultValuePt={article?.title}
+        defaultValueEn={article?.title_en}
+        requiredPt
+      />
 
-      <div>
-        <Label htmlFor="content_md">Conteúdo (Markdown)</Label>
-        <Textarea id="content_md" name="content_md" defaultValue={article?.content_md} rows={16} />
-      </div>
+      <BilingualField
+        name="summary"
+        label="Resumo"
+        language={language}
+        defaultValuePt={article?.summary}
+        defaultValueEn={article?.summary_en}
+        multiline
+        rows={2}
+      />
+
+      <BilingualField
+        name="content_md"
+        label="Conteúdo (Markdown)"
+        language={language}
+        defaultValuePt={article?.content_md}
+        defaultValueEn={article?.content_md_en}
+        multiline
+        rows={16}
+      />
 
       <div>
         <Label htmlFor="position">Ordem</Label>

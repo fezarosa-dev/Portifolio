@@ -8,14 +8,18 @@ import {
   setProjectLanguages,
   setProjectAuthors,
 } from '@/lib/supabase/admin-queries'
+import { parseBilingualField } from '@/lib/bilingual'
 
 export async function saveProject(formData: FormData) {
   const id = formData.get('id')
   const project = await upsertProject({
     id: id ? String(id) : undefined,
     title: String(formData.get('title')),
+    title_en: parseBilingualField(formData, 'title'),
     summary: String(formData.get('summary') ?? ''),
+    summary_en: parseBilingualField(formData, 'summary'),
     content_md: String(formData.get('content_md') ?? ''),
+    content_md_en: parseBilingualField(formData, 'content_md'),
     repo_url: String(formData.get('repo_url') ?? '') || null,
     site_url: String(formData.get('site_url') ?? '') || null,
     click_mode: formData.get('click_mode') === 'link' ? 'link' : 'detail',
