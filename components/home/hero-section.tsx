@@ -17,6 +17,10 @@ export function HeroSection({
   languages: Language[]
   whoamiLabel: string
 }) {
+  // estimativa generosa (inclui possíveis erros de digitação) pra garantir que
+  // as tags só apareçam depois que a digitação do subtítulo já tiver terminado
+  const tagsDelay = 0.6 + subtitle.length * 0.09 + 0.4
+
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
       <motion.p
@@ -41,13 +45,13 @@ export function HeroSection({
         transition={{ duration: 0.4, delay: 0.6 }}
         className="mt-4 max-w-xl text-xl text-steel"
       >
-        <Typewriter text={subtitle} startDelay={600} speed={35} />
+        <Typewriter text={subtitle} startDelay={600} />
       </motion.p>
       {languages.length > 0 && (
         <motion.ul
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: tagsDelay, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 flex flex-wrap justify-center gap-2"
         >
           {languages.map((lang) => (

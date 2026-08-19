@@ -1,17 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { buildTypingScript } from '@/lib/typewriter-script'
 
 export function Typewriter({
   text,
   startDelay = 0,
-  speed = 35,
+  speed = 65,
 }: {
   text: string
   startDelay?: number
   speed?: number
 }) {
-  const [count, setCount] = useState(0)
+  const steps = useMemo(() => buildTypingScript(text), [text])
+  const [stepIndex, setStepIndex] = useState(0)
+  const [display, setDisplay] = useState('')
   const [reduceMotion, setReduceMotion] = useState(false)
 
   useEffect(() => {
@@ -20,23 +23,31 @@ export function Typewriter({
 
   useEffect(() => {
     if (reduceMotion) {
-      setCount(text.length)
+      setDisplay(text)
+      setStepIndex(steps.length)
       return
     }
-    if (count >= text.length) return
+    if (stepIndex >= steps.length) return
 
-    const delay = count === 0 ? startDelay : speed
-    const timer = setTimeout(() => setCount((c) => c + 1), delay)
+    const step = steps[stepIndex]
+    const delay = stepIndex === 0 ? startDelay : step.kind === 'pause' ? step.ms : speed
+
+    const timer = setTimeout(() => {
+      if (step.kind === 'type') setDisplay((d) => d + step.char)
+      if (step.kind === 'delete') setDisplay((d) => d.slice(0, -1))
+      setStepIndex((i) => i + 1)
+    }, delay)
+
     return () => clearTimeout(timer)
-  }, [count, text, startDelay, speed, reduceMotion])
+  }, [stepIndex, steps, text, startDelay, speed, reduceMotion])
 
-  const done = count >= text.length
+  const done = stepIndex >= steps.length
 
   return (
     <span>
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
-        {text.slice(0, count)}
+        {display}
         <span
           className={`ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] bg-current ${
             reduceMotion ? 'hidden' : done ? 'animate-blink' : ''
