@@ -1,6 +1,14 @@
 # CocoIndex Code (ccc)
 /.cocoindex_code/
 
+# ferramentas/artefatos de agentes de IA
+GEMINI.md
+.agents/
+.mcp.json
+skills-lock.json
+.playwright-cli/
+docs/superpowers/
+
 # dependencies
 /node_modules
 /.pnp
