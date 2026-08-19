@@ -1,4 +1,5 @@
 import { listMessages } from '@/lib/supabase/admin-queries'
+import { ToastForm } from '@/components/admin/toast-form'
 import { toggleRead, removeMessage } from './actions'
 
 export default async function MensagensPage() {
@@ -31,11 +32,11 @@ export default async function MensagensPage() {
                     marcar como {msg.read ? 'não lida' : 'lida'}
                   </button>
                 </form>
-                <form action={removeMessage.bind(null, msg.id)}>
+                <ToastForm action={removeMessage.bind(null, msg.id)} successMessage="Mensagem excluída">
                   <button type="submit" className="text-destructive hover:underline">
                     excluir
                   </button>
-                </form>
+                </ToastForm>
               </div>
             </li>
           ))}

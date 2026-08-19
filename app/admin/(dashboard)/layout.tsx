@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Toaster } from 'sonner'
 import { signOut } from '../actions'
 import { Button } from '@/components/ui/button'
 
@@ -44,6 +45,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
       <main className="flex-1 bg-background p-6 sm:p-10">{children}</main>
+      <Toaster
+        theme="light"
+        position="bottom-right"
+        toastOptions={{
+          unstyled: false,
+          classNames: {
+            toast:
+              '!bg-card !border !border-hairline !text-foreground !rounded-lg !shadow-lg !font-sans',
+            title: '!font-medium',
+            description: '!text-steel !font-mono !text-xs',
+            actionButton: '!bg-signal !text-white',
+            cancelButton: '!bg-secondary !text-foreground',
+            closeButton: '!bg-card !border !border-hairline !text-steel',
+          },
+        }}
+        icons={{
+          success: <span className="text-status">●</span>,
+          error: <span className="text-destructive">●</span>,
+        }}
+      />
     </div>
   )
 }

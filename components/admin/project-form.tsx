@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -20,13 +22,24 @@ export function ProjectForm({
   availableAuthors: Author[]
   action: (formData: FormData) => Promise<void>
 }) {
+  const router = useRouter()
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
   const [visible, setVisible] = useState(project?.visible ?? true)
   const selectedLanguageIds = new Set(project?.languages.map((l) => l.id) ?? [])
   const selectedAuthorIds = new Set(project?.authors.map((a) => a.id) ?? [])
 
+  async function handleSubmit(formData: FormData) {
+    try {
+      await action(formData)
+      toast.success('Projeto salvo')
+      router.push('/admin/projetos')
+    } catch {
+      toast.error('Não deu pra salvar o projeto. Tenta de novo.')
+    }
+  }
+
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form action={handleSubmit} className="flex flex-col gap-4">
       {project && <input type="hidden" name="id" value={project.id} />}
 
       <div>

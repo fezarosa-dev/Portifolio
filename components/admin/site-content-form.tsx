@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -25,8 +26,17 @@ export function SiteContentForm({
 }) {
   const [sobreFoto, setSobreFoto] = useState(content.sobre_foto ?? '')
 
+  async function handleSubmit(formData: FormData) {
+    try {
+      await action(formData)
+      toast.success('Personalização salva')
+    } catch {
+      toast.error('Não deu pra salvar. Tenta de novo.')
+    }
+  }
+
   return (
-    <form action={action} className="flex max-w-2xl flex-col gap-6">
+    <form action={handleSubmit} className="flex max-w-2xl flex-col gap-6">
       <Section title="hero">
         <div>
           <Label htmlFor="hero_title">Título</Label>

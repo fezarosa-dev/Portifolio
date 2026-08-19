@@ -2,6 +2,7 @@ import { getLanguages } from '@/lib/supabase/queries'
 import { deviconIconUrl } from '@/lib/devicon'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { ToastForm } from '@/components/admin/toast-form'
 import { saveLanguage, removeLanguage, editLanguage, moveLanguage } from './actions'
 
 export default async function TecnologiasPage() {
@@ -16,10 +17,14 @@ export default async function TecnologiasPage() {
         site.
       </p>
 
-      <form action={saveLanguage} className="mb-8 flex max-w-sm gap-2">
+      <ToastForm
+        action={saveLanguage}
+        successMessage="Tecnologia adicionada"
+        className="mb-8 flex max-w-sm gap-2"
+      >
         <Input name="name" placeholder="Nome (ex: Python)" required />
         <Button type="submit">Adicionar</Button>
-      </form>
+      </ToastForm>
 
       <ul className="flex max-w-md flex-col gap-2">
         {languages.map((lang, index) => (
@@ -58,17 +63,21 @@ export default async function TecnologiasPage() {
                 ⚠
               </span>
             )}
-            <form action={editLanguage.bind(null, lang.id)} className="flex flex-1 gap-2">
+            <ToastForm
+              action={editLanguage.bind(null, lang.id)}
+              successMessage="Tecnologia atualizada"
+              className="flex flex-1 gap-2"
+            >
               <Input name="name" defaultValue={lang.name} className="h-8" />
               <Button type="submit" variant="outline" size="sm">
                 Salvar
               </Button>
-            </form>
-            <form action={removeLanguage.bind(null, lang.id)}>
+            </ToastForm>
+            <ToastForm action={removeLanguage.bind(null, lang.id)} successMessage="Tecnologia removida">
               <button type="submit" className="px-1 text-muted-foreground hover:text-destructive">
                 ×
               </button>
-            </form>
+            </ToastForm>
           </li>
         ))}
       </ul>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getAllProjects } from '@/lib/supabase/admin-queries'
 import { Button } from '@/components/ui/button'
+import { ToastForm } from '@/components/admin/toast-form'
 import { removeProject, toggleVisibility } from './actions'
 
 export default async function AdminProjetosPage() {
@@ -55,11 +56,11 @@ export default async function AdminProjetosPage() {
                       >
                         editar
                       </Link>
-                      <form action={removeProject.bind(null, project.id)}>
+                      <ToastForm action={removeProject.bind(null, project.id)} successMessage="Projeto excluído">
                         <button type="submit" className="text-destructive hover:underline">
                           excluir
                         </button>
-                      </form>
+                      </ToastForm>
                     </div>
                   </td>
                 </tr>

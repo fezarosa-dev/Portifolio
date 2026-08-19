@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import {
   upsertProject,
   deleteProject,
@@ -28,7 +27,6 @@ export async function saveProject(formData: FormData) {
   await setProjectAuthors(project.id, formData.getAll('author_ids').map(String))
   revalidatePath('/admin/projetos')
   revalidatePath('/projetos')
-  redirect('/admin/projetos')
 }
 
 export async function removeProject(id: string) {
