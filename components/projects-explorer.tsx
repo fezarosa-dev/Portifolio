@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ProjectCard } from '@/components/project-card'
 import { TechCombobox } from '@/components/tech-combobox'
@@ -119,8 +120,15 @@ export function ProjectsExplorer({
           <p className="text-sm text-muted-foreground">{dict.notFound}</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
-            {visible.map((project) => (
-              <ProjectCard key={project.id} project={project} withLabel={dict.with} />
+            {visible.map((project, i) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ProjectCard project={project} withLabel={dict.with} />
+              </motion.div>
             ))}
           </div>
         )}

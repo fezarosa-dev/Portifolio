@@ -3,6 +3,7 @@ import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
+import { FadeIn } from '@/components/fade-in'
 
 export default async function CurriculoPage() {
   const [resume, content, { dict }] = await Promise.all([
@@ -15,7 +16,9 @@ export default async function CurriculoPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
-      <Eyebrow>{dict.curriculo.eyebrow}</Eyebrow>
+      <FadeIn>
+        <Eyebrow>{dict.curriculo.eyebrow}</Eyebrow>
+      </FadeIn>
       <div className="mt-6">
         <MarkdownContent content={resume} driveImages={driveImages} />
       </div>

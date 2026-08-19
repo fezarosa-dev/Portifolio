@@ -20,7 +20,7 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
         type="button"
         onClick={() => select('pt')}
         aria-current={locale === 'pt'}
-        className={locale === 'pt' ? 'text-signal' : 'text-steel hover:text-foreground'}
+        className={`transition-colors ${locale === 'pt' ? 'text-signal' : 'text-steel hover:text-foreground'}`}
       >
         PT
       </button>

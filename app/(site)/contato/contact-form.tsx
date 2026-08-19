@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -27,7 +28,16 @@ export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   }
 
   if (status === 'sent') {
-    return <p className="font-mono text-sm text-status">{dict.sent}</p>
+    return (
+      <motion.p
+        initial={{ opacity: 0, y: 12, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="font-mono text-sm text-status"
+      >
+        {dict.sent}
+      </motion.p>
+    )
   }
 
   return (
