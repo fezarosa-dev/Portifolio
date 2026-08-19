@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 
 const TABS = [
   { href: '/admin/projetos', label: 'Projetos' },
+  { href: '/admin/linguagens', label: 'Linguagens' },
   { href: '/admin/mensagens', label: 'Mensagens' },
   { href: '/admin/personalizacao', label: 'Personalização' },
   { href: '/admin/curriculo', label: 'Currículo' },

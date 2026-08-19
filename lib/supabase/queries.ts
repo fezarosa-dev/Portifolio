@@ -14,6 +14,26 @@ export type Project = {
   position: number
 }
 
+export type Language = {
+  id: string
+  name: string
+  devicon_slug: string | null
+  devicon_variant: string | null
+  position: number
+}
+
+export async function getLanguages(): Promise<Language[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('languages')
+    .select('*')
+    .order('position', { ascending: true })
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+  return data as Language[]
+}
+
 export async function getVisibleProjects(): Promise<Project[]> {
   const supabase = await createClient()
   const { data, error } = await supabase

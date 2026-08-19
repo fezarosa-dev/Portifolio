@@ -1,10 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { deviconIconUrl } from '@/lib/devicon'
+import type { Language } from '@/lib/supabase/queries'
 
-const STACK = ['Python', 'Linux', 'Docker', 'ROS', 'TypeScript']
-
-export function HeroSection({ title, subtitle }: { title: string; subtitle: string }) {
+export function HeroSection({
+  title,
+  subtitle,
+  languages,
+}: {
+  title: string
+  subtitle: string
+  languages: Language[]
+}) {
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
       <motion.p
@@ -31,21 +39,31 @@ export function HeroSection({ title, subtitle }: { title: string; subtitle: stri
       >
         {subtitle}
       </motion.p>
-      <motion.ul
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-8 flex flex-wrap justify-center gap-2"
-      >
-        {STACK.map((item) => (
-          <li
-            key={item}
-            className="rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel"
-          >
-            {item}
-          </li>
-        ))}
-      </motion.ul>
+      {languages.length > 0 && (
+        <motion.ul
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 flex flex-wrap justify-center gap-2"
+        >
+          {languages.map((lang) => (
+            <li
+              key={lang.id}
+              className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel"
+            >
+              {lang.devicon_slug && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                  alt=""
+                  className="h-3.5 w-3.5"
+                />
+              )}
+              {lang.name}
+            </li>
+          ))}
+        </motion.ul>
+      )}
     </section>
   )
 }

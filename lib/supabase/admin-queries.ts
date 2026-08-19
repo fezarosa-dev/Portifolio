@@ -1,5 +1,28 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Project } from '@/lib/supabase/queries'
+import type { Project, Language } from '@/lib/supabase/queries'
+import { findDeviconIcon } from '@/lib/devicon'
+
+export async function addLanguage(name: string): Promise<Language> {
+  const icon = findDeviconIcon(name)
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('languages')
+    .insert({
+      name: name.trim(),
+      devicon_slug: icon?.slug ?? null,
+      devicon_variant: icon?.variant ?? null,
+    })
+    .select()
+    .single()
+  if (error) throw error
+  return data as Language
+}
+
+export async function deleteLanguage(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('languages').delete().eq('id', id)
+  if (error) throw error
+}
 
 export async function getAllProjects(): Promise<Project[]> {
   const supabase = await createClient()
