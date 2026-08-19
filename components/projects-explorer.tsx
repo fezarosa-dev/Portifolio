@@ -11,7 +11,10 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
   const searchParams = useSearchParams()
 
   const [query, setQuery] = useState('')
-  const [techFilter, setTechFilter] = useState<string | null>(searchParams.get('tech'))
+  const [techFilters, setTechFilters] = useState<string[]>(() => {
+    const tech = searchParams.get('tech')
+    return tech ? tech.split(',').filter(Boolean) : []
+  })
 
   const allLanguages = useMemo(() => {
     const byId = new Map<string, Language>()
@@ -21,13 +24,29 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
     return Array.from(byId.values()).sort((a, b) => a.name.localeCompare(b.name))
   }, [projects])
 
-  function updateTechFilter(id: string | null) {
-    setTechFilter(id)
+  function syncUrl(ids: string[]) {
     const params = new URLSearchParams(searchParams.toString())
-    if (id) params.set('tech', id)
+    if (ids.length > 0) params.set('tech', ids.join(','))
     else params.delete('tech')
     router.replace(params.size > 0 ? `/projetos?${params.toString()}` : '/projetos', {
       scroll: false,
+    })
+  }
+
+  function addTechFilter(id: string) {
+    setTechFilters((prev) => {
+      if (prev.includes(id)) return prev
+      const next = [...prev, id]
+      syncUrl(next)
+      return next
+    })
+  }
+
+  function removeTechFilter(id: string) {
+    setTechFilters((prev) => {
+      const next = prev.filter((techId) => techId !== id)
+      syncUrl(next)
+      return next
     })
   }
 
@@ -41,14 +60,18 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
       )
     }
 
-    if (techFilter) {
-      result = result.filter((p) => p.languages.some((lang) => lang.id === techFilter))
+    if (techFilters.length > 0) {
+      result = result.filter((p) => p.languages.some((lang) => techFilters.includes(lang.id)))
     }
 
     return result
-  }, [projects, query, techFilter])
+  }, [projects, query, techFilters])
 
-  const activeTech = techFilter ? allLanguages.find((l) => l.id === techFilter) : null
+  const activeTechs = techFilters
+    .map((id) => allLanguages.find((l) => l.id === id))
+    .filter((l): l is Language => Boolean(l))
+
+  const comboboxLanguages = allLanguages.filter((l) => !techFilters.includes(l.id))
 
   return (
     <div>
@@ -60,22 +83,24 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
           placeholder="buscar por nome…"
           className="w-full rounded-md border border-hairline bg-background px-3 py-2 text-sm sm:max-w-xs"
         />
-        {allLanguages.length > 0 && (
-          <TechCombobox
-            languages={allLanguages}
-            onSelect={(lang) => updateTechFilter(lang.id)}
-          />
+        {comboboxLanguages.length > 0 && (
+          <TechCombobox languages={comboboxLanguages} onSelect={(lang) => addTechFilter(lang.id)} />
         )}
       </div>
 
-      {activeTech && (
-        <button
-          type="button"
-          onClick={() => updateTechFilter(null)}
-          className="mt-4 flex items-center gap-1.5 font-mono text-xs text-signal"
-        >
-          filtrando por {activeTech.name} <span aria-hidden>×</span>
-        </button>
+      {activeTechs.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {activeTechs.map((lang) => (
+            <button
+              key={lang.id}
+              type="button"
+              onClick={() => removeTechFilter(lang.id)}
+              className="flex items-center gap-1.5 rounded-full border border-signal px-3 py-1 font-mono text-xs text-signal"
+            >
+              {lang.name} <span aria-hidden>×</span>
+            </button>
+          ))}
+        </div>
       )}
 
       <div className="mt-8 min-h-[240px]">
