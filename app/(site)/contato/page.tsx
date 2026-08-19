@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import { getContactLinks } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { ContactForm } from './contact-form'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Contato',
+  description: 'Entre em contato com Felipe Zanoni da Rosa — e-mail, redes e formulário.',
+}
 
 export default async function ContatoPage() {
   const [links, { dict }] = await Promise.all([getContactLinks(), getDictionary()])

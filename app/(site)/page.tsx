@@ -1,8 +1,22 @@
+import type { Metadata } from 'next'
 import { getSiteContent, getVisibleProjects, getLanguages } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { HeroSection } from '@/components/home/hero-section'
 import { AboutTeaser } from '@/components/home/about-teaser'
 import { ProjectsTeaser } from '@/components/home/projects-teaser'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Felipe Zanoni da Rosa',
+  url: 'https://www.zanoni.dev.br',
+  jobTitle: 'Software Engineer',
+  sameAs: ['https://github.com/fezarosa-dev', 'https://www.linkedin.com/in/felipe-zanoni/'],
+}
 
 export default async function HomePage() {
   const [content, projects, languages, { dict }] = await Promise.all([
@@ -14,6 +28,11 @@ export default async function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <HeroSection
         title={content.hero_title ?? ''}
         subtitle={content.hero_subtitle ?? ''}

@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Serviços',
+  description: 'Serviços de desenvolvimento de software oferecidos por Felipe Zanoni da Rosa.',
+}
 
 export default async function ServicosPage() {
   const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])

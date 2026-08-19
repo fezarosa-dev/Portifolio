@@ -1,8 +1,15 @@
+import type { Metadata } from 'next'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId, resolveDriveImageUrl } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Sobre mim',
+  description:
+    'Conheça um pouco sobre Felipe Zanoni da Rosa, desenvolvedor de software.',
+}
 
 export default async function SobrePage() {
   const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])

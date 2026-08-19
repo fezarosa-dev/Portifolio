@@ -1,9 +1,15 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { getVisibleArticles, getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { ArticleCard } from '@/components/article-card'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Artigos',
+  description: 'Artigos escritos por Felipe Zanoni da Rosa sobre desenvolvimento de software.',
+}
 
 export default async function ArtigosPage() {
   const [articles, content, { dict }] = await Promise.all([

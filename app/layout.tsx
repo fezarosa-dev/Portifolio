@@ -19,15 +19,46 @@ const mono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
+const SITE_URL = "https://www.zanoni.dev.br";
+const SITE_NAME = "Felipe Zanoni da Rosa";
+const SITE_DESCRIPTION =
+  "Portfólio de Felipe Zanoni da Rosa, desenvolvedor de software — projetos, artigos, currículo e contato.";
+
 export const metadata: Metadata = {
-  title: "Felipe Zanoni da Rosa — Portfólio",
-  description: "Portfólio de Felipe Zanoni da Rosa",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Portfólio`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "Felipe Zanoni da Rosa",
+    "desenvolvedor de software",
+    "software engineer",
+    "portfólio",
+    "projetos",
+  ],
+  authors: [{ name: SITE_NAME }],
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Portfólio`,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Portfólio`,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      lang="pt-br"
+      lang="pt-BR"
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

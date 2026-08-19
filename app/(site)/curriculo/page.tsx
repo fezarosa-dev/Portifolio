@@ -1,9 +1,15 @@
+import type { Metadata } from 'next'
 import { getResume, getResumeLinks, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Currículo',
+  description: 'Currículo de Felipe Zanoni da Rosa — experiência, formação e habilidades.',
+}
 
 export default async function CurriculoPage() {
   const [resume, links, content, { dict }] = await Promise.all([

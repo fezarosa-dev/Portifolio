@@ -1,9 +1,15 @@
 import { Suspense } from 'react'
+import type { Metadata } from 'next'
 import { getVisibleProjects } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { ProjectsExplorer } from '@/components/projects-explorer'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export const metadata: Metadata = {
+  title: 'Projetos',
+  description: 'Projetos desenvolvidos por Felipe Zanoni da Rosa — código, tecnologias e detalhes.',
+}
 
 export default async function ProjetosPage() {
   const [projects, { dict }] = await Promise.all([getVisibleProjects(), getDictionary()])

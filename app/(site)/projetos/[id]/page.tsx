@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { deviconIconUrl } from '@/lib/devicon'
@@ -8,6 +9,22 @@ import { getDictionary } from '@/lib/i18n'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const project = await getProjectById(id)
+  if (!project || project.click_mode === 'link') return {}
+
+  return {
+    title: project.title,
+    description: project.summary || `Projeto ${project.title}, por Felipe Zanoni da Rosa.`,
+    alternates: { canonical: `/projetos/${project.id}` },
+  }
+}
 
 export default async function ProjetoDetailPage({
   params,

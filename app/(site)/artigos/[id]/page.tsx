@@ -1,11 +1,29 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getArticleById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { getDictionary } from '@/lib/i18n'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const [article, content] = await Promise.all([getArticleById(id), getSiteContent()])
+  if (!article || content.artigos_ativo === 'false') return {}
+
+  return {
+    title: article.title,
+    description: article.summary || `Artigo de Felipe Zanoni da Rosa: ${article.title}.`,
+    alternates: { canonical: `/artigos/${article.id}` },
+    openGraph: { type: 'article', title: article.title, siteName: 'Felipe Zanoni da Rosa' },
+  }
+}
 
 export default async function ArtigoDetailPage({
   params,
@@ -23,8 +41,21 @@ export default async function ArtigoDetailPage({
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.summary || undefined,
+    author: { '@type': 'Person', name: 'Felipe Zanoni da Rosa' },
+  }
+
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <FadeIn>
         <Link href="/artigos" className="font-mono text-xs text-steel hover:text-signal">
           {dict.artigos.back}
