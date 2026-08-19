@@ -144,9 +144,12 @@
     overflow-wrap: break-word;
   }
   /* body é flex (pra empurrar o rodapé pra baixo); sem isso, filhos flex não
-     encolhem menos que o conteúdo mais largo e vazam pra fora da tela */
+     encolhem menos que o conteúdo mais largo (vazando pra fora da tela) e
+     também podem ficar mais estreitos que o esperado quando o conteúdo é
+     pouco, em vez de sempre ocupar 100% da largura */
   body > * {
     min-width: 0;
+    width: 100%;
   }
   img {
     max-width: 100%;
