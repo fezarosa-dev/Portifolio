@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
-import { ResumeLinksReorderList } from '@/components/admin/resume-links-reorder-list'
+import { LinkListReorder } from '@/components/admin/link-list-reorder'
 import {
   saveResume,
   saveResumeLink,
@@ -49,7 +49,7 @@ export default async function CurriculoAdminPage() {
       </ToastForm>
 
       <div className="mt-4">
-        <ResumeLinksReorderList
+        <LinkListReorder
           links={links}
           editAction={editResumeLink}
           removeAction={removeResumeLink}

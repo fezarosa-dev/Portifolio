@@ -6,7 +6,8 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
-import type { ResumeLink } from '@/lib/supabase/queries'
+
+type LabeledLink = { id: string; label: string; url: string }
 
 function GripIcon() {
   return (
@@ -21,13 +22,13 @@ function GripIcon() {
   )
 }
 
-function ResumeLinkRow({
+function LinkRow<T extends LabeledLink>({
   link,
   onDragEnd,
   editAction,
   removeAction,
 }: {
-  link: ResumeLink
+  link: T
   onDragEnd: () => void
   editAction: (id: string, formData: FormData) => Promise<void>
   removeAction: (id: string) => Promise<void>
@@ -71,13 +72,13 @@ function ResumeLinkRow({
   )
 }
 
-export function ResumeLinksReorderList({
+export function LinkListReorder<T extends LabeledLink>({
   links,
   editAction,
   removeAction,
   saveOrderAction,
 }: {
-  links: ResumeLink[]
+  links: T[]
   editAction: (id: string, formData: FormData) => Promise<void>
   removeAction: (id: string) => Promise<void>
   saveOrderAction: (orderedIds: string[]) => Promise<void>
@@ -104,7 +105,7 @@ export function ResumeLinksReorderList({
       className="flex max-w-xl flex-col gap-2"
     >
       {order.map((link) => (
-        <ResumeLinkRow
+        <LinkRow
           key={link.id}
           link={link}
           onDragEnd={handleDragEnd}
