@@ -143,6 +143,11 @@
     overflow-x: hidden;
     overflow-wrap: break-word;
   }
+  /* body é flex (pra empurrar o rodapé pra baixo); sem isso, filhos flex não
+     encolhem menos que o conteúdo mais largo e vazam pra fora da tela */
+  body > * {
+    min-width: 0;
+  }
   img {
     max-width: 100%;
     height: auto;
