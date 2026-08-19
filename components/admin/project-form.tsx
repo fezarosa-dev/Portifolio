@@ -6,7 +6,6 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { DriveImagePicker } from '@/components/drive-image-picker'
 import type { Project } from '@/lib/supabase/queries'
 
 export function ProjectForm({
@@ -17,7 +16,6 @@ export function ProjectForm({
   action: (formData: FormData) => Promise<void>
 }) {
   const [clickMode, setClickMode] = useState<'detail' | 'link'>(project?.click_mode ?? 'detail')
-  const [coverImage, setCoverImage] = useState(project?.cover_image ?? '')
   const [visible, setVisible] = useState(project?.visible ?? true)
 
   return (
@@ -37,12 +35,6 @@ export function ProjectForm({
       <div>
         <Label htmlFor="content_md">Conteúdo (Markdown)</Label>
         <Textarea id="content_md" name="content_md" defaultValue={project?.content_md} rows={12} />
-      </div>
-
-      <div>
-        <Label>Capa</Label>
-        <input type="hidden" name="cover_image" value={coverImage} />
-        <DriveImagePicker value={coverImage} onChange={setCoverImage} />
       </div>
 
       <div>

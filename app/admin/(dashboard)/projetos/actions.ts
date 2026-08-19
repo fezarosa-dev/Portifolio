@@ -15,7 +15,6 @@ export async function saveProject(formData: FormData) {
     title: String(formData.get('title')),
     summary: String(formData.get('summary') ?? ''),
     content_md: String(formData.get('content_md') ?? ''),
-    cover_image: String(formData.get('cover_image') ?? '') || null,
     repo_url: String(formData.get('repo_url') ?? '') || null,
     site_url: String(formData.get('site_url') ?? '') || null,
     click_mode: formData.get('click_mode') === 'link' ? 'link' : 'detail',

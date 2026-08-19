@@ -5,7 +5,6 @@ export type Project = {
   title: string
   summary: string
   content_md: string
-  cover_image: string | null
   repo_url: string | null
   site_url: string | null
   click_mode: 'detail' | 'link'
