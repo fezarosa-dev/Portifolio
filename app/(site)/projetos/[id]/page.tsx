@@ -4,6 +4,7 @@ import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { deviconIconUrl } from '@/lib/devicon'
 import { joinNames } from '@/lib/utils'
+import { getDictionary } from '@/lib/i18n'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 
@@ -17,20 +18,20 @@ export default async function ProjetoDetailPage({
   if (!project) notFound()
   if (project.click_mode === 'link') notFound()
 
-  const content = await getSiteContent()
+  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
   const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
   const driveImages = folderId ? await listDriveImages(folderId) : []
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
       <Link href="/projetos" className="font-mono text-xs text-steel hover:text-signal">
-        ← projetos
+        {dict.projetos.back}
       </Link>
-      <Eyebrow>projeto</Eyebrow>
+      <Eyebrow>{dict.projetos.detailEyebrow}</Eyebrow>
       <h1 className="mt-3 text-4xl font-medium tracking-tight">{project.title}</h1>
       {project.authors.length > 0 && (
         <p className="mt-2 font-mono text-sm text-steel">
-          com {joinNames(project.authors.map((a) => a.name))}
+          {dict.projetos.with} {joinNames(project.authors.map((a) => a.name))}
         </p>
       )}
       {(project.repo_url || project.site_url) && (
@@ -42,7 +43,7 @@ export default async function ProjetoDetailPage({
               rel="noopener noreferrer"
               className="rounded-full border border-hairline px-3 py-1 text-steel hover:border-signal hover:text-signal"
             >
-              repositório ↗
+              {dict.projetos.repo}
             </a>
           )}
           {project.site_url && (
@@ -52,7 +53,7 @@ export default async function ProjetoDetailPage({
               rel="noopener noreferrer"
               className="rounded-full border border-hairline px-3 py-1 text-steel hover:border-signal hover:text-signal"
             >
-              site ↗
+              {dict.projetos.site}
             </a>
           )}
         </div>

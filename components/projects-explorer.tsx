@@ -5,8 +5,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ProjectCard } from '@/components/project-card'
 import { TechCombobox } from '@/components/tech-combobox'
 import type { Project, Language } from '@/lib/supabase/queries'
+import type { Dictionary } from '@/lib/i18n'
 
-export function ProjectsExplorer({ projects }: { projects: Project[] }) {
+export function ProjectsExplorer({
+  projects,
+  dict,
+}: {
+  projects: Project[]
+  dict: Dictionary['projetos']
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -80,11 +87,15 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="buscar por nome…"
+          placeholder={dict.searchPlaceholder}
           className="w-full rounded-md border border-hairline bg-background px-3 py-2 text-sm sm:max-w-xs"
         />
         {comboboxLanguages.length > 0 && (
-          <TechCombobox languages={comboboxLanguages} onSelect={(lang) => addTechFilter(lang.id)} />
+          <TechCombobox
+            languages={comboboxLanguages}
+            onSelect={(lang) => addTechFilter(lang.id)}
+            placeholder={dict.techPlaceholder}
+          />
         )}
       </div>
 
@@ -106,12 +117,12 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
       <div className="mt-8 min-h-[320px]">
         {visible.length === 0 ? (
           <div className="flex min-h-[320px] items-center justify-center rounded-lg border border-hairline bg-card p-6 text-sm text-muted-foreground">
-            Nenhum projeto encontrado.
+            {dict.notFound}
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
             {visible.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} withLabel={dict.with} />
             ))}
           </div>
         )}

@@ -1,0 +1,146 @@
+export type Locale = 'pt' | 'en'
+
+export type Dictionary = {
+  nav: {
+    links: { href: string; label: string }[]
+    menuOpen: string
+    menuClose: string
+  }
+  footer: {
+    email: string
+    github: string
+    linkedin: string
+  }
+  home: {
+    whoami: string
+    aboutEyebrow: string
+    projectsEyebrow: string
+    projectsHeading: string
+    seeAll: string
+  }
+  sobre: { eyebrow: string; title: string }
+  servicos: { eyebrow: string; title: string }
+  projetos: {
+    eyebrow: string
+    title: string
+    detailEyebrow: string
+    back: string
+    searchPlaceholder: string
+    techPlaceholder: string
+    notFound: string
+    with: string
+    repo: string
+    site: string
+  }
+  contato: {
+    eyebrow: string
+    title: string
+    namePlaceholder: string
+    emailPlaceholder: string
+    messagePlaceholder: string
+    send: string
+    sending: string
+    sent: string
+    error: string
+  }
+  curriculo: { eyebrow: string }
+}
+
+export const dictionaries: Record<Locale, Dictionary> = {
+  pt: {
+    nav: {
+      links: [
+        { href: '/', label: 'Início' },
+        { href: '/sobre', label: 'Sobre mim' },
+        { href: '/servicos', label: 'Serviços' },
+        { href: '/projetos', label: 'Projetos' },
+        { href: '/contato', label: 'Contato' },
+        { href: '/curriculo', label: 'Currículo' },
+      ],
+      menuOpen: 'Abrir menu',
+      menuClose: 'Fechar menu',
+    },
+    footer: { email: 'e-mail', github: 'github', linkedin: 'linkedin' },
+    home: {
+      whoami: '$ whoami',
+      aboutEyebrow: 'sobre',
+      projectsEyebrow: 'projetos',
+      projectsHeading: 'Coisas que construí',
+      seeAll: 'ver todos os projetos →',
+    },
+    sobre: { eyebrow: 'sobre-mim', title: 'Sobre mim' },
+    servicos: { eyebrow: 'serviços', title: 'Serviços' },
+    projetos: {
+      eyebrow: 'projetos',
+      title: 'Projetos',
+      detailEyebrow: 'projeto',
+      back: '← projetos',
+      searchPlaceholder: 'buscar por nome…',
+      techPlaceholder: 'buscar tecnologia…',
+      notFound: 'Nenhum projeto encontrado.',
+      with: 'com',
+      repo: 'repositório ↗',
+      site: 'site ↗',
+    },
+    contato: {
+      eyebrow: 'contato',
+      title: 'Vamos conversar',
+      namePlaceholder: 'Seu nome',
+      emailPlaceholder: 'Seu e-mail',
+      messagePlaceholder: 'Sua mensagem',
+      send: 'Enviar',
+      sending: 'Enviando...',
+      sent: '✓ mensagem enviada — obrigado pelo contato, retorno em breve.',
+      error: '✗ erro ao enviar, tente de novo.',
+    },
+    curriculo: { eyebrow: 'currículo' },
+  },
+  en: {
+    nav: {
+      links: [
+        { href: '/', label: 'Home' },
+        { href: '/sobre', label: 'About' },
+        { href: '/servicos', label: 'Services' },
+        { href: '/projetos', label: 'Projects' },
+        { href: '/contato', label: 'Contact' },
+        { href: '/curriculo', label: 'Resume' },
+      ],
+      menuOpen: 'Open menu',
+      menuClose: 'Close menu',
+    },
+    footer: { email: 'email', github: 'github', linkedin: 'linkedin' },
+    home: {
+      whoami: '$ whoami',
+      aboutEyebrow: 'about',
+      projectsEyebrow: 'projects',
+      projectsHeading: 'Things I built',
+      seeAll: 'see all projects →',
+    },
+    sobre: { eyebrow: 'about-me', title: 'About me' },
+    servicos: { eyebrow: 'services', title: 'Services' },
+    projetos: {
+      eyebrow: 'projects',
+      title: 'Projects',
+      detailEyebrow: 'project',
+      back: '← projects',
+      searchPlaceholder: 'search by name…',
+      techPlaceholder: 'search technology…',
+      notFound: 'No projects found.',
+      with: 'with',
+      repo: 'repository ↗',
+      site: 'website ↗',
+    },
+    contato: {
+      eyebrow: 'contact',
+      title: "Let's talk",
+      namePlaceholder: 'Your name',
+      emailPlaceholder: 'Your email',
+      messagePlaceholder: 'Your message',
+      send: 'Send',
+      sending: 'Sending...',
+      sent: "✓ message sent — thanks for reaching out, I'll get back to you soon.",
+      error: '✗ failed to send, please try again.',
+    },
+    curriculo: { eyebrow: 'resume' },
+  },
+}

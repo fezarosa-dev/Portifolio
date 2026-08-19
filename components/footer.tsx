@@ -1,11 +1,12 @@
 import { getSiteContent } from '@/lib/supabase/queries'
+import { getDictionary } from '@/lib/i18n'
 
 export async function Footer() {
-  const content = await getSiteContent()
+  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
   const links = [
-    content.contato_email && { href: `mailto:${content.contato_email}`, label: 'e-mail' },
-    content.link_github && { href: content.link_github, label: 'github' },
-    content.link_linkedin && { href: content.link_linkedin, label: 'linkedin' },
+    content.contato_email && { href: `mailto:${content.contato_email}`, label: dict.footer.email },
+    content.link_github && { href: content.link_github, label: dict.footer.github },
+    content.link_linkedin && { href: content.link_linkedin, label: dict.footer.linkedin },
   ].filter(Boolean) as { href: string; label: string }[]
 
   return (

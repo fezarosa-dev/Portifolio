@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { deviconIconUrl } from '@/lib/devicon'
 import type { Language } from '@/lib/supabase/queries'
 
@@ -8,10 +9,12 @@ export function HeroSection({
   title,
   subtitle,
   languages,
+  whoamiLabel,
 }: {
   title: string
   subtitle: string
   languages: Language[]
+  whoamiLabel: string
 }) {
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
@@ -21,7 +24,7 @@ export function HeroSection({
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="font-mono text-sm text-signal"
       >
-        $ whoami
+        {whoamiLabel}
       </motion.p>
       <motion.h1
         initial={{ opacity: 0, y: 24 }}
@@ -47,19 +50,22 @@ export function HeroSection({
           className="mt-8 flex flex-wrap justify-center gap-2"
         >
           {languages.map((lang) => (
-            <li
-              key={lang.id}
-              className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel"
-            >
-              {lang.devicon_slug && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
-                  alt=""
-                  className="h-3.5 w-3.5"
-                />
-              )}
-              {lang.name}
+            <li key={lang.id}>
+              <Link
+                href={`/projetos?tech=${lang.id}`}
+                title={`Ver projetos com ${lang.name}`}
+                className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel transition-colors hover:border-signal hover:text-signal"
+              >
+                {lang.devicon_slug && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    alt=""
+                    className="h-3.5 w-3.5"
+                  />
+                )}
+                {lang.name}
+              </Link>
             </li>
           ))}
         </motion.ul>

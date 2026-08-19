@@ -3,7 +3,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-export function MobileNav({ links }: { links: { href: string; label: string }[] }) {
+export function MobileNav({
+  links,
+  openLabel,
+  closeLabel,
+}: {
+  links: { href: string; label: string }[]
+  openLabel: string
+  closeLabel: string
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -11,7 +19,7 @@ export function MobileNav({ links }: { links: { href: string; label: string }[] 
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+        aria-label={open ? closeLabel : openLabel}
         aria-expanded={open}
         className="flex h-8 w-8 flex-col items-center justify-center gap-1.5"
       >

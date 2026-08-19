@@ -1,15 +1,8 @@
 import Link from 'next/link'
 import { getSiteContent } from '@/lib/supabase/queries'
+import { getDictionary } from '@/lib/i18n'
 import { MobileNav } from '@/components/mobile-nav'
-
-const LINKS = [
-  { href: '/', label: 'Início' },
-  { href: '/sobre', label: 'Sobre mim' },
-  { href: '/servicos', label: 'Serviços' },
-  { href: '/projetos', label: 'Projetos' },
-  { href: '/contato', label: 'Contato' },
-  { href: '/curriculo', label: 'Currículo' },
-]
+import { LanguageSwitch } from '@/components/language-switch'
 
 const STATUS_COLORS: Record<string, string> = {
   green: '#2FAE66',
@@ -19,7 +12,7 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export async function Nav() {
-  const content = await getSiteContent()
+  const [content, { locale, dict }] = await Promise.all([getSiteContent(), getDictionary()])
   const statusText = content.status_text || 'disponível para novos projetos'
   const statusColor = STATUS_COLORS[content.status_color] ?? STATUS_COLORS.green
 
@@ -32,13 +25,16 @@ export async function Nav() {
           aria-hidden
         />
         <span className="truncate">{statusText}</span>
+        <span className="ml-auto">
+          <LanguageSwitch locale={locale} />
+        </span>
       </div>
       <nav className="relative flex items-center justify-between px-6 py-4">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
           zanoni<span className="text-signal">.dev.br</span>
         </Link>
         <ul className="hidden gap-5 text-sm md:flex md:gap-7">
-          {LINKS.map((link) => (
+          {dict.nav.links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -49,7 +45,10 @@ export async function Nav() {
             </li>
           ))}
         </ul>
-        <MobileNav links={LINKS} />
+        <div className="flex items-center gap-4 md:hidden">
+          <LanguageSwitch locale={locale} />
+          <MobileNav links={dict.nav.links} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
+        </div>
       </nav>
     </div>
   )

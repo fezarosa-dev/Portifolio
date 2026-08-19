@@ -6,12 +6,24 @@ import { Eyebrow } from '@/components/eyebrow'
 import { ProjectCard } from '@/components/project-card'
 import type { Project } from '@/lib/supabase/queries'
 
-export function ProjectsTeaser({ projects }: { projects: Project[] }) {
+export function ProjectsTeaser({
+  projects,
+  eyebrow,
+  heading,
+  seeAll,
+  withLabel,
+}: {
+  projects: Project[]
+  eyebrow: string
+  heading: string
+  seeAll: string
+  withLabel: string
+}) {
   return (
     <section className="border-t border-hairline px-6 py-24">
       <div className="mx-auto max-w-4xl">
-        <Eyebrow>projetos</Eyebrow>
-        <h2 className="mt-3 text-3xl font-medium tracking-tight">Coisas que construí</h2>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 className="mt-3 text-3xl font-medium tracking-tight">{heading}</h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {projects.slice(0, 4).map((project, i) => (
             <motion.div
@@ -21,13 +33,13 @@ export function ProjectsTeaser({ projects }: { projects: Project[] }) {
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProjectCard project={project} />
+              <ProjectCard project={project} withLabel={withLabel} />
             </motion.div>
           ))}
         </div>
         <div className="mt-10">
           <Link href="/projetos" className="font-mono text-sm text-signal hover:underline">
-            ver todos os projetos →
+            {seeAll}
           </Link>
         </div>
       </div>

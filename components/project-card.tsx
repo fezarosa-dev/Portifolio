@@ -11,7 +11,13 @@ function hostname(url: string) {
   }
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  withLabel = 'com',
+}: {
+  project: Project
+  withLabel?: string
+}) {
   const isExternal = project.click_mode === 'link'
   const href = isExternal ? project.click_url ?? '#' : `/projetos/${project.id}`
 
@@ -32,7 +38,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <p className="mt-2 text-sm text-steel">{project.summary}</p>
         {project.authors.length > 0 && (
           <p className="mt-2 font-mono text-xs text-steel">
-            com {joinNames(project.authors.map((a) => a.name))}
+            {withLabel} {joinNames(project.authors.map((a) => a.name))}
           </p>
         )}
         {(project.repo_url || project.site_url) && (

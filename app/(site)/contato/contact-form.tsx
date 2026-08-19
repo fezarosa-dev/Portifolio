@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import type { Dictionary } from '@/lib/i18n'
 
-export function ContactForm() {
+export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -26,24 +27,18 @@ export function ContactForm() {
   }
 
   if (status === 'sent') {
-    return (
-      <p className="font-mono text-sm text-status">
-        ✓ mensagem enviada — obrigado pelo contato, retorno em breve.
-      </p>
-    )
+    return <p className="font-mono text-sm text-status">{dict.sent}</p>
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4">
-      <Input name="name" placeholder="Seu nome" required />
-      <Input name="email" type="email" placeholder="Seu e-mail" required />
-      <Textarea name="message" placeholder="Sua mensagem" required rows={5} />
+      <Input name="name" placeholder={dict.namePlaceholder} required />
+      <Input name="email" type="email" placeholder={dict.emailPlaceholder} required />
+      <Textarea name="message" placeholder={dict.messagePlaceholder} required rows={5} />
       <Button type="submit" disabled={status === 'sending'} className="w-fit">
-        {status === 'sending' ? 'Enviando...' : 'Enviar'}
+        {status === 'sending' ? dict.sending : dict.send}
       </Button>
-      {status === 'error' && (
-        <p className="font-mono text-sm text-destructive">✗ erro ao enviar, tente de novo.</p>
-      )}
+      {status === 'error' && <p className="font-mono text-sm text-destructive">{dict.error}</p>}
     </form>
   )
 }

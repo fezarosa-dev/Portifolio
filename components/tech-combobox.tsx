@@ -7,9 +7,11 @@ import type { Language } from '@/lib/supabase/queries'
 export function TechCombobox({
   languages,
   onSelect,
+  placeholder,
 }: {
   languages: Language[]
   onSelect: (language: Language) => void
+  placeholder: string
 }) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
@@ -39,7 +41,7 @@ export function TechCombobox({
           setOpen(true)
         }}
         onFocus={() => setOpen(true)}
-        placeholder="buscar tecnologia…"
+        placeholder={placeholder}
         className="w-full rounded-md border border-hairline bg-background px-3 py-2 text-sm sm:w-56"
       />
       {open && matches.length > 0 && (
