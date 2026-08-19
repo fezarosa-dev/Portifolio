@@ -1,14 +1,15 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { getVisibleProjects } from '@/lib/supabase/queries'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
 import { ProjectsExplorer } from '@/components/projects-explorer'
+import { PAGE_SEO } from '@/lib/seo'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
-export const metadata: Metadata = {
-  title: 'Projetos',
-  description: 'Projetos desenvolvidos por Felipe Zanoni da Rosa — código, tecnologias e detalhes.',
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = PAGE_SEO.projetos[await getLocale()]
+  return { title: seo.title, description: seo.description, alternates: { canonical: '/projetos' } }
 }
 
 export default async function ProjetosPage() {

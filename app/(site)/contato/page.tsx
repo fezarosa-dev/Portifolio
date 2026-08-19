@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import { getContactLinks } from '@/lib/supabase/queries'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { PAGE_SEO } from '@/lib/seo'
 import { ContactForm } from './contact-form'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
-export const metadata: Metadata = {
-  title: 'Contato',
-  description: 'Entre em contato com Felipe Zanoni da Rosa — e-mail, redes e formulário.',
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = PAGE_SEO.contato[await getLocale()]
+  return { title: seo.title, description: seo.description, alternates: { canonical: '/contato' } }
 }
 
 export default async function ContatoPage() {

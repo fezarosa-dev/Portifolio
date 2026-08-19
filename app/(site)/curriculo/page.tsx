@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
 import { getResume, getResumeLinks, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { PAGE_SEO } from '@/lib/seo'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
-export const metadata: Metadata = {
-  title: 'Currículo',
-  description: 'Currículo de Felipe Zanoni da Rosa — experiência, formação e habilidades.',
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = PAGE_SEO.curriculo[await getLocale()]
+  return { title: seo.title, description: seo.description, alternates: { canonical: '/curriculo' } }
 }
 
 export default async function CurriculoPage() {

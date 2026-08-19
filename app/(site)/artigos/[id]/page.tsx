@@ -25,11 +25,20 @@ export async function generateMetadata({
   const title = resolveText(article.title, article.title_en, locale)
   const summary = resolveText(article.summary, article.summary_en, locale)
 
+  const description = summary || `Artigo de Felipe Zanoni da Rosa: ${title}.`
+
   return {
     title,
-    description: summary || `Artigo de Felipe Zanoni da Rosa: ${title}.`,
+    description,
     alternates: { canonical: `/artigos/${article.id}` },
-    openGraph: { type: 'article', title, siteName: 'Felipe Zanoni da Rosa' },
+    openGraph: {
+      type: 'article',
+      locale: locale === 'en' ? 'en_US' : 'pt_BR',
+      url: `https://www.zanoni.dev.br/artigos/${article.id}`,
+      siteName: 'Felipe Zanoni da Rosa',
+      title,
+      description,
+    },
   }
 }
 

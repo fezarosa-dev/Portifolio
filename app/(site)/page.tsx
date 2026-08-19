@@ -10,15 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Felipe Zanoni da Rosa',
-  url: 'https://www.zanoni.dev.br',
-  jobTitle: 'Software Engineer',
-  sameAs: ['https://github.com/fezarosa-dev', 'https://www.linkedin.com/in/felipe-zanoni/'],
-}
-
 export default async function HomePage() {
   const [content, projects, languages, { dict, locale }] = await Promise.all([
     getSiteContent(),
@@ -26,6 +17,16 @@ export default async function HomePage() {
     getLanguages(),
     getDictionary(),
   ])
+
+  const heroSubtitle = resolveText(content.hero_subtitle ?? '', content.hero_subtitle_en, locale)
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Felipe Zanoni da Rosa',
+    url: 'https://www.zanoni.dev.br',
+    jobTitle: heroSubtitle || 'Software Engineer',
+    sameAs: ['https://github.com/fezarosa-dev', 'https://www.linkedin.com/in/felipe-zanoni/'],
+  }
 
   return (
     <>
@@ -36,7 +37,7 @@ export default async function HomePage() {
       />
       <HeroSection
         title={resolveText(content.hero_title ?? '', content.hero_title_en, locale)}
-        subtitle={resolveText(content.hero_subtitle ?? '', content.hero_subtitle_en, locale)}
+        subtitle={heroSubtitle}
         languages={languages}
         whoamiLabel={dict.home.whoami}
       />

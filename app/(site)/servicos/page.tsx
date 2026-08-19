@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { getSiteContent } from '@/lib/supabase/queries'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { PAGE_SEO } from '@/lib/seo'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
-export const metadata: Metadata = {
-  title: 'Serviços',
-  description: 'Serviços de desenvolvimento de software oferecidos por Felipe Zanoni da Rosa.',
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = PAGE_SEO.servicos[await getLocale()]
+  return { title: seo.title, description: seo.description, alternates: { canonical: '/servicos' } }
 }
 
 export default async function ServicosPage() {
