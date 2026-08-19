@@ -35,19 +35,11 @@ export function HeroSection({
       >
         {title}
       </motion.h1>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.6 }}
-        className="mt-4 max-w-xl text-xl text-steel"
-      >
-        <Typewriter text={subtitle} startDelay={600} />
-      </motion.p>
       {languages.length > 0 && (
         <motion.ul
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 flex flex-wrap justify-center gap-2"
         >
           {languages.map((lang) => (
@@ -71,6 +63,14 @@ export function HeroSection({
           ))}
         </motion.ul>
       )}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.9 }}
+        className="mt-4 max-w-xl text-xl text-steel"
+      >
+        <Typewriter text={subtitle} startDelay={900} />
+      </motion.p>
     </section>
   )
 }
