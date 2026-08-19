@@ -14,7 +14,7 @@ export function MarkdownContent({
 }) {
   return (
     <div className="prose prose-invert max-w-none">
-      <ReactMarkdown remarkPlugins={[remarkGfm, remarkDriveImages(driveImages)]}>
+      <ReactMarkdown remarkPlugins={[remarkGfm, [remarkDriveImages, driveImages]]}>
         {content}
       </ReactMarkdown>
     </div>
