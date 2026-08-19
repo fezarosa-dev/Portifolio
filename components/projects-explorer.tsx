@@ -103,9 +103,11 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
         </div>
       )}
 
-      <div className="mt-8 min-h-[240px]">
+      <div className="mt-8 min-h-[320px]">
         {visible.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Nenhum projeto encontrado.</p>
+          <div className="flex min-h-[320px] items-center justify-center rounded-lg border border-hairline bg-card p-6 text-sm text-muted-foreground">
+            Nenhum projeto encontrado.
+          </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
             {visible.map((project) => (
