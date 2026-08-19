@@ -5,7 +5,7 @@ import {
   addLanguage,
   deleteLanguage,
   updateLanguage,
-  reorderLanguage,
+  setLanguagesOrder,
 } from '@/lib/supabase/admin-queries'
 
 export async function saveLanguage(formData: FormData) {
@@ -32,8 +32,8 @@ export async function removeLanguage(id: string) {
   revalidatePath('/')
 }
 
-export async function moveLanguage(id: string, direction: 'up' | 'down') {
-  await reorderLanguage(id, direction)
+export async function saveLanguagesOrder(orderedIds: string[]) {
+  await setLanguagesOrder(orderedIds)
   revalidatePath('/admin/tecnologias')
   revalidatePath('/')
 }

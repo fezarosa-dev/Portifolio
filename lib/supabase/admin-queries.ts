@@ -25,28 +25,16 @@ export async function addLanguage(name: string): Promise<Language> {
   return data as Language
 }
 
-export async function reorderLanguage(id: string, direction: 'up' | 'down'): Promise<void> {
+export async function setLanguagesOrder(orderedIds: string[]): Promise<void> {
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .from('languages')
-    .select('id, position')
-    .order('position', { ascending: true })
-    .order('created_at', { ascending: true })
-  if (error) throw error
-
-  const index = data.findIndex((row) => row.id === id)
-  const swapIndex = direction === 'up' ? index - 1 : index + 1
-  if (index === -1 || swapIndex < 0 || swapIndex >= data.length) return
-
-  const current = data[index]
-  const swap = data[swapIndex]
-
-  const [res1, res2] = await Promise.all([
-    supabase.from('languages').update({ position: swap.position }).eq('id', current.id),
-    supabase.from('languages').update({ position: current.position }).eq('id', swap.id),
-  ])
-  if (res1.error) throw res1.error
-  if (res2.error) throw res2.error
+  const results = await Promise.all(
+    orderedIds.map((id, position) =>
+      supabase.from('languages').update({ position }).eq('id', id)
+    )
+  )
+  for (const result of results) {
+    if (result.error) throw result.error
+  }
 }
 
 export async function deleteLanguage(id: string): Promise<void> {
