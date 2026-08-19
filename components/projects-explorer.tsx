@@ -78,15 +78,17 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
         </button>
       )}
 
-      {visible.length === 0 ? (
-        <p className="mt-10 text-sm text-muted-foreground">Nenhum projeto encontrado.</p>
-      ) : (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
-          {visible.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      )}
+      <div className="mt-8 min-h-[240px]">
+        {visible.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Nenhum projeto encontrado.</p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2">
+            {visible.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
