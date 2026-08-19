@@ -1,28 +1,34 @@
 import type { Locale } from '@/lib/i18n/dictionaries'
 
 /**
- * Fallback nos dois sentidos: se o idioma da vez estiver vazio, usa o outro
- * (dá pra escrever só em en e deixar pt em branco, ou vice-versa).
- *
- * en é null quando ainda não foi decidido -> cai pro pt normalmente.
- * en é string (inclusive '') quando foi definido explicitamente no admin —
- * nesse caso vale como está, mesmo vazia (checkbox "sem tradução").
+ * pt e en são totalmente simétricos: cada um pode ser
+ *   null       -> não decidido, cai pro outro idioma se ele tiver texto
+ *   '' (vazio) -> definido como "sem tradução" de propósito, não cai pro outro
+ *   texto      -> usa esse texto
  */
-export function resolveText(pt: string, en: string | null | undefined, locale: Locale): string {
-  if (locale === 'en') {
-    if (en !== null && en !== undefined) return en
-    return pt
-  }
-  return pt || (en ?? '')
+export function resolveText(
+  pt: string | null | undefined,
+  en: string | null | undefined,
+  locale: Locale
+): string {
+  const primary = locale === 'en' ? en : pt
+  const fallback = locale === 'en' ? pt : en
+  if (primary !== null && primary !== undefined) return primary
+  return fallback ?? ''
 }
 
-/**
- * Lê o valor de um BilingualField (name/_en/_en_blank) de um FormData de admin.
- * Texto preenchido -> usa ele. Vazio + checkbox "sem tradução" -> string vazia
- * (mostra em branco de propósito). Vazio sem o checkbox -> null (cai pro pt).
- */
-export function parseBilingualField(formData: FormData, name: string): string | null {
-  const enValue = String(formData.get(`${name}_en`) ?? '').trim()
-  if (enValue) return enValue
-  return formData.get(`${name}_en_blank`) === 'true' ? '' : null
+function parseSide(formData: FormData, fieldName: string, blankName: string): string | null {
+  const value = String(formData.get(fieldName) ?? '').trim()
+  if (value) return value
+  return formData.get(blankName) === 'true' ? '' : null
+}
+
+/** Lê o lado PT de um BilingualField (name/name_blank) de um FormData de admin. */
+export function parseBilingualPt(formData: FormData, name: string): string | null {
+  return parseSide(formData, name, `${name}_blank`)
+}
+
+/** Lê o lado EN de um BilingualField (name_en/name_en_blank) de um FormData de admin. */
+export function parseBilingualEn(formData: FormData, name: string): string | null {
+  return parseSide(formData, `${name}_en`, `${name}_en_blank`)
 }

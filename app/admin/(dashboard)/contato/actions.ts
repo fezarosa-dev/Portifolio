@@ -7,24 +7,23 @@ import {
   deleteContactLink,
   setContactLinksOrder,
 } from '@/lib/supabase/admin-queries'
-import { parseBilingualField } from '@/lib/bilingual'
+import { parseBilingualPt, parseBilingualEn } from '@/lib/bilingual'
 
 export async function saveContactLink(formData: FormData) {
   const label = String(formData.get('label') ?? '').trim()
   const url = String(formData.get('url') ?? '').trim()
   if (!label || !url) return
 
-  await addContactLink(label, parseBilingualField(formData, 'label'), url)
+  await addContactLink(label, parseBilingualEn(formData, 'label'), url)
   revalidatePath('/admin/contato')
   revalidatePath('/contato')
 }
 
 export async function editContactLink(id: string, formData: FormData) {
-  const label = String(formData.get('label') ?? '').trim()
   const url = String(formData.get('url') ?? '').trim()
-  if (!label || !url) return
+  if (!url) return
 
-  await updateContactLink(id, label, parseBilingualField(formData, 'label'), url)
+  await updateContactLink(id, parseBilingualPt(formData, 'label'), parseBilingualEn(formData, 'label'), url)
   revalidatePath('/admin/contato')
   revalidatePath('/contato')
 }

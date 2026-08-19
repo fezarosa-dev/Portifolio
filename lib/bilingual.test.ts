@@ -1,56 +1,80 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { resolveText, parseBilingualField } from './bilingual.ts'
+import { resolveText, parseBilingualPt, parseBilingualEn } from './bilingual.ts'
 
-test('locale pt com texto em pt preenchido retorna o pt, independente do en', () => {
+test('locale pt com pt preenchido retorna o pt, independente do en', () => {
   assert.equal(resolveText('Olá', 'Hello', 'pt'), 'Olá')
   assert.equal(resolveText('Olá', null, 'pt'), 'Olá')
   assert.equal(resolveText('Olá', '', 'pt'), 'Olá')
 })
 
-test('locale pt com pt vazio cai pro en (fallback no sentido contrário)', () => {
-  assert.equal(resolveText('', 'Hello', 'pt'), 'Hello')
-})
-
-test('locale pt com pt e en vazios/ausentes retorna vazio', () => {
-  assert.equal(resolveText('', null, 'pt'), '')
-  assert.equal(resolveText('', '', 'pt'), '')
-  assert.equal(resolveText('', undefined, 'pt'), '')
-})
-
-test('locale en com tradução preenchida retorna a tradução', () => {
+test('locale en com en preenchido retorna o en, independente do pt', () => {
   assert.equal(resolveText('Olá', 'Hello', 'en'), 'Hello')
+  assert.equal(resolveText(null, 'Hello', 'en'), 'Hello')
+  assert.equal(resolveText('', 'Hello', 'en'), 'Hello')
 })
 
-test('locale en sem tradução (null) cai pro pt', () => {
+test('locale pt com pt não decidido (null) cai pro en, se houver', () => {
+  assert.equal(resolveText(null, 'Hello', 'pt'), 'Hello')
+  assert.equal(resolveText(undefined, 'Hello', 'pt'), 'Hello')
+})
+
+test('locale en com en não decidido (null) cai pro pt, se houver', () => {
   assert.equal(resolveText('Olá', null, 'en'), 'Olá')
   assert.equal(resolveText('Olá', undefined, 'en'), 'Olá')
 })
 
-test('locale en com tradução explicitamente vazia mostra vazio, não cai pro pt', () => {
+test('lado explicitamente vazio (\'\') não cai pro outro', () => {
+  assert.equal(resolveText('', 'Hello', 'pt'), '')
   assert.equal(resolveText('Olá', '', 'en'), '')
 })
 
-test('parseBilingualField: texto em en preenchido retorna o texto', () => {
+test('os dois ausentes/vazios retorna vazio', () => {
+  assert.equal(resolveText(null, null, 'pt'), '')
+  assert.equal(resolveText(null, null, 'en'), '')
+  assert.equal(resolveText('', '', 'pt'), '')
+})
+
+test('parseBilingualPt: texto preenchido retorna o texto', () => {
+  const fd = new FormData()
+  fd.set('title', 'Olá')
+  assert.equal(parseBilingualPt(fd, 'title'), 'Olá')
+})
+
+test('parseBilingualPt: vazio sem checkbox retorna null (cai pro en)', () => {
+  const fd = new FormData()
+  fd.set('title', '')
+  assert.equal(parseBilingualPt(fd, 'title'), null)
+})
+
+test('parseBilingualPt: vazio com checkbox "sem texto" retorna string vazia', () => {
+  const fd = new FormData()
+  fd.set('title', '')
+  fd.set('title_blank', 'true')
+  assert.equal(parseBilingualPt(fd, 'title'), '')
+})
+
+test('parseBilingualEn: texto preenchido retorna o texto', () => {
   const fd = new FormData()
   fd.set('title_en', 'Hello')
-  assert.equal(parseBilingualField(fd, 'title'), 'Hello')
+  assert.equal(parseBilingualEn(fd, 'title'), 'Hello')
 })
 
-test('parseBilingualField: vazio sem checkbox retorna null (cai pro pt)', () => {
+test('parseBilingualEn: vazio sem checkbox retorna null (cai pro pt)', () => {
   const fd = new FormData()
   fd.set('title_en', '')
-  assert.equal(parseBilingualField(fd, 'title'), null)
+  assert.equal(parseBilingualEn(fd, 'title'), null)
 })
 
-test('parseBilingualField: vazio com checkbox "sem tradução" retorna string vazia', () => {
+test('parseBilingualEn: vazio com checkbox "sem tradução" retorna string vazia', () => {
   const fd = new FormData()
   fd.set('title_en', '')
   fd.set('title_en_blank', 'true')
-  assert.equal(parseBilingualField(fd, 'title'), '')
+  assert.equal(parseBilingualEn(fd, 'title'), '')
 })
 
-test('parseBilingualField: campo _en ausente do FormData também cai pro pt', () => {
+test('parseBilingualPt/En: campos ausentes do FormData também caem pro outro lado', () => {
   const fd = new FormData()
-  assert.equal(parseBilingualField(fd, 'title'), null)
+  assert.equal(parseBilingualPt(fd, 'title'), null)
+  assert.equal(parseBilingualEn(fd, 'title'), null)
 })

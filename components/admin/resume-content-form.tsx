@@ -11,7 +11,7 @@ export function ResumeContentForm({
   contentMdEn,
   action,
 }: {
-  contentMd: string
+  contentMd: string | null
   contentMdEn: string | null
   action: (formData: FormData) => Promise<void>
 }) {

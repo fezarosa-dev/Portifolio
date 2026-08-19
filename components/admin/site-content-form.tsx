@@ -30,7 +30,7 @@ export function SiteContentForm({
   const [sobreFoto, setSobreFoto] = useState(content.sobre_foto ?? '')
   const [siteIcon, setSiteIcon] = useState(content.site_icon ?? '')
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
-  const enValue = (key: string): string | null => (key in content ? content[key] : null)
+  const lookup = (key: string): string | null => (key in content ? content[key] : null)
 
   async function handleSubmit(formData: FormData) {
     try {
@@ -62,15 +62,15 @@ export function SiteContentForm({
           name="hero_title"
           label="Título"
           language={language}
-          defaultValuePt={content.hero_title}
-          defaultValueEn={enValue('hero_title_en')}
+          defaultValuePt={lookup('hero_title')}
+          defaultValueEn={lookup('hero_title_en')}
         />
         <BilingualField
           name="hero_subtitle"
           label="Subtítulo"
           language={language}
-          defaultValuePt={content.hero_subtitle}
-          defaultValueEn={enValue('hero_subtitle_en')}
+          defaultValuePt={lookup('hero_subtitle')}
+          defaultValueEn={lookup('hero_subtitle_en')}
         />
       </Section>
 
@@ -79,8 +79,8 @@ export function SiteContentForm({
           name="sobre_texto"
           label="Texto"
           language={language}
-          defaultValuePt={content.sobre_texto}
-          defaultValueEn={enValue('sobre_texto_en')}
+          defaultValuePt={lookup('sobre_texto')}
+          defaultValueEn={lookup('sobre_texto_en')}
           multiline
           rows={6}
         />
@@ -96,8 +96,8 @@ export function SiteContentForm({
           name="servicos_texto"
           label="Texto"
           language={language}
-          defaultValuePt={content.servicos_texto}
-          defaultValueEn={enValue('servicos_texto_en')}
+          defaultValuePt={lookup('servicos_texto')}
+          defaultValueEn={lookup('servicos_texto_en')}
           multiline
           rows={6}
         />
@@ -134,8 +134,8 @@ export function SiteContentForm({
           name="status_text"
           label="Texto"
           language={language}
-          defaultValuePt={content.status_text}
-          defaultValueEn={enValue('status_text_en')}
+          defaultValuePt={lookup('status_text')}
+          defaultValueEn={lookup('status_text_en')}
         />
         <div>
           <Label htmlFor="status_color">Cor da bolinha</Label>

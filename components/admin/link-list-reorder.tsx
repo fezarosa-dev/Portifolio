@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
 import { LanguageToggle } from '@/components/admin/language-toggle'
 
-type LabeledLink = { id: string; label: string; label_en: string | null; url: string }
+type LabeledLink = { id: string; label: string | null; label_en: string | null; url: string }
 
 function GripIcon() {
   return (
@@ -37,6 +37,7 @@ function LinkRow<T extends LabeledLink>({
   removeAction: (id: string) => Promise<void>
 }) {
   const dragControls = useDragControls()
+  const ptExplicitlyBlank = link.label === ''
   const enExplicitlyBlank = link.label_en === ''
 
   return (
@@ -64,8 +65,8 @@ function LinkRow<T extends LabeledLink>({
         <div className="flex gap-2">
           <Input
             name="label"
-            defaultValue={link.label}
-            placeholder="Texto"
+            defaultValue={link.label ?? ''}
+            placeholder="Texto (vazio usa o EN)"
             className={`h-8 ${language === 'en' ? 'hidden' : ''}`}
           />
           <Input
@@ -79,6 +80,10 @@ function LinkRow<T extends LabeledLink>({
             Salvar
           </Button>
         </div>
+        <label className={`flex items-center gap-1.5 font-mono text-xs text-steel ${language === 'en' ? 'hidden' : ''}`}>
+          <input type="checkbox" name="label_blank" value="true" defaultChecked={ptExplicitlyBlank} />
+          sem texto em PT — não usar o EN no lugar
+        </label>
         <label className={`flex items-center gap-1.5 font-mono text-xs text-steel ${language === 'pt' ? 'hidden' : ''}`}>
           <input type="checkbox" name="label_en_blank" value="true" defaultChecked={enExplicitlyBlank} />
           sem tradução — não usar o PT no lugar
