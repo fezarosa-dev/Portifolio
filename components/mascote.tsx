@@ -57,16 +57,16 @@ export function Mascote({ ativo }: { ativo: boolean }) {
         />
       </motion.button>
 
-      <div className="pointer-events-none absolute right-8 bottom-24 w-max max-w-[220px] rounded-2xl border border-hairline bg-card px-2 py-1 font-mono text-[10px] leading-snug break-words text-foreground/80 shadow-sm">
+      <div className="pointer-events-none absolute right-8 bottom-[108px] w-max max-w-[220px] rounded-2xl border border-hairline bg-card px-2 py-1 font-mono text-[10px] leading-snug break-words text-foreground/80 shadow-sm">
         {acordado ? frase : 'ZZZZ'}
       </div>
 
       {acordado ? (
-        <span className="pointer-events-none absolute top-9 right-9 h-2 w-2 rotate-45 border-b border-r border-hairline bg-card" />
+        <span className="pointer-events-none absolute top-6 right-9 h-2 w-2 rotate-45 border-b border-r border-hairline bg-card" />
       ) : (
         <>
-          <span className="pointer-events-none absolute top-9 right-9 h-2 w-2 rounded-full border border-hairline bg-card" />
-          <span className="pointer-events-none absolute top-6 right-7 h-1.5 w-1.5 rounded-full border border-hairline bg-card" />
+          <span className="pointer-events-none absolute top-6 right-9 h-2 w-2 rounded-full border border-hairline bg-card" />
+          <span className="pointer-events-none absolute top-4 right-7 h-1.5 w-1.5 rounded-full border border-hairline bg-card" />
         </>
       )}
     </div>
