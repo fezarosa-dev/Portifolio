@@ -47,7 +47,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
         className="block cursor-pointer"
       >
         <Image
-          src="/img/mascote-cachorro.svg"
+          src={acordado ? '/img/mascote-cachorro-acordado.svg' : '/img/mascote-cachorro.svg'}
           alt=""
           aria-hidden
           width={64}
