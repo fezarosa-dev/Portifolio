@@ -37,7 +37,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
   }
 
   return (
-    <div className="fixed bottom-0 right-4 z-30 !w-fit select-none sm:bottom-4">
+    <div className="fixed bottom-0 right-4 z-30 !w-fit origin-bottom-right scale-75 select-none sm:bottom-4 sm:scale-100">
       <motion.button
         type="button"
         onClick={acordar}
