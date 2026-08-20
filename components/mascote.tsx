@@ -62,7 +62,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
       </div>
 
       {acordado ? (
-        <span className="pointer-events-none absolute top-6 right-9 h-2 w-2 rotate-45 border-b border-r border-hairline bg-card" />
+        <span className="pointer-events-none absolute top-10 right-6 h-2 w-2 rotate-45 border-b border-r border-hairline bg-card" />
       ) : (
         <>
           <span className="pointer-events-none absolute top-6 right-9 h-2 w-2 rounded-full border border-hairline bg-card" />
