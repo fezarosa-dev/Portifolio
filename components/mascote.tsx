@@ -61,9 +61,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
         {acordado ? frase : 'ZZZZ'}
       </div>
 
-      {acordado ? (
-        <span className="pointer-events-none absolute top-10 right-6 h-2 w-2 rotate-45 border-b border-r border-hairline bg-card" />
-      ) : (
+      {!acordado && (
         <>
           <span className="pointer-events-none absolute top-6 right-9 h-2 w-2 rounded-full border border-hairline bg-card" />
           <span className="pointer-events-none absolute top-4 right-7 h-1.5 w-1.5 rounded-full border border-hairline bg-card" />
