@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
-import { deviconIconUrl } from '@/lib/devicon'
+import { iconUrl } from '@/lib/icons'
 import { joinNames } from '@/lib/utils'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
@@ -96,7 +96,7 @@ export default async function ProjetoDetailPage({
                 {lang.devicon_slug && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
                     alt=""
                     className="h-3.5 w-3.5"
                   />

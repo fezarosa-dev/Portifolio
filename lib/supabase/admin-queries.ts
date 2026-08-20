@@ -9,10 +9,10 @@ import type {
   Article,
 } from '@/lib/supabase/queries'
 import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
-import { findDeviconIcon } from '@/lib/devicon'
+import { resolveIcon } from '@/lib/icons'
 
 export async function addLanguage(name: string): Promise<Language> {
-  const icon = findDeviconIcon(name)
+  const icon = resolveIcon(name)
   const supabase = await createClient()
 
   const { count } = await supabase
@@ -25,6 +25,7 @@ export async function addLanguage(name: string): Promise<Language> {
       name: name.trim(),
       devicon_slug: icon?.slug ?? null,
       devicon_variant: icon?.variant ?? null,
+      icon_source: icon?.source ?? null,
       position: count ?? 0,
     })
     .select()
@@ -52,7 +53,7 @@ export async function deleteLanguage(id: string): Promise<void> {
 }
 
 export async function updateLanguage(id: string, name: string): Promise<Language> {
-  const icon = findDeviconIcon(name)
+  const icon = resolveIcon(name)
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('languages')
@@ -60,6 +61,7 @@ export async function updateLanguage(id: string, name: string): Promise<Language
       name: name.trim(),
       devicon_slug: icon?.slug ?? null,
       devicon_variant: icon?.variant ?? null,
+      icon_source: icon?.source ?? null,
     })
     .eq('id', id)
     .select()

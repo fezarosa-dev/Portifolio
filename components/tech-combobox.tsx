@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { deviconIconUrl } from '@/lib/devicon'
+import { iconUrl } from '@/lib/icons'
 import type { Language } from '@/lib/supabase/queries'
 
 export function TechCombobox({
@@ -60,7 +60,7 @@ export function TechCombobox({
                 {lang.devicon_slug && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
                     alt=""
                     className="h-4 w-4"
                   />

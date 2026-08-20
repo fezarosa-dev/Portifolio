@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { deviconIconUrl } from '@/lib/devicon'
+import { iconUrl } from '@/lib/icons'
 import { joinNames } from '@/lib/utils'
 import { resolveText } from '@/lib/bilingual'
 import type { Project } from '@/lib/supabase/queries'
@@ -66,7 +66,7 @@ export function ProjectCard({
                 {lang.devicon_slug && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
                     alt=""
                     className="h-3.5 w-3.5"
                   />

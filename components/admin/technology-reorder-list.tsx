@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
-import { deviconIconUrl } from '@/lib/devicon'
+import { iconUrl } from '@/lib/icons'
 import type { Language } from '@/lib/supabase/queries'
 
 function GripIcon() {
@@ -55,7 +55,7 @@ function TechnologyRow({
       {lang.devicon_slug ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+          src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
           alt=""
           className="h-5 w-5 shrink-0"
         />

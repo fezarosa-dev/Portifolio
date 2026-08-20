@@ -5,6 +5,7 @@ export type Language = {
   name: string
   devicon_slug: string | null
   devicon_variant: string | null
+  icon_source: string | null
   position: number
 }
 

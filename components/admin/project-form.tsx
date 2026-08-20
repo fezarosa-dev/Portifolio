@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { LanguageToggle } from '@/components/admin/language-toggle'
 import { BilingualField } from '@/components/admin/bilingual-field'
-import { deviconIconUrl } from '@/lib/devicon'
+import { iconUrl } from '@/lib/icons'
 import type { Project, Language, Author } from '@/lib/supabase/queries'
 
 export function ProjectForm({
@@ -95,7 +95,7 @@ export function ProjectForm({
                 {lang.devicon_slug && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={deviconIconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain')}
+                    src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
                     alt=""
                     className="h-4 w-4"
                   />
