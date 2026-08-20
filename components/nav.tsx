@@ -4,6 +4,7 @@ import { getDictionary } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
 import { MobileNav } from '@/components/mobile-nav'
 import { LanguageSwitch } from '@/components/language-switch'
+import { CollapsibleOnScroll } from '@/components/collapsible-on-scroll'
 
 const STATUS_COLORS: Record<string, string> = {
   green: '#2FAE66',
@@ -28,17 +29,19 @@ export async function Nav() {
 
   return (
     <div className="sticky top-0 z-40 border-b border-hairline bg-background/80 backdrop-blur">
-      <div className="hidden items-center gap-2 border-b border-hairline px-6 py-1.5 font-mono text-[11px] text-steel md:flex">
-        <span
-          className="inline-block h-1.5 w-1.5 shrink-0 rounded-full"
-          style={{ backgroundColor: statusColor }}
-          aria-hidden
-        />
-        <span className="truncate">{statusText}</span>
-        <span className="ml-auto">
-          <LanguageSwitch locale={locale} />
-        </span>
-      </div>
+      <CollapsibleOnScroll className="hidden md:grid">
+        <div className="flex items-center gap-2 border-b border-hairline px-6 py-1.5 font-mono text-[11px] text-steel">
+          <span
+            className="inline-block h-1.5 w-1.5 shrink-0 rounded-full"
+            style={{ backgroundColor: statusColor }}
+            aria-hidden
+          />
+          <span className="truncate">{statusText}</span>
+          <span className="ml-auto">
+            <LanguageSwitch locale={locale} />
+          </span>
+        </div>
+      </CollapsibleOnScroll>
       <nav className="relative flex items-center justify-between px-6 py-4">
         <Link href={`/${locale}`} className="font-mono text-sm font-medium tracking-tight">
           zanoni<span className="text-signal">.dev.br</span>

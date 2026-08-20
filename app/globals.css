@@ -136,11 +136,14 @@
   }
   html {
     @apply font-sans;
-    overflow-x: hidden;
+    /* overflow-x: hidden (sem overflow-y) força overflow-y a computar como
+       auto e cria um scroll container extra, o que quebra position: sticky
+       nos filhos — clip evita isso mantendo o mesmo efeito visual */
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-wrap: break-word;
   }
   /* body é flex (pra empurrar o rodapé pra baixo); sem isso, filhos flex não
