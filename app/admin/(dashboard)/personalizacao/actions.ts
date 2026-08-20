@@ -22,6 +22,12 @@ async function saveSide(key: string, value: string | null) {
   else await upsertSiteContent(key, value)
 }
 
+export async function toggleMascoteAtivo(ativo: boolean) {
+  await upsertSiteContent('mascote_ativo', ativo ? 'true' : 'false')
+  revalidatePath('/admin/personalizacao')
+  revalidatePath('/', 'layout')
+}
+
 export async function saveSiteContent(formData: FormData) {
   await Promise.all([
     ...KEYS.map((key) => upsertSiteContent(key, String(formData.get(key) ?? ''))),

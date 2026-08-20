@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Nav } from '@/components/nav'
 import { Footer } from '@/components/footer'
+import { Mascote } from '@/components/mascote'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getLocale } from '@/lib/i18n'
 
@@ -64,12 +65,15 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const content = await getSiteContent()
+
   return (
     <>
       <Nav />
       {children}
       <Footer />
+      <Mascote ativo={content.mascote_ativo === 'true'} />
     </>
   )
 }
