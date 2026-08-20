@@ -1,40 +1,42 @@
 'use client'
 
-import { useTransition } from 'react'
-import { setLocale } from '@/lib/i18n-actions'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import type { Locale } from '@/lib/i18n/dictionaries'
 
-export function LanguageSwitch({ locale }: { locale: Locale }) {
-  const [isPending, startTransition] = useTransition()
+function pathFor(pathname: string, target: Locale) {
+  const rest = pathname.replace(/^\/(pt|en)/, '')
+  return `/${target}${rest}`
+}
 
-  function select(next: Locale) {
-    if (next === locale || isPending) return
-    startTransition(() => {
-      setLocale(next)
-    })
+export function LanguageSwitch({ locale }: { locale: Locale }) {
+  const pathname = usePathname()
+
+  function remember(target: Locale) {
+    document.cookie = `locale=${target}; path=/; max-age=${60 * 60 * 24 * 365}`
   }
 
   return (
     <div className="flex items-center gap-1 font-mono text-xs">
-      <button
-        type="button"
-        onClick={() => select('pt')}
+      <Link
+        href={pathFor(pathname, 'pt')}
+        onClick={() => remember('pt')}
         aria-current={locale === 'pt'}
         className={`transition-colors ${locale === 'pt' ? 'text-signal' : 'text-steel hover:text-foreground'}`}
       >
         PT
-      </button>
+      </Link>
       <span className="text-hairline" aria-hidden>
         /
       </span>
-      <button
-        type="button"
-        onClick={() => select('en')}
+      <Link
+        href={pathFor(pathname, 'en')}
+        onClick={() => remember('en')}
         aria-current={locale === 'en'}
         className={locale === 'en' ? 'text-signal' : 'text-steel hover:text-foreground'}
       >
         EN
-      </button>
+      </Link>
     </div>
   )
 }

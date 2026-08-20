@@ -1,5 +1,12 @@
 import type { Locale } from '@/lib/i18n'
 
+export function localizedAlternates(locale: Locale, path: string) {
+  return {
+    canonical: `/${locale}${path}`,
+    languages: { pt: `/pt${path}`, en: `/en${path}` },
+  }
+}
+
 type PageSeo = { title: string; description: string }
 
 export const PAGE_SEO: Record<string, Record<Locale, PageSeo>> = {

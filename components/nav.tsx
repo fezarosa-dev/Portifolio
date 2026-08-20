@@ -20,10 +20,11 @@ export async function Nav() {
     locale
   )
   const statusColor = STATUS_COLORS[content.status_color] ?? STATUS_COLORS.green
-  const navLinks =
+  const navLinks = (
     content.artigos_ativo === 'false'
       ? dict.nav.links.filter((link) => link.href !== '/artigos')
       : dict.nav.links
+  ).map((link) => ({ ...link, href: `/${locale}${link.href === '/' ? '' : link.href}` }))
 
   return (
     <div className="sticky top-0 z-40 border-b border-hairline bg-background/80 backdrop-blur">
@@ -39,7 +40,7 @@ export async function Nav() {
         </span>
       </div>
       <nav className="relative flex items-center justify-between px-6 py-4">
-        <Link href="/" className="font-mono text-sm font-medium tracking-tight">
+        <Link href={`/${locale}`} className="font-mono text-sm font-medium tracking-tight">
           zanoni<span className="text-signal">.dev.br</span>
         </Link>
         <ul className="hidden gap-5 text-sm md:flex md:gap-7">

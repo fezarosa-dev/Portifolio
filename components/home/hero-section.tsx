@@ -5,17 +5,20 @@ import Link from 'next/link'
 import { deviconIconUrl } from '@/lib/devicon'
 import { Typewriter } from '@/components/typewriter'
 import type { Language } from '@/lib/supabase/queries'
+import type { Locale } from '@/lib/i18n'
 
 export function HeroSection({
   title,
   subtitle,
   languages,
   whoamiLabel,
+  locale,
 }: {
   title: string
   subtitle: string
   languages: Language[]
   whoamiLabel: string
+  locale: Locale
 }) {
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
@@ -53,7 +56,7 @@ export function HeroSection({
           {languages.map((lang) => (
             <li key={lang.id}>
               <Link
-                href={`/projetos?tech=${lang.id}`}
+                href={`/${locale}/projetos?tech=${lang.id}`}
                 title={`Ver projetos com ${lang.name}`}
                 className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel transition-colors hover:border-signal hover:text-signal"
               >

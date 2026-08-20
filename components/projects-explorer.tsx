@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ProjectCard } from '@/components/project-card'
 import { TechCombobox } from '@/components/tech-combobox'
 import { resolveText } from '@/lib/bilingual'
@@ -19,6 +19,7 @@ export function ProjectsExplorer({
   locale: Locale
 }) {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
 
   const [query, setQuery] = useState('')
@@ -39,7 +40,7 @@ export function ProjectsExplorer({
     const params = new URLSearchParams(searchParams.toString())
     if (ids.length > 0) params.set('tech', ids.join(','))
     else params.delete('tech')
-    router.replace(params.size > 0 ? `/projetos?${params.toString()}` : '/projetos', {
+    router.replace(params.size > 0 ? `${pathname}?${params.toString()}` : pathname, {
       scroll: false,
     })
   }

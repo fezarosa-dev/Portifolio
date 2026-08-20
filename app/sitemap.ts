@@ -2,6 +2,21 @@ import type { MetadataRoute } from 'next'
 import { getVisibleProjects, getVisibleArticles, getSiteContent } from '@/lib/supabase/queries'
 
 const SITE_URL = 'https://www.zanoni.dev.br'
+const LOCALES = ['pt', 'en'] as const
+
+function entriesFor(
+  path: string,
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
+  priority: number
+): MetadataRoute.Sitemap {
+  const languages = Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`]))
+  return LOCALES.map((locale) => ({
+    url: `${SITE_URL}/${locale}${path}`,
+    changeFrequency,
+    priority,
+    alternates: { languages },
+  }))
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [projects, articles, content] = await Promise.all([
@@ -11,33 +26,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: SITE_URL, changeFrequency: 'monthly', priority: 1 },
-    { url: `${SITE_URL}/sobre`, changeFrequency: 'yearly', priority: 0.6 },
-    { url: `${SITE_URL}/servicos`, changeFrequency: 'yearly', priority: 0.6 },
-    { url: `${SITE_URL}/projetos`, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/contato`, changeFrequency: 'yearly', priority: 0.5 },
-    { url: `${SITE_URL}/curriculo`, changeFrequency: 'monthly', priority: 0.6 },
+    ...entriesFor('', 'monthly', 1),
+    ...entriesFor('/sobre', 'yearly', 0.6),
+    ...entriesFor('/servicos', 'yearly', 0.6),
+    ...entriesFor('/projetos', 'weekly', 0.9),
+    ...entriesFor('/contato', 'yearly', 0.5),
+    ...entriesFor('/curriculo', 'monthly', 0.6),
   ]
 
   if (content.artigos_ativo !== 'false') {
-    staticRoutes.push({ url: `${SITE_URL}/artigos`, changeFrequency: 'weekly', priority: 0.8 })
+    staticRoutes.push(...entriesFor('/artigos', 'weekly', 0.8))
   }
 
   const projectRoutes: MetadataRoute.Sitemap = projects
     .filter((p) => p.click_mode === 'detail')
-    .map((p) => ({
-      url: `${SITE_URL}/projetos/${p.id}`,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    }))
+    .flatMap((p) => entriesFor(`/projetos/${p.id}`, 'monthly', 0.7))
 
   const articleRoutes: MetadataRoute.Sitemap =
     content.artigos_ativo !== 'false'
-      ? articles.map((a) => ({
-          url: `${SITE_URL}/artigos/${a.id}`,
-          changeFrequency: 'monthly',
-          priority: 0.7,
-        }))
+      ? articles.flatMap((a) => entriesFor(`/artigos/${a.id}`, 'monthly', 0.7))
       : []
 
   return [...staticRoutes, ...projectRoutes, ...articleRoutes]

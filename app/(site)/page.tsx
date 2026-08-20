@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { getSiteContent, getVisibleProjects, getLanguages } from '@/lib/supabase/queries'
-import { getDictionary } from '@/lib/i18n'
+import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { localizedAlternates } from '@/lib/seo'
 import { HeroSection } from '@/components/home/hero-section'
 import { AboutTeaser } from '@/components/home/about-teaser'
 import { ProjectsTeaser } from '@/components/home/projects-teaser'
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
+export async function generateMetadata(): Promise<Metadata> {
+  return { alternates: localizedAlternates(await getLocale(), '') }
 }
 
 export default async function HomePage() {
@@ -40,6 +41,7 @@ export default async function HomePage() {
         subtitle={heroSubtitle}
         languages={languages}
         whoamiLabel={dict.home.whoami}
+        locale={locale}
       />
       <AboutTeaser
         text={resolveText(content.sobre_texto ?? '', content.sobre_texto_en, locale)}

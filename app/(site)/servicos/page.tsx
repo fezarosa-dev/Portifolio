@@ -2,13 +2,14 @@ import type { Metadata } from 'next'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
-import { PAGE_SEO } from '@/lib/seo'
+import { PAGE_SEO, localizedAlternates } from '@/lib/seo'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = PAGE_SEO.servicos[await getLocale()]
-  return { title: seo.title, description: seo.description, alternates: { canonical: '/servicos' } }
+  const locale = await getLocale()
+  const seo = PAGE_SEO.servicos[locale]
+  return { title: seo.title, description: seo.description, alternates: localizedAlternates(locale, '/servicos') }
 }
 
 export default async function ServicosPage() {

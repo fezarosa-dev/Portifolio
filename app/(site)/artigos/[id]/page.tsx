@@ -5,6 +5,7 @@ import { getArticleById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { localizedAlternates } from '@/lib/seo'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -30,11 +31,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/artigos/${article.id}` },
+    alternates: localizedAlternates(locale, `/artigos/${article.id}`),
     openGraph: {
       type: 'article',
       locale: locale === 'en' ? 'en_US' : 'pt_BR',
-      url: `https://www.zanoni.dev.br/artigos/${article.id}`,
+      url: `https://www.zanoni.dev.br/${locale}/artigos/${article.id}`,
       siteName: 'Felipe Zanoni da Rosa',
       title,
       description,
@@ -76,7 +77,7 @@ export default async function ArtigoDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <FadeIn>
-        <Link href="/artigos" className="font-mono text-xs text-steel hover:text-signal">
+        <Link href={`/${locale}/artigos`} className="font-mono text-xs text-steel hover:text-signal">
           {dict.artigos.back}
         </Link>
         <Eyebrow>{dict.artigos.detailEyebrow}</Eyebrow>

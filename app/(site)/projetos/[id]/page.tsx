@@ -7,6 +7,7 @@ import { deviconIconUrl } from '@/lib/devicon'
 import { joinNames } from '@/lib/utils'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
+import { localizedAlternates } from '@/lib/seo'
 import { MarkdownContent } from '@/components/markdown-content'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
@@ -26,7 +27,7 @@ export async function generateMetadata({
   return {
     title,
     description: summary || `Projeto ${title}, por Felipe Zanoni da Rosa.`,
-    alternates: { canonical: `/projetos/${project.id}` },
+    alternates: localizedAlternates(locale, `/projetos/${project.id}`),
   }
 }
 
@@ -49,7 +50,7 @@ export default async function ProjetoDetailPage({
   return (
     <main className="mx-auto max-w-2xl px-6 py-20">
       <FadeIn>
-        <Link href="/projetos" className="font-mono text-xs text-steel hover:text-signal">
+        <Link href={`/${locale}/projetos`} className="font-mono text-xs text-steel hover:text-signal">
           {dict.projetos.back}
         </Link>
         <Eyebrow>{dict.projetos.detailEyebrow}</Eyebrow>
@@ -88,7 +89,7 @@ export default async function ProjetoDetailPage({
             {project.languages.map((lang) => (
               <Link
                 key={lang.id}
-                href={`/projetos?tech=${lang.id}`}
+                href={`/${locale}/projetos?tech=${lang.id}`}
                 title={`Ver projetos com ${lang.name}`}
                 className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel hover:border-signal hover:text-signal"
               >

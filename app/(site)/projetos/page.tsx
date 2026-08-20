@@ -3,13 +3,14 @@ import type { Metadata } from 'next'
 import { getVisibleProjects } from '@/lib/supabase/queries'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { ProjectsExplorer } from '@/components/projects-explorer'
-import { PAGE_SEO } from '@/lib/seo'
+import { PAGE_SEO, localizedAlternates } from '@/lib/seo'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = PAGE_SEO.projetos[await getLocale()]
-  return { title: seo.title, description: seo.description, alternates: { canonical: '/projetos' } }
+  const locale = await getLocale()
+  const seo = PAGE_SEO.projetos[locale]
+  return { title: seo.title, description: seo.description, alternates: localizedAlternates(locale, '/projetos') }
 }
 
 export default async function ProjetosPage() {

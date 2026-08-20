@@ -41,7 +41,7 @@ export function ProjectsTeaser({
           ))}
         </div>
         <div className="mt-10">
-          <Link href="/projetos" className="font-mono text-sm text-signal hover:underline">
+          <Link href={`/${locale}/projetos`} className="font-mono text-sm text-signal hover:underline">
             {seeAll}
           </Link>
         </div>
