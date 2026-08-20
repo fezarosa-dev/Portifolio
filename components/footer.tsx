@@ -27,6 +27,9 @@ export async function Footer() {
           ))}
         </div>
       </div>
+      {content.mascote_ativo === 'true' && (
+        <p className="mt-4 text-center font-mono text-[11px] text-steel/70">{"// don't wake the dog."}</p>
+      )}
     </footer>
   )
 }
