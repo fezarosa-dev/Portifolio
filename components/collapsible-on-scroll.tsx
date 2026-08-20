@@ -1,6 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+const COLLAPSE_AT = 64
+const EXPAND_AT = 16
 
 export function CollapsibleOnScroll({
   children,
@@ -10,10 +13,18 @@ export function CollapsibleOnScroll({
   className?: string
 }) {
   const [collapsed, setCollapsed] = useState(false)
+  const collapsedRef = useRef(false)
 
   useEffect(() => {
     function onScroll() {
-      setCollapsed(window.scrollY > 24)
+      const y = window.scrollY
+      if (!collapsedRef.current && y > COLLAPSE_AT) {
+        collapsedRef.current = true
+        setCollapsed(true)
+      } else if (collapsedRef.current && y < EXPAND_AT) {
+        collapsedRef.current = false
+        setCollapsed(false)
+      }
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
