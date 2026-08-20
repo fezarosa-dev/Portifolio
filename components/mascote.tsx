@@ -4,21 +4,36 @@ import { useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 
-const FRASES_ACORDADO = ['Au au!', '$ pet dog.exe', 'zzz... quem chamou?', 'café ☕ pra acordar']
+const JOKE_API_URL = 'https://api.chucknorris.io/jokes/random?category=dev'
+const FRASES_FALLBACK = ['Au au!', '$ pet dog.exe', 'zzz... quem chamou?', 'café ☕ pra acordar']
 
 export function Mascote({ ativo }: { ativo: boolean }) {
   const [acordado, setAcordado] = useState(false)
-  const [frase, setFrase] = useState(FRASES_ACORDADO[0])
+  const [frase, setFrase] = useState('...')
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const requestIdRef = useRef(0)
   const reduceMotion = useReducedMotion()
 
   if (!ativo) return null
 
   function acordar() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setFrase(FRASES_ACORDADO[Math.floor(Math.random() * FRASES_ACORDADO.length)])
+    const requestId = ++requestIdRef.current
+    setFrase('...')
     setAcordado(true)
-    timeoutRef.current = setTimeout(() => setAcordado(false), 2000)
+    timeoutRef.current = setTimeout(() => setAcordado(false), 6000)
+
+    fetch(JOKE_API_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        if (requestId !== requestIdRef.current) return
+        if (typeof data.value !== 'string') throw new Error('sem piada')
+        setFrase(data.value.length > 140 ? `${data.value.slice(0, 140)}…` : data.value)
+      })
+      .catch(() => {
+        if (requestId !== requestIdRef.current) return
+        setFrase(FRASES_FALLBACK[Math.floor(Math.random() * FRASES_FALLBACK.length)])
+      })
   }
 
   return (
@@ -42,7 +57,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
         />
       </motion.button>
 
-      <div className="pointer-events-none absolute top-2 right-8 rounded-2xl border border-hairline bg-card px-2 py-1 font-mono text-[10px] text-foreground/80 shadow-sm">
+      <div className="pointer-events-none absolute right-8 bottom-24 w-max max-w-[220px] rounded-2xl border border-hairline bg-card px-2 py-1 font-mono text-[10px] leading-snug break-words text-foreground/80 shadow-sm">
         {acordado ? frase : 'ZZZZ'}
       </div>
 
