@@ -19,7 +19,7 @@ export function MarkdownContent({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="prose max-w-none break-words prose-headings:font-display prose-headings:tracking-tight prose-a:text-signal prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-hr:border-hairline prose-blockquote:border-signal prose-pre:overflow-x-auto prose-img:mx-auto"
+      className="prose dark:prose-invert max-w-none break-words prose-headings:font-display prose-headings:tracking-tight prose-a:text-signal prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-hr:border-hairline prose-blockquote:border-signal prose-pre:overflow-x-auto prose-img:mx-auto"
     >
       <ReactMarkdown remarkPlugins={[remarkGfm, [remarkDriveImages, driveImages]]}>
         {content}
