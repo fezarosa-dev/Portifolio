@@ -15,8 +15,9 @@ export default async function AutoresPage() {
         projeto na aba Projetos.
       </p>
 
-      <ToastForm action={saveAuthor} successMessage="Autor adicionado" className="mb-8 flex max-w-sm gap-2">
+      <ToastForm action={saveAuthor} successMessage="Autor adicionado" className="mb-8 flex max-w-sm flex-wrap gap-2">
         <Input name="name" placeholder="Nome" required />
+        <Input name="url" placeholder="Link (LinkedIn, mailto:..., site...)" />
         <Button type="submit">Adicionar</Button>
       </ToastForm>
 
@@ -29,9 +30,15 @@ export default async function AutoresPage() {
               <ToastForm
                 action={editAuthor.bind(null, author.id)}
                 successMessage="Autor atualizado"
-                className="flex flex-1 gap-2"
+                className="flex flex-1 flex-wrap gap-2"
               >
                 <Input name="name" defaultValue={author.name} className="h-8" />
+                <Input
+                  name="url"
+                  defaultValue={author.url ?? ''}
+                  placeholder="Link (LinkedIn, mailto:..., site...)"
+                  className="h-8"
+                />
                 <Button type="submit" variant="outline" size="sm">
                   Salvar
                 </Button>

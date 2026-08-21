@@ -115,22 +115,22 @@ export async function setProjectAuthors(projectId: string, authorIds: string[]):
   if (error) throw error
 }
 
-export async function addAuthor(name: string): Promise<Author> {
+export async function addAuthor(name: string, url: string | null): Promise<Author> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('authors')
-    .insert({ name: name.trim() })
+    .insert({ name: name.trim(), url: url?.trim() || null })
     .select()
     .single()
   if (error) throw error
   return data as Author
 }
 
-export async function updateAuthor(id: string, name: string): Promise<Author> {
+export async function updateAuthor(id: string, name: string, url: string | null): Promise<Author> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('authors')
-    .update({ name: name.trim() })
+    .update({ name: name.trim(), url: url?.trim() || null })
     .eq('id', id)
     .select()
     .single()

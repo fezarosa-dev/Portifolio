@@ -4,11 +4,11 @@ import type { Metadata } from 'next'
 import { getProjectById, getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId } from '@/lib/drive'
 import { iconUrl } from '@/lib/icons'
-import { joinNames } from '@/lib/utils'
 import { getDictionary, getLocale } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
 import { localizedAlternates } from '@/lib/seo'
 import { MarkdownContent } from '@/components/markdown-content'
+import { AuthorNames } from '@/components/author-names'
 import { Eyebrow } from '@/components/eyebrow'
 import { FadeIn } from '@/components/fade-in'
 
@@ -57,7 +57,7 @@ export default async function ProjetoDetailPage({
         <h1 className="mt-3 text-4xl font-medium tracking-tight">{title}</h1>
         {project.authors.length > 0 && (
           <p className="mt-2 font-mono text-sm text-steel">
-            {dict.projetos.with} {joinNames(project.authors.map((a) => a.name))}
+            {dict.projetos.with} <AuthorNames authors={project.authors} />
           </p>
         )}
         {(project.repo_url || project.site_url) && (

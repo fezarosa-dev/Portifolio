@@ -12,6 +12,7 @@ export type Language = {
 export type Author = {
   id: string
   name: string
+  url: string | null
 }
 
 export type ResumeLink = {

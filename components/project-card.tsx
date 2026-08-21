@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { iconUrl } from '@/lib/icons'
-import { joinNames } from '@/lib/utils'
 import { resolveText } from '@/lib/bilingual'
+import { AuthorNames } from '@/components/author-names'
 import type { Project } from '@/lib/supabase/queries'
 import type { Locale } from '@/lib/i18n'
 
@@ -44,18 +44,23 @@ export function ProjectCard({
           </span>
         </h3>
         <p className="mt-2 text-sm text-steel">{summary}</p>
-        {project.authors.length > 0 && (
-          <p className="mt-2 font-mono text-xs text-steel">
-            {withLabel} {joinNames(project.authors.map((a) => a.name))}
-          </p>
-        )}
-        {(project.repo_url || project.site_url) && (
-          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-steel">
-            {project.repo_url && <span className="break-words">{hostname(project.repo_url)}</span>}
-            {project.site_url && <span className="break-words">{hostname(project.site_url)}</span>}
-          </div>
-        )}
       </Link>
+      {project.authors.length > 0 && (
+        <p className="mt-2 font-mono text-xs text-steel">
+          {withLabel} <AuthorNames authors={project.authors} />
+        </p>
+      )}
+      {(project.repo_url || project.site_url) && (
+        <Link
+          href={href}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+          className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-steel"
+        >
+          {project.repo_url && <span className="break-words">{hostname(project.repo_url)}</span>}
+          {project.site_url && <span className="break-words">{hostname(project.site_url)}</span>}
+        </Link>
+      )}
       {project.languages.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline pt-4">
           {project.languages.map((lang) => {

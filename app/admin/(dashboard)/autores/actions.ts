@@ -6,8 +6,9 @@ import { addAuthor, deleteAuthor, updateAuthor } from '@/lib/supabase/admin-quer
 export async function saveAuthor(formData: FormData) {
   const name = String(formData.get('name') ?? '').trim()
   if (!name) return
+  const url = String(formData.get('url') ?? '').trim() || null
 
-  await addAuthor(name)
+  await addAuthor(name, url)
   revalidatePath('/admin/autores')
   revalidatePath('/projetos')
 }
@@ -15,8 +16,9 @@ export async function saveAuthor(formData: FormData) {
 export async function editAuthor(id: string, formData: FormData) {
   const name = String(formData.get('name') ?? '').trim()
   if (!name) return
+  const url = String(formData.get('url') ?? '').trim() || null
 
-  await updateAuthor(id, name)
+  await updateAuthor(id, name, url)
   revalidatePath('/admin/autores')
   revalidatePath('/projetos')
 }
