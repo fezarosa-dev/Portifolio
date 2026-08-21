@@ -45,7 +45,7 @@ export async function Nav() {
           />
           <span className="truncate">{statusText}</span>
           <span className="ml-auto flex items-center gap-3">
-            <ThemeToggle initialDark={isDark} />
+            <ThemeToggle initialDark={isDark} locale={locale} />
             <LanguageSwitch locale={locale} />
           </span>
         </div>
@@ -67,7 +67,7 @@ export async function Nav() {
           ))}
         </ul>
         <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle initialDark={isDark} />
+          <ThemeToggle initialDark={isDark} locale={locale} />
           <LanguageSwitch locale={locale} />
           <MobileNav links={navLinks} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
         </div>
