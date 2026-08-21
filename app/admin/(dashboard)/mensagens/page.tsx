@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { listMessages } from '@/lib/supabase/admin-queries'
 import { ToastForm } from '@/components/admin/toast-form'
 import { toggleRead, removeMessage } from './actions'
@@ -25,9 +27,9 @@ export default async function MensagensPage() {
                   {new Date(msg.created_at).toLocaleString('pt-BR')}
                 </p>
               </div>
-              <pre className="mt-2 font-sans text-sm whitespace-pre-wrap break-words text-foreground/90">
-                {msg.message}
-              </pre>
+              <div className="prose prose-sm dark:prose-invert mt-2 max-w-none break-words prose-a:text-signal prose-a:no-underline hover:prose-a:underline">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.message}</ReactMarkdown>
+              </div>
               <div className="mt-3 flex gap-4 font-mono text-xs">
                 <a
                   href={`mailto:${msg.email}?subject=${encodeURIComponent('Re: sua mensagem em zanoni.dev.br')}&body=${encodeURIComponent(`Oi ${msg.name},\n\n\n\n---\nVocê escreveu:\n${msg.message}`)}`}
