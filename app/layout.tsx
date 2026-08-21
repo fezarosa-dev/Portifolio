@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { getSiteContent } from "@/lib/supabase/queries";
@@ -64,13 +64,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const headerList = await headers();
+  const [headerList, cookieStore] = await Promise.all([headers(), cookies()]);
   const locale = headerList.get("x-locale") === "en" ? "en" : "pt-BR";
+  const dark = cookieStore.get("theme")?.value === "dark";
 
   return (
     <html
       lang={locale}
-      className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased${dark ? " dark" : ""}`}
     >
       <body className="min-h-full flex flex-col">
         {children}

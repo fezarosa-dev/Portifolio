@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
 import { MobileNav } from '@/components/mobile-nav'
 import { LanguageSwitch } from '@/components/language-switch'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { CollapsibleOnScroll } from '@/components/collapsible-on-scroll'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -14,7 +16,12 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export async function Nav() {
-  const [content, { locale, dict }] = await Promise.all([getSiteContent(), getDictionary()])
+  const [content, { locale, dict }, cookieStore] = await Promise.all([
+    getSiteContent(),
+    getDictionary(),
+    cookies(),
+  ])
+  const isDark = cookieStore.get('theme')?.value === 'dark'
   const statusText = resolveText(
     content.status_text || 'disponível para novos projetos',
     content.status_text_en,
@@ -37,7 +44,8 @@ export async function Nav() {
             aria-hidden
           />
           <span className="truncate">{statusText}</span>
-          <span className="ml-auto">
+          <span className="ml-auto flex items-center gap-3">
+            <ThemeToggle initialDark={isDark} />
             <LanguageSwitch locale={locale} />
           </span>
         </div>
@@ -59,6 +67,7 @@ export async function Nav() {
           ))}
         </ul>
         <div className="flex items-center gap-4 md:hidden">
+          <ThemeToggle initialDark={isDark} />
           <LanguageSwitch locale={locale} />
           <MobileNav links={navLinks} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
         </div>
