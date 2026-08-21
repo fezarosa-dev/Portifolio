@@ -209,9 +209,19 @@ export async function insertMessage(input: {
   name: string
   email: string
   message: string
+  ip: string | null
 }): Promise<void> {
   const supabase = await createClient()
   const { error } = await supabase.from('messages').insert(input)
   if (error) throw error
+}
 
+export async function countRecentMessagesFromIp(ip: string, windowMinutes: number): Promise<number> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('count_recent_messages_by_ip', {
+    check_ip: ip,
+    window_minutes: windowMinutes,
+  })
+  if (error) throw error
+  return data as number
 }

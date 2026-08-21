@@ -10,6 +10,7 @@ import type { Dictionary } from '@/lib/i18n'
 
 export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -24,8 +25,14 @@ export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
         message: formData.get('message'),
       }),
     })
-    setStatus(res.ok ? 'sent' : 'error')
-    if (res.ok) e.currentTarget.reset()
+    if (res.ok) {
+      setStatus('sent')
+      e.currentTarget.reset()
+      return
+    }
+    const data = await res.json().catch(() => null)
+    setErrorMessage(data?.error || dict.error)
+    setStatus('error')
   }
 
   if (status === 'sent') {
@@ -58,7 +65,7 @@ export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
       <Button type="submit" disabled={status === 'sending'} className="w-fit">
         {status === 'sending' ? dict.sending : dict.send}
       </Button>
-      {status === 'error' && <p className="font-mono text-sm text-destructive">{dict.error}</p>}
+      {status === 'error' && <p className="font-mono text-sm text-destructive">{errorMessage}</p>}
     </form>
   )
 }
