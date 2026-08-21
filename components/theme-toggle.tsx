@@ -6,6 +6,8 @@ import type { Locale } from '@/lib/i18n/dictionaries'
 export function ThemeToggle({ initialDark, locale }: { initialDark: boolean; locale: Locale }) {
   const [dark, setDark] = useState(initialDark)
   const label = locale === 'en' ? 'Toggle dark mode' : 'Alternar modo escuro'
+  const captionOn = locale === 'en' ? 'dark' : 'escuro'
+  const captionOff = locale === 'en' ? 'light' : 'claro'
 
   function toggle() {
     const next = !dark
@@ -15,7 +17,11 @@ export function ThemeToggle({ initialDark, locale }: { initialDark: boolean; loc
   }
 
   return (
-    <label className="inline-flex shrink-0 cursor-pointer items-center" title={label} aria-label={label}>
+    <label
+      className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 font-mono text-xs"
+      title={label}
+      aria-label={label}
+    >
       <input type="checkbox" checked={dark} onChange={toggle} className="peer sr-only" />
       <span
         className={`
@@ -28,6 +34,7 @@ export function ThemeToggle({ initialDark, locale }: { initialDark: boolean; loc
           peer-checked:before:translate-x-4 peer-checked:before:border-signal peer-checked:before:bg-signal
         `}
       />
+      <span className="text-steel">{dark ? captionOn : captionOff}</span>
     </label>
   )
 }
