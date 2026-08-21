@@ -35,8 +35,11 @@ export type Dictionary = {
   contato: {
     eyebrow: string
     title: string
+    nameLabel: string
     namePlaceholder: string
+    emailLabel: string
     emailPlaceholder: string
+    messageLabel: string
     messagePlaceholder: string
     send: string
     sending: string
@@ -93,8 +96,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
     contato: {
       eyebrow: 'contato',
       title: 'Vamos conversar',
+      nameLabel: 'Nome',
       namePlaceholder: 'Seu nome',
+      emailLabel: 'E-mail',
       emailPlaceholder: 'Seu e-mail',
+      messageLabel: 'Mensagem',
       messagePlaceholder: 'Sua mensagem',
       send: 'Enviar',
       sending: 'Enviando...',
@@ -149,8 +155,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
     contato: {
       eyebrow: 'contact',
       title: "Let's talk",
+      nameLabel: 'Name',
       namePlaceholder: 'Your name',
+      emailLabel: 'Email',
       emailPlaceholder: 'Your email',
+      messageLabel: 'Message',
       messagePlaceholder: 'Your message',
       send: 'Send',
       sending: 'Sending...',

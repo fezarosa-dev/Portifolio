@@ -43,7 +43,7 @@ const SEO_BY_LOCALE = {
 } as const
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [content, locale] = await Promise.all([getSiteContent(), getLocale()])
+  const locale = await getLocale()
   const seo = SEO_BY_LOCALE[locale]
 
   return {
@@ -63,7 +63,6 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seo.ogTitle,
       description: seo.description,
     },
-    ...(content.site_icon ? { icons: { icon: '/api/site-icon' } } : {}),
   }
 }
 
