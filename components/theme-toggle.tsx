@@ -1,10 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Locale } from '@/lib/i18n/dictionaries'
 
 export function ThemeToggle({ initialDark, locale }: { initialDark: boolean; locale: Locale }) {
   const [dark, setDark] = useState(initialDark)
+
+  useEffect(() => {
+    // syncs with the beforeInteractive script that applies prefers-color-scheme
+    // when there's no theme cookie yet, so the caption/checkbox match the real class
+    const actual = document.documentElement.classList.contains('dark')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (actual !== dark) setDark(actual)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const label = locale === 'en' ? 'Toggle dark mode' : 'Alternar modo escuro'
   const captionOn = locale === 'en' ? 'dark' : 'escuro'
   const captionOff = locale === 'en' ? 'light' : 'claro'

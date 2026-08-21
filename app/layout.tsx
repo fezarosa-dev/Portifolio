@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { cookies, headers } from "next/headers";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/google-analytics";
@@ -71,8 +72,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang={locale}
+      suppressHydrationWarning
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased${dark ? " dark" : ""}`}
     >
+      <head>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(function(){try{var m=document.cookie.match(/(?:^|; )theme=([^;]*)/);if(!m){var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);}}catch(e){}})();`}
+        </Script>
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <GoogleAnalytics />
