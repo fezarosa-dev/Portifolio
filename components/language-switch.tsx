@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Locale } from '@/lib/i18n/dictionaries'
 
@@ -18,25 +17,29 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
 
   return (
     <div className="flex items-center gap-1 font-mono text-xs">
-      <Link
+      {/* <a> nativo em vez de next/link: como o idioma é decidido por
+          middleware rewrite (mesma rota interna pras duas), o router cache
+          do Next às vezes reaproveita o conteúdo do idioma anterior num
+          soft-navigation — <a> força um carregamento completo, sem cache */}
+      <a
         href={pathFor(pathname, 'pt')}
         onClick={() => remember('pt')}
         aria-current={locale === 'pt'}
         className={`transition-colors ${locale === 'pt' ? 'text-signal' : 'text-steel hover:text-foreground'}`}
       >
         PT
-      </Link>
+      </a>
       <span className="text-hairline" aria-hidden>
         /
       </span>
-      <Link
+      <a
         href={pathFor(pathname, 'en')}
         onClick={() => remember('en')}
         aria-current={locale === 'en'}
         className={locale === 'en' ? 'text-signal' : 'text-steel hover:text-foreground'}
       >
         EN
-      </Link>
+      </a>
     </div>
   )
 }
