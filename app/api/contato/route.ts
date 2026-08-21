@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { insertMessage } from '@/lib/supabase/queries'
+import { notifyNewMessage } from '@/lib/notify'
 
 export async function POST(request: Request) {
   const body = await request.json()
@@ -15,5 +16,6 @@ export async function POST(request: Request) {
   }
 
   await insertMessage({ name, email, message })
+  await notifyNewMessage(name, email, message)
   return NextResponse.json({ ok: true })
 }

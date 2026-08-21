@@ -27,6 +27,12 @@ export default async function MensagensPage() {
               </div>
               <p className="mt-2 text-sm text-foreground/90">{msg.message}</p>
               <div className="mt-3 flex gap-4 font-mono text-xs">
+                <a
+                  href={`mailto:${msg.email}?subject=${encodeURIComponent('Re: sua mensagem em zanoni.dev.br')}&body=${encodeURIComponent(`Oi ${msg.name},\n\n\n\n---\nVocê escreveu:\n${msg.message}`)}`}
+                  className="text-signal hover:underline"
+                >
+                  responder
+                </a>
                 <form action={toggleRead.bind(null, msg.id, !msg.read)}>
                   <button type="submit" className="text-signal hover:underline">
                     marcar como {msg.read ? 'não lida' : 'lida'}
