@@ -44,7 +44,7 @@ export async function Nav() {
             aria-hidden
           />
           <span className="truncate">{statusText}</span>
-          <span className="ml-auto flex items-center gap-3">
+          <span className="ml-auto flex items-center gap-4">
             <ThemeToggle initialDark={isDark} locale={locale} />
             <LanguageSwitch locale={locale} />
           </span>
