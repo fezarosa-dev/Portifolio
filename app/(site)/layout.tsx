@@ -10,7 +10,8 @@ const SITE_URL = 'https://www.zanoni.dev.br'
 
 const SEO_BY_LOCALE = {
   pt: {
-    title: { default: `${SITE_NAME} — Portfólio`, template: `%s — ${SITE_NAME}` },
+    title: { absolute: 'Zanoni - Portifolio', template: '%s — Zanoni - Portifolio' },
+    ogTitle: `${SITE_NAME} — Portfólio`,
     description:
       'Portfólio de Felipe Zanoni da Rosa, desenvolvedor de software full stack — projetos, artigos técnicos, currículo e contato.',
     keywords: [
@@ -25,7 +26,8 @@ const SEO_BY_LOCALE = {
     ogLocale: 'pt_BR',
   },
   en: {
-    title: { default: `${SITE_NAME} — Portfolio`, template: `%s — ${SITE_NAME}` },
+    title: { absolute: 'Zanoni - Portfolio', template: '%s — Zanoni - Portfolio' },
+    ogTitle: `${SITE_NAME} — Portfolio`,
     description:
       'Portfolio of Felipe Zanoni da Rosa, full stack software developer — projects, technical articles, resume and contact.',
     keywords: [
@@ -53,12 +55,12 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: seo.ogLocale,
       url: SITE_URL,
       siteName: SITE_NAME,
-      title: seo.title.default,
+      title: seo.ogTitle,
       description: seo.description,
     },
     twitter: {
       card: 'summary_large_image',
-      title: seo.title.default,
+      title: seo.ogTitle,
       description: seo.description,
     },
     ...(content.site_icon ? { icons: { icon: '/api/site-icon' } } : {}),
