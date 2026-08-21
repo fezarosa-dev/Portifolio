@@ -1,6 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Eyebrow } from '@/components/eyebrow'
 
 export function AboutTeaser({ text, eyebrow }: { text: string; eyebrow: string }) {
@@ -13,7 +15,9 @@ export function AboutTeaser({ text, eyebrow }: { text: string; eyebrow: string }
       className="mx-auto max-w-2xl px-6 py-24"
     >
       <Eyebrow>{eyebrow}</Eyebrow>
-      <p className="mt-4 text-xl leading-relaxed">{text}</p>
+      <div className="prose dark:prose-invert mt-4 max-w-none text-xl leading-relaxed prose-a:text-signal prose-a:no-underline hover:prose-a:underline">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+      </div>
     </motion.section>
   )
 }

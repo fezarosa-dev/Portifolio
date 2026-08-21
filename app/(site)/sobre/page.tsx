@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { listDriveImages, parseDriveFolderId, resolveDriveImageUrl } from '@/lib/drive'
 import { getDictionary, getLocale } from '@/lib/i18n'
@@ -37,9 +39,11 @@ export default async function SobrePage() {
         )}
       </FadeIn>
       <FadeIn delay={0.1}>
-        <p className="mt-8 text-lg leading-relaxed text-foreground/90">
-          {resolveText(content.sobre_texto ?? '', content.sobre_texto_en, locale)}
-        </p>
+        <div className="prose dark:prose-invert mt-8 max-w-none text-lg leading-relaxed text-foreground/90 prose-a:text-signal prose-a:no-underline hover:prose-a:underline">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {resolveText(content.sobre_texto ?? '', content.sobre_texto_en, locale)}
+          </ReactMarkdown>
+        </div>
       </FadeIn>
     </main>
   )
