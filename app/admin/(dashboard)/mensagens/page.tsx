@@ -25,7 +25,9 @@ export default async function MensagensPage() {
                   {new Date(msg.created_at).toLocaleString('pt-BR')}
                 </p>
               </div>
-              <p className="mt-2 text-sm text-foreground/90">{msg.message}</p>
+              <pre className="mt-2 font-sans text-sm whitespace-pre-wrap break-words text-foreground/90">
+                {msg.message}
+              </pre>
               <div className="mt-3 flex gap-4 font-mono text-xs">
                 <a
                   href={`mailto:${msg.email}?subject=${encodeURIComponent('Re: sua mensagem em zanoni.dev.br')}&body=${encodeURIComponent(`Oi ${msg.name},\n\n\n\n---\nVocê escreveu:\n${msg.message}`)}`}
