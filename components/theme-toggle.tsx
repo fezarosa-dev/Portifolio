@@ -36,10 +36,12 @@ export function ThemeToggle({ initialDark, locale }: { initialDark: boolean; loc
         className={`
           relative h-4 w-8 rounded border border-black bg-background
           shadow-[2px_2px_0_#000] transition-colors
+          dark:not-peer-checked:border-white dark:not-peer-checked:shadow-[2px_2px_0_#fff]
           peer-checked:border-signal
           before:absolute before:top-0.5 before:left-0.5 before:h-2.5 before:w-2.5
           before:rounded-sm before:border before:border-black before:bg-background
           before:shadow-[1px_1px_0_#000] before:transition-transform before:content-['']
+          dark:not-peer-checked:before:border-white dark:not-peer-checked:before:shadow-[1px_1px_0_#fff]
           peer-checked:before:translate-x-4 peer-checked:before:border-signal peer-checked:before:bg-signal
         `}
       />
