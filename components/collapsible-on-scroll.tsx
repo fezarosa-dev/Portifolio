@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 
 const COLLAPSE_AT = 64
 const EXPAND_AT = 16
@@ -14,6 +15,7 @@ export function CollapsibleOnScroll({
 }) {
   const [collapsed, setCollapsed] = useState(false)
   const collapsedRef = useRef(false)
+  const { enabled: reduceMotion } = useReduceMotion()
 
   useEffect(() => {
     function onScroll() {
@@ -33,7 +35,7 @@ export function CollapsibleOnScroll({
 
   return (
     <div
-      className={`grid transition-[grid-template-rows] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${className}`}
+      className={`grid ${reduceMotion ? '' : 'transition-[grid-template-rows] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)]'} motion-reduce:transition-none ${className}`}
       style={{ gridTemplateRows: collapsed ? '0fr' : '1fr' }}
     >
       <div className="overflow-hidden">{children}</div>

@@ -6,11 +6,13 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 import type { Dictionary } from '@/lib/i18n'
 
 export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const { enabled: reduceMotion } = useReduceMotion()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -36,6 +38,9 @@ export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   }
 
   if (status === 'sent') {
+    if (reduceMotion) {
+      return <p className="font-mono text-sm text-status">{dict.sent}</p>
+    }
     return (
       <motion.p
         initial={{ opacity: 0, y: 12, scale: 0.97 }}

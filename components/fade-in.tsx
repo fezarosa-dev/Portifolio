@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 
 export function FadeIn({
   children,
@@ -11,6 +12,12 @@ export function FadeIn({
   delay?: number
   className?: string
 }) {
+  const { enabled: reduceMotion } = useReduceMotion()
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}

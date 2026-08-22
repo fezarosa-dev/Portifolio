@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { iconUrl } from '@/lib/icons'
 import { Typewriter } from '@/components/typewriter'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 import type { Language } from '@/lib/supabase/queries'
 import type { Locale } from '@/lib/i18n'
 
@@ -20,6 +21,43 @@ export function HeroSection({
   whoamiLabel: string
   locale: Locale
 }) {
+  const { enabled: reduceMotion } = useReduceMotion()
+
+  if (reduceMotion) {
+    return (
+      <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
+        <p className="font-mono text-sm text-signal">{whoamiLabel}</p>
+        <h1 className="mt-3 text-5xl font-medium tracking-tight sm:text-7xl">{title}</h1>
+        <p className="mt-4 max-w-xl text-xl text-steel">
+          <Typewriter text={subtitle} startDelay={900} />
+        </p>
+        {languages.length > 0 && (
+          <ul className="mt-8 flex flex-wrap justify-center gap-2">
+            {languages.map((lang) => (
+              <li key={lang.id}>
+                <Link
+                  href={`/${locale}/projetos?tech=${lang.id}`}
+                  title={`Ver projetos com ${lang.name}`}
+                  className="flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1 font-mono text-xs text-steel transition-colors hover:border-signal hover:text-signal"
+                >
+                  {lang.devicon_slug && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={iconUrl(lang.devicon_slug, lang.devicon_variant ?? 'plain', lang.icon_source)}
+                      alt=""
+                      className="h-3.5 w-3.5"
+                    />
+                  )}
+                  {lang.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )
+  }
+
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
       <motion.p

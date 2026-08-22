@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ProjectCard } from '@/components/project-card'
 import { TechCombobox } from '@/components/tech-combobox'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 import { resolveText } from '@/lib/bilingual'
 import type { Project, Language } from '@/lib/supabase/queries'
 import type { Dictionary, Locale } from '@/lib/i18n'
@@ -21,6 +22,7 @@ export function ProjectsExplorer({
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { enabled: reduceMotion } = useReduceMotion()
 
   const [query, setQuery] = useState('')
   const [techFilters, setTechFilters] = useState<string[]>(() => {
@@ -133,23 +135,35 @@ export function ProjectsExplorer({
           <p className="text-sm text-muted-foreground">{dict.notFound}</p>
         ) : (
           <div className="columns-1 gap-6 sm:columns-2">
-            {visible.map((project, i) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                className="mb-6 break-inside-avoid"
-              >
-                <ProjectCard
-                  project={project}
-                  withLabel={dict.with}
-                  atLabel={dict.at}
-                  onTechClick={addTechFilter}
-                  locale={locale}
-                />
-              </motion.div>
-            ))}
+            {visible.map((project, i) =>
+              reduceMotion ? (
+                <div key={project.id} className="mb-6 break-inside-avoid">
+                  <ProjectCard
+                    project={project}
+                    withLabel={dict.with}
+                    atLabel={dict.at}
+                    onTechClick={addTechFilter}
+                    locale={locale}
+                  />
+                </div>
+              ) : (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className="mb-6 break-inside-avoid"
+                >
+                  <ProjectCard
+                    project={project}
+                    withLabel={dict.with}
+                    atLabel={dict.at}
+                    onTechClick={addTechFilter}
+                    locale={locale}
+                  />
+                </motion.div>
+              )
+            )}
           </div>
         )}
       </div>

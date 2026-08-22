@@ -1,8 +1,9 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 
 const JOKE_API_URL = 'https://api.chucknorris.io/jokes/random?category=dev'
 const FRASES_FALLBACK = ['Au au!', '$ pet dog.exe', 'zzz... quem chamou?', 'café ☕ pra acordar']
@@ -12,7 +13,7 @@ export function Mascote({ ativo }: { ativo: boolean }) {
   const [frase, setFrase] = useState('...')
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const requestIdRef = useRef(0)
-  const reduceMotion = useReducedMotion()
+  const { enabled: reduceMotion } = useReduceMotion()
 
   if (!ativo) return null
 
