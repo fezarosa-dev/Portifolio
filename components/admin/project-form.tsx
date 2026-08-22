@@ -11,17 +11,19 @@ import { Switch } from '@/components/ui/switch'
 import { LanguageToggle } from '@/components/admin/language-toggle'
 import { BilingualField } from '@/components/admin/bilingual-field'
 import { iconUrl } from '@/lib/icons'
-import type { Project, Language, Author } from '@/lib/supabase/queries'
+import type { Project, Language, Author, Company } from '@/lib/supabase/queries'
 
 export function ProjectForm({
   project,
   availableLanguages,
   availableAuthors,
+  availableCompanies,
   action,
 }: {
   project: Project | null
   availableLanguages: Language[]
   availableAuthors: Author[]
+  availableCompanies: Company[]
   action: (formData: FormData) => Promise<void>
 }) {
   const router = useRouter()
@@ -127,6 +129,29 @@ export function ProjectForm({
               </label>
             ))}
           </div>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="company_id">Empresa</Label>
+        {availableCompanies.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Nenhuma cadastrada ainda — adicione em Empresas.
+          </p>
+        ) : (
+          <select
+            id="company_id"
+            name="company_id"
+            defaultValue={project?.company?.id ?? ''}
+            className="w-full rounded border p-2"
+          >
+            <option value="">Nenhuma</option>
+            {availableCompanies.map((company) => (
+              <option key={company.id} value={company.id}>
+                {company.name}
+              </option>
+            ))}
+          </select>
         )}
       </div>
 

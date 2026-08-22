@@ -8,6 +8,7 @@ const TABS = [
   { href: '/admin/artigos', label: 'Artigos', icon: '▥' },
   { href: '/admin/tecnologias', label: 'Tecnologias', icon: '⌘' },
   { href: '/admin/autores', label: 'Autores', icon: '☺' },
+  { href: '/admin/empresas', label: 'Empresas', icon: '⌂' },
   { href: '/admin/mensagens', label: 'Mensagens', icon: '✉' },
   { href: '/admin/contato', label: 'Contato', icon: '☎' },
   { href: '/admin/personalizacao', label: 'Personalização', icon: '✎' },

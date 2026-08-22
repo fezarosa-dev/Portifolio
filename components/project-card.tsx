@@ -16,11 +16,13 @@ function hostname(url: string) {
 export function ProjectCard({
   project,
   withLabel = 'com',
+  atLabel = 'em',
   onTechClick,
   locale = 'pt',
 }: {
   project: Project
   withLabel?: string
+  atLabel?: string
   onTechClick?: (languageId: string) => void
   locale?: Locale
 }) {
@@ -48,6 +50,23 @@ export function ProjectCard({
       {project.authors.length > 0 && (
         <p className="mt-2 font-mono text-xs text-steel">
           {withLabel} <AuthorNames authors={project.authors} />
+        </p>
+      )}
+      {project.company && (
+        <p className="mt-1 font-mono text-xs text-steel">
+          {atLabel}{' '}
+          {project.company.url ? (
+            <a
+              href={project.company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-signal hover:underline"
+            >
+              {resolveText(project.company.name, project.company.name_en, locale)}
+            </a>
+          ) : (
+            resolveText(project.company.name, project.company.name_en, locale)
+          )}
         </p>
       )}
       {(project.repo_url || project.site_url) && (

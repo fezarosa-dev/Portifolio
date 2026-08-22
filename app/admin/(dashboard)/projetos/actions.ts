@@ -24,6 +24,7 @@ export async function saveProject(formData: FormData) {
     site_url: String(formData.get('site_url') ?? '') || null,
     click_mode: formData.get('click_mode') === 'link' ? 'link' : 'detail',
     click_url: String(formData.get('click_url') ?? '') || null,
+    company_id: String(formData.get('company_id') ?? '') || null,
     position: Number(formData.get('position') ?? 0),
     visible: formData.get('visible') === 'true',
     show_on_home: formData.get('show_on_home') === 'true',

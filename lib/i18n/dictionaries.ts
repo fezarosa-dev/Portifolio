@@ -29,6 +29,7 @@ export type Dictionary = {
     techPlaceholder: string
     notFound: string
     with: string
+    at: string
     repo: string
     site: string
   }
@@ -90,6 +91,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       techPlaceholder: 'buscar tecnologia…',
       notFound: 'Nenhum projeto encontrado.',
       with: 'com',
+      at: 'em',
       repo: 'repositório ↗',
       site: 'site ↗',
     },
@@ -149,6 +151,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       techPlaceholder: 'search technology…',
       notFound: 'No projects found.',
       with: 'with',
+      at: 'at',
       repo: 'repository ↗',
       site: 'website ↗',
     },

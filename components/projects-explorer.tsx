@@ -136,6 +136,7 @@ export function ProjectsExplorer({
                 <ProjectCard
                   project={project}
                   withLabel={dict.with}
+                  atLabel={dict.at}
                   onTechClick={addTechFilter}
                   locale={locale}
                 />

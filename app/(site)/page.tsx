@@ -53,6 +53,7 @@ export default async function HomePage() {
         heading={dict.home.projectsHeading}
         seeAll={dict.home.seeAll}
         withLabel={dict.projetos.with}
+        atLabel={dict.projetos.at}
         locale={locale}
       />
     </>

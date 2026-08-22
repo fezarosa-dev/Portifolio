@@ -13,6 +13,7 @@ export function ProjectsTeaser({
   heading,
   seeAll,
   withLabel,
+  atLabel,
   locale,
 }: {
   projects: Project[]
@@ -20,6 +21,7 @@ export function ProjectsTeaser({
   heading: string
   seeAll: string
   withLabel: string
+  atLabel: string
   locale: Locale
 }) {
   return (
@@ -36,7 +38,7 @@ export function ProjectsTeaser({
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProjectCard project={project} withLabel={withLabel} locale={locale} />
+              <ProjectCard project={project} withLabel={withLabel} atLabel={atLabel} locale={locale} />
             </motion.div>
           ))}
         </div>

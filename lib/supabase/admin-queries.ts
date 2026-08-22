@@ -3,6 +3,7 @@ import type {
   Project,
   Language,
   Author,
+  Company,
   ProjectRow,
   ResumeLink,
   ContactLink,
@@ -81,8 +82,11 @@ export async function getAllProjects(): Promise<Project[]> {
 }
 
 export async function upsertProject(
-  input: Partial<Omit<Project, 'languages' | 'authors'>> & { id?: string }
-): Promise<Omit<Project, 'languages' | 'authors'>> {
+  input: Partial<Omit<Project, 'languages' | 'authors' | 'company'>> & {
+    id?: string
+    company_id?: string | null
+  }
+): Promise<Omit<Project, 'languages' | 'authors' | 'company'>> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('projects')
@@ -90,7 +94,7 @@ export async function upsertProject(
     .select()
     .single()
   if (error) throw error
-  return data as Omit<Project, 'languages' | 'authors'>
+  return data as Omit<Project, 'languages' | 'authors' | 'company'>
 }
 
 export async function setProjectLanguages(projectId: string, languageIds: string[]): Promise<void> {
@@ -141,6 +145,44 @@ export async function updateAuthor(id: string, name: string, url: string | null)
 export async function deleteAuthor(id: string): Promise<void> {
   const supabase = await createClient()
   const { error } = await supabase.from('authors').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function addCompany(
+  name: string,
+  nameEn: string | null,
+  url: string | null
+): Promise<Company> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('companies')
+    .insert({ name: name.trim(), name_en: nameEn?.trim() || null, url: url?.trim() || null })
+    .select()
+    .single()
+  if (error) throw error
+  return data as Company
+}
+
+export async function updateCompany(
+  id: string,
+  name: string,
+  nameEn: string | null,
+  url: string | null
+): Promise<Company> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('companies')
+    .update({ name: name.trim(), name_en: nameEn?.trim() || null, url: url?.trim() || null })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data as Company
+}
+
+export async function deleteCompany(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('companies').delete().eq('id', id)
   if (error) throw error
 }
 

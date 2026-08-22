@@ -60,6 +60,23 @@ export default async function ProjetoDetailPage({
             {dict.projetos.with} <AuthorNames authors={project.authors} />
           </p>
         )}
+        {project.company && (
+          <p className="mt-1 font-mono text-sm text-steel">
+            {dict.projetos.at}{' '}
+            {project.company.url ? (
+              <a
+                href={project.company.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-signal hover:underline"
+              >
+                {resolveText(project.company.name, project.company.name_en, locale)}
+              </a>
+            ) : (
+              resolveText(project.company.name, project.company.name_en, locale)
+            )}
+          </p>
+        )}
         {(project.repo_url || project.site_url) && (
           <div className="mt-4 flex flex-wrap gap-3 font-mono text-xs">
             {project.repo_url && (

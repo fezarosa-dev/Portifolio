@@ -15,6 +15,13 @@ export type Author = {
   url: string | null
 }
 
+export type Company = {
+  id: string
+  name: string
+  name_en: string | null
+  url: string | null
+}
+
 export type ResumeLink = {
   id: string
   label: string | null
@@ -62,22 +69,25 @@ export type Project = {
   created_at: string
   languages: Language[]
   authors: Author[]
+  company: Company | null
 }
 
 export const PROJECT_SELECT =
-  '*, project_languages(languages(*)), project_authors(authors(*))'
+  '*, project_languages(languages(*)), project_authors(authors(*)), companies(*)'
 
-export type ProjectRow = Omit<Project, 'languages' | 'authors'> & {
+export type ProjectRow = Omit<Project, 'languages' | 'authors' | 'company'> & {
   project_languages: { languages: Language }[]
   project_authors: { authors: Author }[]
+  companies: Company | null
 }
 
 export function mapProjectRow(row: ProjectRow): Project {
-  const { project_languages, project_authors, ...rest } = row
+  const { project_languages, project_authors, companies, ...rest } = row
   return {
     ...rest,
     languages: project_languages.map((pl) => pl.languages),
     authors: project_authors.map((pa) => pa.authors),
+    company: companies,
   }
 }
 
@@ -102,6 +112,17 @@ export async function getAuthors(): Promise<Author[]> {
 
   if (error) throw error
   return data as Author[]
+}
+
+export async function getCompanies(): Promise<Company[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('companies')
+    .select('*')
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+  return data as Company[]
 }
 
 export async function getVisibleProjects(): Promise<Project[]> {
