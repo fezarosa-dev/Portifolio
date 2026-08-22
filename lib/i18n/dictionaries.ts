@@ -10,6 +10,7 @@ export type Dictionary = {
     email: string
     github: string
     linkedin: string
+    exportAi: string
   }
   home: {
     whoami: string
@@ -72,7 +73,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       menuOpen: 'Abrir menu',
       menuClose: 'Fechar menu',
     },
-    footer: { email: 'e-mail', github: 'github', linkedin: 'linkedin' },
+    footer: { email: 'e-mail', github: 'github', linkedin: 'linkedin', exportAi: 'exportar p/ IA' },
     home: {
       whoami: '$ whoami',
       aboutEyebrow: 'sobre',
@@ -132,7 +133,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       menuOpen: 'Open menu',
       menuClose: 'Close menu',
     },
-    footer: { email: 'email', github: 'github', linkedin: 'linkedin' },
+    footer: { email: 'email', github: 'github', linkedin: 'linkedin', exportAi: 'export for AI' },
     home: {
       whoami: '$ whoami',
       aboutEyebrow: 'about',

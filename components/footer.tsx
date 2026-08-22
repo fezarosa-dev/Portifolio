@@ -2,7 +2,7 @@ import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 
 export async function Footer() {
-  const [content, { dict }] = await Promise.all([getSiteContent(), getDictionary()])
+  const [content, { dict, locale }] = await Promise.all([getSiteContent(), getDictionary()])
   const links = [
     content.contato_email && { href: `mailto:${content.contato_email}`, label: dict.footer.email },
     content.link_github && { href: content.link_github, label: dict.footer.github },
@@ -12,7 +12,17 @@ export async function Footer() {
   return (
     <footer className="mt-auto border-t border-hairline px-6 py-8">
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-4 font-mono text-xs text-steel sm:flex-row">
-        <p>© {new Date().getFullYear()} Felipe Zanoni da Rosa</p>
+        <p className="flex flex-wrap items-center justify-center gap-3">
+          <span>© {new Date().getFullYear()} Felipe Zanoni da Rosa</span>
+          <a
+            href={`/api/export?locale=${locale}`}
+            download={`zanoni-portfolio-${locale}.json`}
+            title="JSON com projetos, currículo e contato — pra colar num modelo de IA"
+            className="rounded-full border border-hairline px-2 py-0.5 transition-colors hover:border-signal hover:text-signal"
+          >
+            {dict.footer.exportAi} ↓
+          </a>
+        </p>
         <div className="flex gap-5">
           {links.map((link) => (
             <a
