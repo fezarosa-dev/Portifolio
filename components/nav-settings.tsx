@@ -1,10 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import { Popover } from '@base-ui/react/popover'
 import { SettingsIcon } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageSwitch } from '@/components/language-switch'
 import { ReduceMotionToggle } from '@/components/reduce-motion-toggle'
+import { KonamiAdmin } from '@/components/konami-admin'
 import type { Locale } from '@/lib/i18n/dictionaries'
 
 export function NavSettings({
@@ -16,8 +18,11 @@ export function NavSettings({
   locale: Locale
   label: string
 }) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Popover.Root>
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <KonamiAdmin active={open} />
       <Popover.Trigger
         aria-label={label}
         title={label}
