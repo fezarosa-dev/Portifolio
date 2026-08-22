@@ -1,10 +1,14 @@
 # CocoIndex Code (ccc)
 /.cocoindex_code/
 
-# bloqueia todo .md (specs, planos, notas...) — só README e SECURITY vão pro repo
+# bloqueia todo .md (specs, planos, notas...) — só os arquivos abaixo vão pro repo
 *.md
 !README.md
 !SECURITY.md
+!CHANGELOG.md
+!CODE_OF_CONDUCT.md
+!.github/pull_request_template.md
+!.github/ISSUE_TEMPLATE/*.md
 
 # ferramentas/artefatos de agentes de IA
 .cl?ude/
