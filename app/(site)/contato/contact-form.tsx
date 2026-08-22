@@ -38,14 +38,11 @@ export function ContactForm({ dict }: { dict: Dictionary['contato'] }) {
   }
 
   if (status === 'sent') {
-    if (reduceMotion) {
-      return <p className="font-mono text-sm text-status">{dict.sent}</p>
-    }
     return (
       <motion.p
-        initial={{ opacity: 0, y: 12, scale: 0.97 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 12, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="font-mono text-sm text-status"
       >
         {dict.sent}

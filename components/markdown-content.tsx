@@ -22,16 +22,12 @@ export function MarkdownContent({
     <ReactMarkdown remarkPlugins={[remarkGfm, [remarkDriveImages, driveImages]]}>{content}</ReactMarkdown>
   )
 
-  if (reduceMotion) {
-    return <div className={CLASS_NAME}>{markdown}</div>
-  }
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={CLASS_NAME}
     >
       {markdown}

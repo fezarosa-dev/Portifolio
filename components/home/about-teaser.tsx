@@ -17,16 +17,12 @@ export function AboutTeaser({ text, eyebrow }: { text: string; eyebrow: string }
     </>
   )
 
-  if (reduceMotion) {
-    return <section className="mx-auto max-w-2xl px-6 py-24">{content}</section>
-  }
-
   return (
     <motion.section
-      initial={{ opacity: 0, y: 40 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       className="mx-auto max-w-2xl px-6 py-24"
     >
       {content}
