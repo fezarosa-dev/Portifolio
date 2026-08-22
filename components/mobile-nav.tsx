@@ -3,15 +3,23 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
+import { NavSettings } from '@/components/nav-settings'
+import type { Locale } from '@/lib/i18n/dictionaries'
 
 export function MobileNav({
   links,
   openLabel,
   closeLabel,
+  settingsLabel,
+  initialDark,
+  locale,
 }: {
   links: { href: string; label: string }[]
   openLabel: string
   closeLabel: string
+  settingsLabel: string
+  initialDark: boolean
+  locale: Locale
 }) {
   const [open, setOpen] = useState(false)
 
@@ -43,7 +51,7 @@ export function MobileNav({
             className="absolute inset-x-0 top-full flex flex-col border-b border-hairline bg-background px-6 py-2"
           >
             {links.map((link) => (
-              <li key={link.href} className="border-b border-hairline last:border-b-0">
+              <li key={link.href} className="border-b border-hairline">
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
@@ -53,6 +61,9 @@ export function MobileNav({
                 </Link>
               </li>
             ))}
+            <li className="flex justify-end py-3">
+              <NavSettings initialDark={initialDark} locale={locale} label={settingsLabel} />
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>

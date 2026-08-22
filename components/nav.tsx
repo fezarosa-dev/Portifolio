@@ -43,6 +43,9 @@ export async function Nav() {
             aria-hidden
           />
           <span className="truncate">{statusText}</span>
+          <span className="ml-auto flex items-center">
+            <NavSettings initialDark={isDark} locale={locale} label={dict.nav.settings} />
+          </span>
         </div>
       </CollapsibleOnScroll>
       <nav className="relative flex items-center justify-between px-6 py-4">
@@ -61,10 +64,14 @@ export async function Nav() {
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-3">
-          <NavSettings initialDark={isDark} locale={locale} label={dict.nav.settings} />
-          <MobileNav links={navLinks} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
-        </div>
+        <MobileNav
+          links={navLinks}
+          openLabel={dict.nav.menuOpen}
+          closeLabel={dict.nav.menuClose}
+          settingsLabel={dict.nav.settings}
+          initialDark={isDark}
+          locale={locale}
+        />
       </nav>
     </div>
   )

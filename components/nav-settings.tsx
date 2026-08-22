@@ -25,8 +25,8 @@ export function NavSettings({
         <SettingsIcon className="h-3.5 w-3.5" aria-hidden />
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Positioner side="bottom" align="end" sideOffset={8}>
-          <Popover.Popup className="z-50 flex flex-col gap-3 rounded-lg border border-hairline bg-card p-3 shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
+        <Popover.Positioner side="bottom" align="end" sideOffset={8} className="z-50">
+          <Popover.Popup className="flex flex-col gap-3 rounded-lg border border-hairline bg-card p-3 shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
             <ThemeToggle initialDark={initialDark} locale={locale} />
             <div className="h-px bg-hairline" aria-hidden />
             <LanguageSwitch locale={locale} />
