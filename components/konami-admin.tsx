@@ -67,7 +67,7 @@ export function KonamiAdmin({ active }: { active: boolean }) {
       progressRef.current += 1
       if (progressRef.current === SEQUENCE.length) {
         progressRef.current = 0
-        router.push('/admin')
+        router.push('/admin/login')
       }
     }
 
