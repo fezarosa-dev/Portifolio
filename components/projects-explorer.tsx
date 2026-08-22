@@ -68,9 +68,16 @@ export function ProjectsExplorer({
     if (query.trim()) {
       const q = query.trim().toLowerCase()
       result = result.filter((p) => {
-        const title = resolveText(p.title, p.title_en, locale)
-        const summary = resolveText(p.summary, p.summary_en, locale)
-        return title.toLowerCase().includes(q) || summary.toLowerCase().includes(q)
+        const haystack = [
+          resolveText(p.title, p.title_en, locale),
+          resolveText(p.summary, p.summary_en, locale),
+          p.company ? resolveText(p.company.name, p.company.name_en, locale) : '',
+          ...p.languages.map((lang) => lang.name),
+          ...p.authors.map((author) => author.name),
+        ]
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(q)
       })
     }
 
