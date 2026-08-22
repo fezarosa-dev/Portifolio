@@ -92,12 +92,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               locale === "en"
                 ? `<!--
   hey, curious dev! thanks for peeking at the code.
-  this site was hand-built by Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/Portifolio
+  this site was hand-built by Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/portfolio
   there are a few easter eggs hidden around here too, good luck finding them ;)
 -->`
                 : `<!--
   oi, curioso(a)! obrigado por dar uma olhada no código.
-  esse site foi feito à mão pelo Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/Portifolio
+  esse site foi feito à mão pelo Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/portfolio
   também tem uns easter eggs escondidos por aqui, boa sorte achando ;)
 -->`,
           }}

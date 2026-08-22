@@ -38,7 +38,7 @@ export function SudoEasterEgg({ locale }: { locale: Locale }) {
       'font-family:monospace;color:#6b7280;font-size:12px'
     )
     console.log(
-      `%c${isEn ? 'Curious how this site was built?' : 'Curioso sobre como esse site foi feito?'} %chttps://github.com/fezarosa-dev/Portifolio`,
+      `%c${isEn ? 'Curious how this site was built?' : 'Curioso sobre como esse site foi feito?'} %chttps://github.com/fezarosa-dev/portfolio`,
       'font-family:monospace;color:#6b7280;font-size:12px',
       'font-family:monospace;color:#F2661D;font-size:12px'
     )
