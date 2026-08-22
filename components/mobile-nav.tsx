@@ -51,17 +51,15 @@ export function MobileNav({
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? closeLabel : openLabel}
         aria-expanded={open}
-        className="flex h-8 w-8 flex-col items-center justify-center gap-1.5"
+        className={`flex h-8 w-8 flex-col items-center justify-center gap-2 ${reduceMotion ? '' : 'transition-transform duration-300'} ${open ? 'rotate-90' : ''}`}
       >
         <span
-          className={`h-px w-5 bg-foreground ${reduceMotion ? '' : 'transition-transform'} ${open ? 'translate-y-[3px] rotate-45' : ''}`}
+          className={`h-0.5 w-5 origin-left bg-foreground ${reduceMotion ? '' : 'transition-transform duration-300'} ${open ? 'z-10 translate-y-5 rotate-[-60deg]' : ''}`}
         />
         <span
-          className={`h-px w-5 bg-foreground ${reduceMotion ? '' : 'transition-opacity'} ${open ? 'opacity-0' : ''}`}
+          className={`h-0.5 w-5 origin-right bg-foreground ${reduceMotion ? '' : 'transition-transform duration-300'} ${open ? 'z-20 translate-y-2.5 rotate-[60deg]' : ''}`}
         />
-        <span
-          className={`h-px w-5 bg-foreground ${reduceMotion ? '' : 'transition-transform'} ${open ? '-translate-y-[3px] -rotate-45' : ''}`}
-        />
+        <span className="h-0.5 w-5 bg-foreground" />
       </button>
 
       <AnimatePresence>
