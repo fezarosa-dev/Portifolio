@@ -4,7 +4,10 @@ import { Footer } from '@/components/footer'
 import { Mascote } from '@/components/mascote'
 import { SudoEasterEgg } from '@/components/sudo-easter-egg'
 import { getSiteContent } from '@/lib/supabase/queries'
+import { findDriveFile, parseDriveFolderId } from '@/lib/drive'
 import { getLocale } from '@/lib/i18n'
+
+const RICKROLL_FILENAME = 'never_gonna_give-you_up.mp4'
 
 const SITE_NAME = 'Felipe Zanoni da Rosa'
 const SITE_URL = 'https://www.zanoni.dev.br'
@@ -69,13 +72,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [content, locale] = await Promise.all([getSiteContent(), getLocale()])
+  const folderId = content.drive_folder_url ? parseDriveFolderId(content.drive_folder_url) : null
+  const rickrollVideo = folderId ? await findDriveFile(folderId, RICKROLL_FILENAME).catch(() => null) : null
 
   return (
     <>
       <Nav />
       {children}
       <Footer />
-      <Mascote ativo={content.mascote_ativo === 'true'} />
+      <Mascote ativo={content.mascote_ativo === 'true'} rickrollVideoId={rickrollVideo?.id ?? null} />
       <SudoEasterEgg locale={locale} />
     </>
   )

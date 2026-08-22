@@ -43,3 +43,26 @@ export function resolveDriveImageUrl(name: string, images: DriveImage[]): string
   const image = images.find((img) => img.name === name)
   return image ? `/api/drive-image/${image.id}` : null
 }
+
+export type DriveFile = { id: string; name: string }
+
+export async function findDriveFile(folderId: string, name: string): Promise<DriveFile | null> {
+  const apiKey = requireApiKey()
+  const escapedName = name.replace(/'/g, "\\'")
+  const q = encodeURIComponent(`'${folderId}' in parents and name = '${escapedName}' and trashed = false`)
+  const fields = encodeURIComponent('files(id,name)')
+  const url = `${DRIVE_API_BASE}/files?q=${q}&fields=${fields}&key=${apiKey}`
+
+  const res = await fetch(url, { next: { revalidate: 3600 } })
+  if (!res.ok) {
+    throw new Error(`Falha ao buscar arquivo do Drive: ${res.status}`)
+  }
+  const data = (await res.json()) as { files?: DriveFile[] }
+  return data.files?.[0] ?? null
+}
+
+export async function fetchDriveFile(fileId: string, range?: string | null): Promise<Response> {
+  const apiKey = requireApiKey()
+  const url = `${DRIVE_API_BASE}/files/${fileId}?alt=media&key=${apiKey}`
+  return fetch(url, range ? { headers: { Range: range } } : undefined)
+}
