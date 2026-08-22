@@ -39,7 +39,7 @@ export default async function HomePage() {
       <HeroSection
         title={resolveText(content.hero_title ?? '', content.hero_title_en, locale)}
         subtitle={heroSubtitle}
-        languages={languages}
+        languages={languages.filter((lang) => lang.show_on_home)}
         whoamiLabel={dict.home.whoami}
         locale={locale}
       />

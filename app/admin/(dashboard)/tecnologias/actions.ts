@@ -6,6 +6,7 @@ import {
   deleteLanguage,
   updateLanguage,
   setLanguagesOrder,
+  setLanguageShowOnHome,
 } from '@/lib/supabase/admin-queries'
 
 export async function saveLanguage(formData: FormData) {
@@ -36,6 +37,12 @@ export async function removeLanguage(id: string) {
 
 export async function saveLanguagesOrder(orderedIds: string[]) {
   await setLanguagesOrder(orderedIds)
+  revalidatePath('/admin/tecnologias')
+  revalidatePath('/')
+}
+
+export async function toggleShowOnHome(id: string, showOnHome: boolean) {
+  await setLanguageShowOnHome(id, showOnHome)
   revalidatePath('/admin/tecnologias')
   revalidatePath('/')
 }

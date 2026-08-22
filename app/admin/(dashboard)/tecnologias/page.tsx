@@ -3,7 +3,13 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ToastForm } from '@/components/admin/toast-form'
 import { TechnologyReorderList } from '@/components/admin/technology-reorder-list'
-import { saveLanguage, removeLanguage, editLanguage, saveLanguagesOrder } from './actions'
+import {
+  saveLanguage,
+  removeLanguage,
+  editLanguage,
+  saveLanguagesOrder,
+  toggleShowOnHome,
+} from './actions'
 
 export default async function TecnologiasPage() {
   const languages = await getLanguages()
@@ -14,7 +20,9 @@ export default async function TecnologiasPage() {
       <p className="mb-6 text-sm text-muted-foreground">
         Digite o nome da linguagem, framework ou ferramenta (ex: Python, TypeScript, Docker) — o
         ícone é encontrado automaticamente pelo nome. Se não encontrar (ex: Cython), preencha a
-        URL do ícone manualmente. Arraste pelos pontinhos pra reordenar como aparecem no site.
+        URL do ícone manualmente. Arraste pelos pontinhos pra reordenar como aparecem no site. O
+        ⌂ liga/desliga se a tecnologia aparece na tela inicial — ela continua valendo nos
+        projetos e nos filtros mesmo desligada ali.
       </p>
 
       <ToastForm
@@ -34,6 +42,7 @@ export default async function TecnologiasPage() {
         editAction={editLanguage}
         removeAction={removeLanguage}
         saveOrderAction={saveLanguagesOrder}
+        toggleShowOnHomeAction={toggleShowOnHome}
       />
     </div>
   )

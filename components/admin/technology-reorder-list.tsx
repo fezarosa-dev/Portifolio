@@ -27,11 +27,13 @@ function TechnologyRow({
   onDragEnd,
   editAction,
   removeAction,
+  toggleShowOnHomeAction,
 }: {
   lang: Language
   onDragEnd: () => void
   editAction: (id: string, formData: FormData) => Promise<void>
   removeAction: (id: string) => Promise<void>
+  toggleShowOnHomeAction: (id: string, showOnHome: boolean) => Promise<void>
 }) {
   const dragControls = useDragControls()
 
@@ -64,6 +66,19 @@ function TechnologyRow({
           ⚠
         </span>
       )}
+      <form action={toggleShowOnHomeAction.bind(null, lang.id, !lang.show_on_home)}>
+        <button
+          type="submit"
+          title={
+            lang.show_on_home
+              ? 'Aparece na tela inicial — clique pra tirar'
+              : 'Não aparece na tela inicial — clique pra mostrar'
+          }
+          className={`shrink-0 text-base ${lang.show_on_home ? 'text-signal' : 'text-steel/50'}`}
+        >
+          ⌂
+        </button>
+      </form>
       <ToastForm
         action={editAction.bind(null, lang.id)}
         successMessage="Tecnologia atualizada"
@@ -96,11 +111,13 @@ export function TechnologyReorderList({
   editAction,
   removeAction,
   saveOrderAction,
+  toggleShowOnHomeAction,
 }: {
   languages: Language[]
   editAction: (id: string, formData: FormData) => Promise<void>
   removeAction: (id: string) => Promise<void>
   saveOrderAction: (orderedIds: string[]) => Promise<void>
+  toggleShowOnHomeAction: (id: string, showOnHome: boolean) => Promise<void>
 }) {
   const [order, setOrder] = useState(languages)
 
@@ -130,6 +147,7 @@ export function TechnologyReorderList({
           onDragEnd={handleDragEnd}
           editAction={editAction}
           removeAction={removeAction}
+          toggleShowOnHomeAction={toggleShowOnHomeAction}
         />
       ))}
     </Reorder.Group>

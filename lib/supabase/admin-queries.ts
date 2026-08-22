@@ -53,6 +53,12 @@ export async function deleteLanguage(id: string): Promise<void> {
   if (error) throw error
 }
 
+export async function setLanguageShowOnHome(id: string, showOnHome: boolean): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('languages').update({ show_on_home: showOnHome }).eq('id', id)
+  if (error) throw error
+}
+
 export async function updateLanguage(id: string, name: string, customIconUrl?: string): Promise<Language> {
   const icon = customIconUrl ? { slug: customIconUrl, variant: null, source: 'custom' as const } : resolveIcon(name)
   const supabase = await createClient()

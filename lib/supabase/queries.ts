@@ -7,6 +7,7 @@ export type Language = {
   devicon_variant: string | null
   icon_source: string | null
   position: number
+  show_on_home: boolean
 }
 
 export type Author = {
