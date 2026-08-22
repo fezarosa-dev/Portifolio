@@ -7,11 +7,22 @@ import { createPortal } from 'react-dom'
 
 export const RickrollPlayer = forwardRef<
   HTMLVideoElement,
-  { videoUrl: string; onClose: () => void }
->(function RickrollPlayer({ videoUrl, onClose }, ref) {
+  { videoUrl: string; open: boolean; onClose: () => void }
+>(function RickrollPlayer({ videoUrl, open, onClose }, ref) {
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black">
-      <video ref={ref} src={videoUrl} controls playsInline className="h-full w-full object-contain" />
+    <div
+      className={
+        open ? 'fixed inset-0 z-[70] flex items-center justify-center bg-black' : 'hidden'
+      }
+    >
+      <video
+        ref={ref}
+        src={videoUrl}
+        preload="auto"
+        controls
+        playsInline
+        className="h-full w-full object-contain"
+      />
       <button
         type="button"
         onClick={onClose}

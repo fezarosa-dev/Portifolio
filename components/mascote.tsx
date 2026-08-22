@@ -16,6 +16,7 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
   const [acordado, setAcordado] = useState(false)
   const [frase, setFrase] = useState('...')
   const [rickrollOpen, setRickrollOpen] = useState(false)
+  const [rickrollPreload, setRickrollPreload] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const requestIdRef = useRef(0)
   const clickTimestampsRef = useRef<number[]>([])
@@ -48,6 +49,12 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
     acordar()
     if (!rickrollVideoId) return
 
+    if (!rickrollPreload) {
+      // já no 1º clique deixa o <video> montado (escondido) com preload="auto",
+      // pra começar a bufferizar antes da pessoa completar os 3 cliques
+      flushSync(() => setRickrollPreload(true))
+    }
+
     const now = Date.now()
     const recent = clickTimestampsRef.current.filter((t) => now - t < RICKROLL_WINDOW_MS)
     recent.push(now)
@@ -55,10 +62,18 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
 
     if (recent.length >= RICKROLL_CLICKS) {
       clickTimestampsRef.current = []
-      // flushSync monta o <video> na hora, sem esperar o próximo render —
       // o play() precisa rodar dentro do mesmo clique pro navegador liberar som
-      flushSync(() => setRickrollOpen(true))
+      setRickrollOpen(true)
       rickrollVideoRef.current?.play().catch(() => {})
+    }
+  }
+
+  function fecharRickroll() {
+    setRickrollOpen(false)
+    const video = rickrollVideoRef.current
+    if (video) {
+      video.pause()
+      video.currentTime = 0
     }
   }
 
@@ -94,11 +109,12 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
         </>
       )}
 
-      {rickrollOpen && rickrollVideoId && (
+      {rickrollVideoId && rickrollPreload && (
         <RickrollPlayer
           ref={rickrollVideoRef}
           videoUrl={`/api/drive-video/${rickrollVideoId}`}
-          onClose={() => setRickrollOpen(false)}
+          open={rickrollOpen}
+          onClose={fecharRickroll}
         />
       )}
     </div>
