@@ -83,6 +83,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Script>
       </head>
       <body className="min-h-full flex flex-col">
+        <div
+          aria-hidden
+          suppressHydrationWarning
+          style={{ display: "none" }}
+          dangerouslySetInnerHTML={{
+            __html:
+              locale === "en"
+                ? `<!--
+  hey, curious dev! thanks for peeking at the code.
+  this site was hand-built by Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/Portifolio
+  there are a few easter eggs hidden around here too, good luck finding them ;)
+-->`
+                : `<!--
+  oi, curioso(a)! obrigado por dar uma olhada no código.
+  esse site foi feito à mão pelo Felipe Zanoni da Rosa — https://github.com/fezarosa-dev/Portifolio
+  também tem uns easter eggs escondidos por aqui, boa sorte achando ;)
+-->`,
+          }}
+        />
         <ReduceMotionProvider
           initialEnabled={reduceMotionCookie === "true"}
           cookieSet={reduceMotionCookie !== undefined}
