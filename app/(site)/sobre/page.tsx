@@ -34,7 +34,7 @@ export default async function SobrePage() {
             width={256}
             height={256}
             priority
-            className="mt-8 h-64 w-64 rounded-full border border-hairline object-cover"
+            className="mx-auto mt-8 block h-64 w-64 rounded-full border border-hairline object-cover sm:mx-0"
           />
         )}
       </FadeIn>
