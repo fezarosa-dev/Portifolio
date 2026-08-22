@@ -148,7 +148,7 @@ export function ProjectForm({
             <option value="">Nenhuma</option>
             {availableCompanies.map((company) => (
               <option key={company.id} value={company.id}>
-                {company.name}
+                {company.name ?? company.name_en}
               </option>
             ))}
           </select>

@@ -4,9 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { addCompany, deleteCompany, updateCompany } from '@/lib/supabase/admin-queries'
 
 export async function saveCompany(formData: FormData) {
-  const name = String(formData.get('name') ?? '').trim()
-  if (!name) return
+  const name = String(formData.get('name') ?? '').trim() || null
   const nameEn = String(formData.get('name_en') ?? '').trim() || null
+  if (!name && !nameEn) return
   const url = String(formData.get('url') ?? '').trim() || null
 
   await addCompany(name, nameEn, url)
@@ -15,9 +15,9 @@ export async function saveCompany(formData: FormData) {
 }
 
 export async function editCompany(id: string, formData: FormData) {
-  const name = String(formData.get('name') ?? '').trim()
-  if (!name) return
+  const name = String(formData.get('name') ?? '').trim() || null
   const nameEn = String(formData.get('name_en') ?? '').trim() || null
+  if (!name && !nameEn) return
   const url = String(formData.get('url') ?? '').trim() || null
 
   await updateCompany(id, name, nameEn, url)

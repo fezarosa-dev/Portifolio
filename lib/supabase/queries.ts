@@ -17,7 +17,7 @@ export type Author = {
 
 export type Company = {
   id: string
-  name: string
+  name: string | null
   name_en: string | null
   url: string | null
 }

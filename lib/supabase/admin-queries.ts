@@ -149,14 +149,14 @@ export async function deleteAuthor(id: string): Promise<void> {
 }
 
 export async function addCompany(
-  name: string,
+  name: string | null,
   nameEn: string | null,
   url: string | null
 ): Promise<Company> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('companies')
-    .insert({ name: name.trim(), name_en: nameEn?.trim() || null, url: url?.trim() || null })
+    .insert({ name: name?.trim() || null, name_en: nameEn?.trim() || null, url: url?.trim() || null })
     .select()
     .single()
   if (error) throw error
@@ -165,14 +165,14 @@ export async function addCompany(
 
 export async function updateCompany(
   id: string,
-  name: string,
+  name: string | null,
   nameEn: string | null,
   url: string | null
 ): Promise<Company> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('companies')
-    .update({ name: name.trim(), name_en: nameEn?.trim() || null, url: url?.trim() || null })
+    .update({ name: name?.trim() || null, name_en: nameEn?.trim() || null, url: url?.trim() || null })
     .eq('id', id)
     .select()
     .single()

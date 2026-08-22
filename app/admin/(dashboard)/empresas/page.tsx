@@ -12,8 +12,9 @@ export default async function EmpresasPage() {
       <h1 className="mb-2 text-2xl font-semibold">Empresas</h1>
       <p className="mb-6 text-sm text-muted-foreground">
         Empresas onde você já trabalhou — depois é só selecionar qual delas fez cada projeto na
-        aba Projetos. &quot;Freelancer&quot; e &quot;Projeto pessoal&quot; já vêm cadastrados. O
-        nome em inglês é opcional — se deixar vazio, usa o nome em português também no site em EN.
+        aba Projetos. &quot;Freelancer&quot; e &quot;Projeto pessoal&quot; já vêm cadastrados.
+        Preencha nome em PT, em EN, ou os dois: se preencher só um lado, esse nome aparece no site
+        independente do idioma da página; se preencher os dois, cada idioma mostra o seu.
       </p>
 
       <ToastForm
@@ -21,8 +22,8 @@ export default async function EmpresasPage() {
         successMessage="Empresa adicionada"
         className="mb-8 flex max-w-sm flex-wrap gap-2"
       >
-        <Input name="name" placeholder="Nome (PT)" required />
-        <Input name="name_en" placeholder="Nome (EN, opcional)" />
+        <Input name="name" placeholder="Nome (PT)" />
+        <Input name="name_en" placeholder="Nome (EN)" />
         <Input name="url" placeholder="Link (site da empresa...)" />
         <Button type="submit">Adicionar</Button>
       </ToastForm>
@@ -38,11 +39,11 @@ export default async function EmpresasPage() {
                 successMessage="Empresa atualizada"
                 className="flex flex-1 flex-wrap gap-2"
               >
-                <Input name="name" defaultValue={company.name} className="h-8" />
+                <Input name="name" defaultValue={company.name ?? ''} placeholder="Nome (PT)" className="h-8" />
                 <Input
                   name="name_en"
                   defaultValue={company.name_en ?? ''}
-                  placeholder="Nome (EN, opcional)"
+                  placeholder="Nome (EN)"
                   className="h-8"
                 />
                 <Input
