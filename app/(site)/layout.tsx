@@ -15,7 +15,7 @@ const SITE_URL = 'https://www.zanoni.dev.br'
 
 const SEO_BY_LOCALE = {
   pt: {
-    title: { absolute: 'Zanoni - Portifolio', template: '%s — Zanoni - Portifolio' },
+    title: { absolute: 'Zanoni', template: '%s — Zanoni' },
     ogTitle: `${SITE_NAME} — Portfólio`,
     description:
       'Portfólio de Felipe Zanoni da Rosa, desenvolvedor de software full stack — projetos, artigos técnicos, currículo e contato.',
@@ -31,7 +31,7 @@ const SEO_BY_LOCALE = {
     ogLocale: 'pt_BR',
   },
   en: {
-    title: { absolute: 'Zanoni - Portfolio', template: '%s — Zanoni - Portfolio' },
+    title: { absolute: 'Zanoni', template: '%s — Zanoni' },
     ogTitle: `${SITE_NAME} — Portfolio`,
     description:
       'Portfolio of Felipe Zanoni da Rosa, full stack software developer — projects, technical articles, resume and contact.',
