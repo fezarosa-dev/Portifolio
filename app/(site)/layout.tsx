@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Nav } from '@/components/nav'
 import { Footer } from '@/components/footer'
 import { Mascote } from '@/components/mascote'
+import { SudoEasterEgg } from '@/components/sudo-easter-egg'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { getLocale } from '@/lib/i18n'
 
@@ -67,7 +68,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const content = await getSiteContent()
+  const [content, locale] = await Promise.all([getSiteContent(), getLocale()])
 
   return (
     <>
@@ -75,6 +76,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       {children}
       <Footer />
       <Mascote ativo={content.mascote_ativo === 'true'} />
+      <SudoEasterEgg locale={locale} />
     </>
   )
 }
