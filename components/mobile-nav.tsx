@@ -64,27 +64,19 @@ export function MobileNav({
         />
       </button>
 
-      {reduceMotion ? (
-        open && (
-          <ul className="absolute inset-x-0 top-full flex flex-col border-b border-hairline bg-background px-6 py-2">
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-x-0 top-full flex flex-col border-b border-hairline bg-background px-6 py-2"
+          >
             {items}
-          </ul>
-        )
-      ) : (
-        <AnimatePresence>
-          {open && (
-            <motion.ul
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-0 top-full flex flex-col border-b border-hairline bg-background px-6 py-2"
-            >
-              {items}
-            </motion.ul>
-          )}
-        </AnimatePresence>
-      )}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
