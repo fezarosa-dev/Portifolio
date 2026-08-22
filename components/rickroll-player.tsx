@@ -1,5 +1,7 @@
 'use client'
 
+// never gonna give this repo up. clique 3x rápido no cachorro dormindo
+// (components/mascote.tsx) pra ver isso ao vivo.
 import { createPortal } from 'react-dom'
 
 export function RickrollPlayer({ videoUrl, onClose }: { videoUrl: string; onClose: () => void }) {

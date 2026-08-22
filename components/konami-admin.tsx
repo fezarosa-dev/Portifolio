@@ -1,5 +1,8 @@
 'use client'
 
+// achou um easter egg vasculhando o código? tem mais: components/sudo-easter-egg.tsx
+// e components/spin-easter-egg.tsx. este aqui: ↑ ↑ ↓ ↓ ← → ← → B A com o menu de
+// configurações do site aberto.
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useReduceMotion } from '@/components/reduce-motion-provider'

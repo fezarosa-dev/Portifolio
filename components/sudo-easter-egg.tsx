@@ -1,5 +1,8 @@
 'use client'
 
+// oi, dev curioso. digite "sudo" em qualquer lugar da página (fora de um
+// campo de texto) pra ver o que acontece. tem mais easter eggs escondidos
+// em konami-admin.tsx e spin-easter-egg.tsx.
 import { useEffect, useRef, useState } from 'react'
 import { useReduceMotion } from '@/components/reduce-motion-provider'
 import type { Locale } from '@/lib/i18n/dictionaries'

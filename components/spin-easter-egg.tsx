@@ -1,5 +1,8 @@
 'use client'
 
+// tipo o "do a barrel roll" do Google — digite "girar" ou "spin" em
+// qualquer lugar da página. tem mais em sudo-easter-egg.tsx e
+// konami-admin.tsx.
 import { useEffect, useRef } from 'react'
 import { useReduceMotion } from '@/components/reduce-motion-provider'
 
