@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Reorder, useDragControls } from 'framer-motion'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
@@ -110,11 +110,13 @@ export function LinkListReorder<T extends LabeledLink>({
   saveOrderAction: (orderedIds: string[]) => Promise<void>
 }) {
   const [order, setOrder] = useState(links)
+  const [prevLinks, setPrevLinks] = useState(links)
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
 
-  useEffect(() => {
+  if (links !== prevLinks) {
+    setPrevLinks(links)
     setOrder(links)
-  }, [links])
+  }
 
   async function handleDragEnd() {
     try {

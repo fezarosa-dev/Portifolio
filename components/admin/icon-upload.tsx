@@ -25,6 +25,7 @@ export function IconUpload({
   const [baseScale, setBaseScale] = useState(1)
   const [zoom, setZoom] = useState(1)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const [naturalSize, setNaturalSize] = useState({ width: 0, height: 0 })
   const dragState = useRef<{ startX: number; startY: number; offsetX: number; offsetY: number } | null>(
     null
   )
@@ -52,6 +53,7 @@ export function IconUpload({
     const scale = Math.max(VIEWPORT / img.naturalWidth, VIEWPORT / img.naturalHeight)
     setBaseScale(scale)
     setZoom(1)
+    setNaturalSize({ width: img.naturalWidth, height: img.naturalHeight })
     setOffset(
       clampOffset(
         (VIEWPORT - img.naturalWidth * scale) / 2,
@@ -147,8 +149,8 @@ export function IconUpload({
                 position: 'absolute',
                 left: offset.x,
                 top: offset.y,
-                width: imgRef.current ? imgRef.current.naturalWidth * baseScale * zoom : undefined,
-                height: imgRef.current ? imgRef.current.naturalHeight * baseScale * zoom : undefined,
+                width: naturalSize.width ? naturalSize.width * baseScale * zoom : undefined,
+                height: naturalSize.height ? naturalSize.height * baseScale * zoom : undefined,
                 maxWidth: 'none',
               }}
             />

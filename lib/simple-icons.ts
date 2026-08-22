@@ -1,5 +1,5 @@
 import icons from './simple-icons.json' with { type: 'json' }
-import { normalize } from './devicon'
+import { normalize } from './devicon.ts'
 
 type SimpleIconEntry = { name: string; altnames: string[]; slug: string }
 

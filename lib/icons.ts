@@ -1,5 +1,5 @@
-import { findDeviconIcon, deviconIconUrl } from './devicon'
-import { findSimpleIcon } from './simple-icons'
+import { findDeviconIcon, deviconIconUrl } from './devicon.ts'
+import { findSimpleIcon } from './simple-icons.ts'
 
 export type IconSource = 'devicon' | 'simpleicon' | 'custom'
 

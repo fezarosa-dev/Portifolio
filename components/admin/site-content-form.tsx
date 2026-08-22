@@ -14,7 +14,7 @@ import { BilingualField } from '@/components/admin/bilingual-field'
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="rounded-lg border border-hairline bg-card p-6">
-      <h2 className="font-mono text-xs tracking-wide text-signal">// {title}</h2>
+      <h2 className="font-mono text-xs tracking-wide text-signal">{'// '}{title}</h2>
       <div className="mt-4 flex flex-col gap-4">{children}</div>
     </section>
   )

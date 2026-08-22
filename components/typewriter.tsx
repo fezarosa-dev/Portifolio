@@ -16,19 +16,17 @@ export function Typewriter({
   const steps = useMemo(() => buildTypingScript(text), [text])
   const [stepIndex, setStepIndex] = useState(0)
   const [display, setDisplay] = useState('')
+  const [prevText, setPrevText] = useState(text)
   const { enabled: reduceMotion } = useReduceMotion()
 
-  useEffect(() => {
-    setDisplay('')
+  if (text !== prevText) {
+    setPrevText(text)
     setStepIndex(0)
-  }, [text])
+    setDisplay('')
+  }
 
   useEffect(() => {
-    if (reduceMotion) {
-      setDisplay(text)
-      setStepIndex(steps.length)
-      return
-    }
+    if (reduceMotion) return
     if (stepIndex >= steps.length) return
 
     const step = steps[stepIndex]
@@ -41,15 +39,15 @@ export function Typewriter({
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [stepIndex, steps, text, startDelay, speed, reduceMotion])
+  }, [stepIndex, steps, startDelay, speed, reduceMotion])
 
-  const done = stepIndex >= steps.length
+  const done = reduceMotion || stepIndex >= steps.length
 
   return (
     <span>
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
-        {display}
+        {reduceMotion ? text : display}
         {!reduceMotion && (
           <span
             className={`ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] bg-current ${done ? 'animate-blink' : ''}`}

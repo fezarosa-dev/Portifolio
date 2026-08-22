@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Reorder, useDragControls } from 'framer-motion'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
@@ -120,10 +120,12 @@ export function TechnologyReorderList({
   toggleShowOnHomeAction: (id: string, showOnHome: boolean) => Promise<void>
 }) {
   const [order, setOrder] = useState(languages)
+  const [prevLanguages, setPrevLanguages] = useState(languages)
 
-  useEffect(() => {
+  if (languages !== prevLanguages) {
+    setPrevLanguages(languages)
     setOrder(languages)
-  }, [languages])
+  }
 
   async function handleDragEnd() {
     try {

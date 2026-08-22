@@ -12,7 +12,7 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-8">
-        <p className="font-mono text-xs text-signal">// admin</p>
+        <p className="font-mono text-xs text-signal">{'// admin'}</p>
         <h1 className="mt-2 text-2xl font-medium tracking-tight">Login</h1>
         <form action={formAction} className="mt-6 flex flex-col gap-4">
           <div>
