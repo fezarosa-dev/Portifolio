@@ -56,12 +56,12 @@ export default async function ProjetoDetailPage({
         <Eyebrow>{dict.projetos.detailEyebrow}</Eyebrow>
         <h1 className="mt-3 text-4xl font-medium tracking-tight">{title}</h1>
         {project.authors.length > 0 && (
-          <p className="mt-2 font-mono text-sm text-steel">
+          <p className="mt-2 font-mono text-sm font-medium text-foreground/80">
             {dict.projetos.with} <AuthorNames authors={project.authors} />
           </p>
         )}
         {project.company && (
-          <p className="mt-1 font-mono text-sm text-steel">
+          <p className="mt-1 font-mono text-sm font-medium text-foreground/80">
             {dict.projetos.at}{' '}
             {project.company.url ? (
               <a

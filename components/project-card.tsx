@@ -48,12 +48,12 @@ export function ProjectCard({
         <p className="mt-2 text-sm text-steel">{summary}</p>
       </Link>
       {project.authors.length > 0 && (
-        <p className="mt-2 font-mono text-xs text-steel">
+        <p className="mt-2 font-mono text-xs font-medium text-foreground/80">
           {withLabel} <AuthorNames authors={project.authors} />
         </p>
       )}
       {project.company && (
-        <p className="mt-1 font-mono text-xs text-steel">
+        <p className="mt-1 font-mono text-xs font-medium text-foreground/80">
           {atLabel}{' '}
           {project.company.url ? (
             <a
