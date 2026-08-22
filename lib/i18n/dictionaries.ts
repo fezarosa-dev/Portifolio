@@ -5,6 +5,7 @@ export type Dictionary = {
     links: { href: string; label: string }[]
     menuOpen: string
     menuClose: string
+    settings: string
   }
   footer: {
     email: string
@@ -72,6 +73,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ],
       menuOpen: 'Abrir menu',
       menuClose: 'Fechar menu',
+      settings: 'Configurações',
     },
     footer: { email: 'e-mail', github: 'github', linkedin: 'linkedin', exportAi: 'exportar p/ IA' },
     home: {
@@ -132,6 +134,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ],
       menuOpen: 'Open menu',
       menuClose: 'Close menu',
+      settings: 'Settings',
     },
     footer: { email: 'email', github: 'github', linkedin: 'linkedin', exportAi: 'export for AI' },
     home: {

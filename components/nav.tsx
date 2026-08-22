@@ -4,8 +4,7 @@ import { getSiteContent } from '@/lib/supabase/queries'
 import { getDictionary } from '@/lib/i18n'
 import { resolveText } from '@/lib/bilingual'
 import { MobileNav } from '@/components/mobile-nav'
-import { LanguageSwitch } from '@/components/language-switch'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { NavSettings } from '@/components/nav-settings'
 import { CollapsibleOnScroll } from '@/components/collapsible-on-scroll'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -44,10 +43,6 @@ export async function Nav() {
             aria-hidden
           />
           <span className="truncate">{statusText}</span>
-          <span className="ml-auto flex items-center gap-4">
-            <ThemeToggle initialDark={isDark} locale={locale} />
-            <LanguageSwitch locale={locale} />
-          </span>
         </div>
       </CollapsibleOnScroll>
       <nav className="relative flex items-center justify-between px-6 py-4">
@@ -66,9 +61,8 @@ export async function Nav() {
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle initialDark={isDark} locale={locale} />
-          <LanguageSwitch locale={locale} />
+        <div className="flex items-center gap-3">
+          <NavSettings initialDark={isDark} locale={locale} label={dict.nav.settings} />
           <MobileNav links={navLinks} openLabel={dict.nav.menuOpen} closeLabel={dict.nav.menuClose} />
         </div>
       </nav>
