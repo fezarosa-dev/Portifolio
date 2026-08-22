@@ -74,7 +74,7 @@ function TechnologyRow({
               ? 'Aparece na tela inicial — clique pra tirar'
               : 'Não aparece na tela inicial — clique pra mostrar'
           }
-          className={`shrink-0 text-base ${lang.show_on_home ? 'text-signal' : 'text-steel/50'}`}
+          className={`shrink-0 text-xl ${lang.show_on_home ? 'text-signal' : 'text-steel/50'}`}
         >
           ⌂
         </button>
