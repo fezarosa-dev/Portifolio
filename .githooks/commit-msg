@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# valida o padrão "tipo: descrição" na primeira linha do commit
+commit_msg_file="$1"
+commit_source="$2"
+
+# não valida merge commits (git merge, merge do GitHub)
+if [ "$commit_source" = "merge" ]; then
+  exit 0
+fi
+
+pattern='^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\([a-z0-9_-]+\))?: .+'
+msg=$(head -n1 "$commit_msg_file")
+
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "Commit rejeitado: a mensagem precisa seguir o padrão 'tipo: descrição'." >&2
+  echo "Tipos válidos: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert" >&2
+  echo "Exemplo: feat: adiciona busca por empresa nos projetos" >&2
+  echo "" >&2
+  echo "Sua mensagem: $msg" >&2
+  exit 1
+fi
