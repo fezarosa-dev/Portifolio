@@ -11,8 +11,8 @@ import type {
 import { PROJECT_SELECT, mapProjectRow } from '@/lib/supabase/queries'
 import { resolveIcon } from '@/lib/icons'
 
-export async function addLanguage(name: string): Promise<Language> {
-  const icon = resolveIcon(name)
+export async function addLanguage(name: string, customIconUrl?: string): Promise<Language> {
+  const icon = customIconUrl ? { slug: customIconUrl, variant: null, source: 'custom' as const } : resolveIcon(name)
   const supabase = await createClient()
 
   const { count } = await supabase
@@ -52,8 +52,8 @@ export async function deleteLanguage(id: string): Promise<void> {
   if (error) throw error
 }
 
-export async function updateLanguage(id: string, name: string): Promise<Language> {
-  const icon = resolveIcon(name)
+export async function updateLanguage(id: string, name: string, customIconUrl?: string): Promise<Language> {
+  const icon = customIconUrl ? { slug: customIconUrl, variant: null, source: 'custom' as const } : resolveIcon(name)
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('languages')

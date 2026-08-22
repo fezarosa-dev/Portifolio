@@ -11,8 +11,9 @@ import {
 export async function saveLanguage(formData: FormData) {
   const name = String(formData.get('name') ?? '').trim()
   if (!name) return
+  const iconUrl = String(formData.get('iconUrl') ?? '').trim()
 
-  await addLanguage(name)
+  await addLanguage(name, iconUrl || undefined)
   revalidatePath('/admin/tecnologias')
   revalidatePath('/')
 }
@@ -20,8 +21,9 @@ export async function saveLanguage(formData: FormData) {
 export async function editLanguage(id: string, formData: FormData) {
   const name = String(formData.get('name') ?? '').trim()
   if (!name) return
+  const iconUrl = String(formData.get('iconUrl') ?? '').trim()
 
-  await updateLanguage(id, name)
+  await updateLanguage(id, name, iconUrl || undefined)
   revalidatePath('/admin/tecnologias')
   revalidatePath('/')
 }

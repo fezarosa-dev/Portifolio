@@ -1,7 +1,7 @@
 import { findDeviconIcon, deviconIconUrl } from './devicon'
 import { findSimpleIcon } from './simple-icons'
 
-export type IconSource = 'devicon' | 'simpleicon'
+export type IconSource = 'devicon' | 'simpleicon' | 'custom'
 
 export function resolveIcon(
   name: string
@@ -16,5 +16,6 @@ export function resolveIcon(
 }
 
 export function iconUrl(slug: string, variant: string, source?: string | null): string {
+  if (source === 'custom') return slug
   return source === 'simpleicon' ? `https://cdn.simpleicons.org/${slug}` : deviconIconUrl(slug)
 }

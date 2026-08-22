@@ -67,12 +67,20 @@ function TechnologyRow({
       <ToastForm
         action={editAction.bind(null, lang.id)}
         successMessage="Tecnologia atualizada"
-        className="flex flex-1 gap-2"
+        className="flex flex-1 flex-col gap-1"
       >
-        <Input name="name" defaultValue={lang.name} className="h-8" />
-        <Button type="submit" variant="outline" size="sm">
-          Salvar
-        </Button>
+        <div className="flex gap-2">
+          <Input name="name" defaultValue={lang.name} className="h-8" />
+          <Button type="submit" variant="outline" size="sm">
+            Salvar
+          </Button>
+        </div>
+        <Input
+          name="iconUrl"
+          defaultValue={lang.icon_source === 'custom' ? (lang.devicon_slug ?? '') : ''}
+          placeholder="URL do ícone (opcional)"
+          className="h-7 text-xs"
+        />
       </ToastForm>
       <ToastForm action={removeAction.bind(null, lang.id)} successMessage="Tecnologia removida">
         <button type="submit" className="px-1 text-muted-foreground hover:text-destructive">
