@@ -3,6 +3,7 @@ import { Nav } from '@/components/nav'
 import { Footer } from '@/components/footer'
 import { Mascote } from '@/components/mascote'
 import { SudoEasterEgg } from '@/components/sudo-easter-egg'
+import { SpinEasterEgg } from '@/components/spin-easter-egg'
 import { getSiteContent } from '@/lib/supabase/queries'
 import { findDriveFile, parseDriveFolderId } from '@/lib/drive'
 import { getLocale } from '@/lib/i18n'
@@ -82,6 +83,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Footer />
       <Mascote ativo={content.mascote_ativo === 'true'} rickrollVideoId={rickrollVideo?.id ?? null} />
       <SudoEasterEgg locale={locale} />
+      <SpinEasterEgg />
     </>
   )
 }
