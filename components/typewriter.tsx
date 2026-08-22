@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { buildTypingScript } from '@/lib/typewriter-script'
+import { useReduceMotion } from '@/components/reduce-motion-provider'
 
 export function Typewriter({
   text,
@@ -15,11 +16,7 @@ export function Typewriter({
   const steps = useMemo(() => buildTypingScript(text), [text])
   const [stepIndex, setStepIndex] = useState(0)
   const [display, setDisplay] = useState('')
-  const [reduceMotion, setReduceMotion] = useState(false)
-
-  useEffect(() => {
-    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  }, [])
+  const { enabled: reduceMotion } = useReduceMotion()
 
   useEffect(() => {
     setDisplay('')
@@ -53,11 +50,11 @@ export function Typewriter({
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
         {display}
-        <span
-          className={`ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] bg-current ${
-            reduceMotion ? 'hidden' : done ? 'animate-blink' : ''
-          }`}
-        />
+        {!reduceMotion && (
+          <span
+            className={`ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] bg-current ${done ? 'animate-blink' : ''}`}
+          />
+        )}
       </span>
     </span>
   )

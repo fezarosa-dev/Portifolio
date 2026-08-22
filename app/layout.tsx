@@ -3,6 +3,7 @@ import Script from "next/script";
 import { cookies, headers } from "next/headers";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/google-analytics";
+import { ReduceMotionProvider } from "@/components/reduce-motion-provider";
 import { getSiteContent } from "@/lib/supabase/queries";
 import "./globals.css";
 
@@ -68,6 +69,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const [headerList, cookieStore] = await Promise.all([headers(), cookies()]);
   const locale = headerList.get("x-locale") === "en" ? "en" : "pt-BR";
   const dark = cookieStore.get("theme")?.value === "dark";
+  const reduceMotionCookie = cookieStore.get("reduce-motion")?.value;
 
   return (
     <html
@@ -81,7 +83,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Script>
       </head>
       <body className="min-h-full flex flex-col">
-        {children}
+        <ReduceMotionProvider
+          initialEnabled={reduceMotionCookie === "true"}
+          cookieSet={reduceMotionCookie !== undefined}
+        >
+          {children}
+        </ReduceMotionProvider>
         <GoogleAnalytics />
       </body>
     </html>

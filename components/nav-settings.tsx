@@ -4,6 +4,7 @@ import { Popover } from '@base-ui/react/popover'
 import { SettingsIcon } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageSwitch } from '@/components/language-switch'
+import { ReduceMotionToggle } from '@/components/reduce-motion-toggle'
 import type { Locale } from '@/lib/i18n/dictionaries'
 
 export function NavSettings({
@@ -28,6 +29,7 @@ export function NavSettings({
         <Popover.Positioner side="bottom" align="end" sideOffset={8} className="z-50">
           <Popover.Popup className="flex flex-col gap-3 rounded-lg border border-hairline bg-card p-3 shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
             <ThemeToggle initialDark={initialDark} locale={locale} />
+            <ReduceMotionToggle locale={locale} />
             <div className="h-px bg-hairline" aria-hidden />
             <LanguageSwitch locale={locale} />
           </Popover.Popup>
