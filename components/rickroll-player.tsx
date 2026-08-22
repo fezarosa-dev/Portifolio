@@ -2,12 +2,27 @@
 
 // never gonna give this repo up. clique 3x rápido no cachorro dormindo
 // (components/mascote.tsx) pra ver isso ao vivo.
+import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 export function RickrollPlayer({ videoUrl, onClose }: { videoUrl: string; onClose: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {})
+  }, [])
+
   return createPortal(
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black">
-      <video src={videoUrl} autoPlay controls playsInline className="h-full w-full object-contain" />
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        autoPlay
+        muted
+        controls
+        playsInline
+        className="h-full w-full object-contain"
+      />
       <button
         type="button"
         onClick={onClose}
