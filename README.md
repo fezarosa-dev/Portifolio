@@ -79,6 +79,12 @@ supabase/     migrações do banco
 
 Desenvolvimento acontece na branch `dev`; mudanças vão pra `main` (produção, com deploy automático na Vercel) via pull request, depois que o CI passa.
 
+### Padrão de commits
+
+Toda mensagem de commit segue `tipo: descrição` (ex: `feat: adiciona busca por empresa nos projetos`). Tipos aceitos: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`, `revert`.
+
+`npm install` já configura um hook local (`.githooks/commit-msg`) que rejeita commits fora do padrão; o CI faz a mesma checagem em toda PR, então não dá pra burlar com `--no-verify`.
+
 ## Deploy
 
 O projeto está preparado para deploy na [Vercel](https://vercel.com/): conecte o repositório, configure as três variáveis de ambiente acima e o deploy roda automaticamente a cada push na branch principal.
