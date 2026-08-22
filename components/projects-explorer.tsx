@@ -125,13 +125,14 @@ export function ProjectsExplorer({
         {visible.length === 0 ? (
           <p className="text-sm text-muted-foreground">{dict.notFound}</p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="columns-1 gap-6 sm:columns-2">
             {visible.map((project, i) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="mb-6 break-inside-avoid"
               >
                 <ProjectCard
                   project={project}
