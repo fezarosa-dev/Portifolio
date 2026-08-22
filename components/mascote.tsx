@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useReduceMotion } from '@/components/reduce-motion-provider'
@@ -18,6 +19,7 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const requestIdRef = useRef(0)
   const clickTimestampsRef = useRef<number[]>([])
+  const rickrollVideoRef = useRef<HTMLVideoElement>(null)
   const { enabled: reduceMotion } = useReduceMotion()
 
   if (!ativo) return null
@@ -53,7 +55,10 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
 
     if (recent.length >= RICKROLL_CLICKS) {
       clickTimestampsRef.current = []
-      setRickrollOpen(true)
+      // flushSync monta o <video> na hora, sem esperar o próximo render —
+      // o play() precisa rodar dentro do mesmo clique pro navegador liberar som
+      flushSync(() => setRickrollOpen(true))
+      rickrollVideoRef.current?.play().catch(() => {})
     }
   }
 
@@ -91,6 +96,7 @@ export function Mascote({ ativo, rickrollVideoId }: { ativo: boolean; rickrollVi
 
       {rickrollOpen && rickrollVideoId && (
         <RickrollPlayer
+          ref={rickrollVideoRef}
           videoUrl={`/api/drive-video/${rickrollVideoId}`}
           onClose={() => setRickrollOpen(false)}
         />
