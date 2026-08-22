@@ -15,12 +15,13 @@ export async function Footer() {
         <p className="flex flex-wrap items-center justify-center gap-3">
           <span>© {new Date().getFullYear()} Felipe Zanoni da Rosa</span>
           <a
-            href={`/api/export?locale=${locale}`}
-            download={`zanoni-portfolio-${locale}.json`}
+            href={`/api?locale=${locale}`}
+            target="_blank"
+            rel="noopener noreferrer"
             title="JSON com projetos, currículo e contato — pra colar num modelo de IA"
             className="rounded-full border border-hairline px-2 py-0.5 transition-colors hover:border-signal hover:text-signal"
           >
-            {dict.footer.exportAi} ↓
+            {dict.footer.exportAi}
           </a>
         </p>
         <div className="flex gap-5">

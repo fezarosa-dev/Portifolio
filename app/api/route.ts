@@ -83,9 +83,5 @@ export async function GET(request: NextRequest) {
     })),
   }
 
-  return NextResponse.json(data, {
-    headers: {
-      'Content-Disposition': `attachment; filename="zanoni-portfolio-${locale}.json"`,
-    },
-  })
+  return NextResponse.json(data)
 }
